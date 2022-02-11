@@ -37,6 +37,15 @@ class AdminController extends Controller
         }
     }
 
+    public function logout(Request $req)
+    {
+        if($req->session()->has('ECOM_login_time')){
+            $req->session()->flush();
+            $req->session()->flash('logout', 'You are Successfully Logged Out!');
+            return redirect()->route('admin.index');
+        }
+    }
+
     public function dashboard()
     {
         return view('admin.dashboard');

@@ -36,12 +36,12 @@
                         <div class="card login-form mb-0">
                             <div class="card-body pt-5">
 
-                                @if (session()->has('error'))
-                                    <div class="alert alert-danger alert-dismissible fade show">
+                                @if (session()->has('error') or session()->has('logout'))
+                                    <div class="alert alert-{{ (session()->has('error')) ? "danger" : "success" }} alert-dismissible fade show">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Sorry!</strong> {{ session('error') }}
+                                        <strong>{{ session('error') ?: session('logout')}}</strong> 
                                     </div>
                                 @endif
 

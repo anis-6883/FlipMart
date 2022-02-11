@@ -57,7 +57,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="dashboard.php">
+                <a href="{{ route('admin.dashboard') }}">
                     <b class="logo-abbr"><img src="{{ asset('admin_asset/images/logo.png') }}" alt=""> </b>
                     <span class="logo-compact"><img src="{{ asset('admin_asset/images/logo-compact.png') }}" alt=""></span>
                     <span class="brand-title">
@@ -236,7 +236,7 @@
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
                                         <li>
-                                            <a href="?exit=yes">
+                                            <a href="{{ route('admin.logout') }}">
                                                 <i class="icon-key"></i>
                                                 <span>Logout</span>
                                             </a>
@@ -262,7 +262,7 @@
 
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="dashboard.php" aria-expanded="false">
+                        <a href="{{ route('admin.dashboard') }}" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
