@@ -74,8 +74,3 @@
     <script src="{{ asset('admin_asset/js/styleSwitcher.js') }}"></script>
 </body>
 </html>
-
-
-
-
-

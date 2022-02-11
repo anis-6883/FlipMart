@@ -59,7 +59,7 @@ $( function() {
     dateFormat: 'yy-mm-dd',
     yearRange: '2000:2025'
   });
-} );
+});
 </script>
 
 <script>
@@ -77,6 +77,7 @@ $( function() {
       });
 </script>
 
+@yield('javascript')
 </body>
 
 </html>

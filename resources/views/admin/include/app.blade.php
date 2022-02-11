@@ -1,5 +1,5 @@
-@include('admin.include.top');
+@include('admin.include.top')
 
-@yield('content');
+@yield('content')
 
-@include('admin.include.tail');
+@include('admin.include.tail')

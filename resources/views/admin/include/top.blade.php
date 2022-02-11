@@ -26,6 +26,8 @@
     <script src="{{ asset('admin_asset/js/richTextEditor/tinyRTE.js"') }}></script>
     <!-- jQuery library -->
     <script src="{{ asset('admin_asset/js/jQuery/jquery-3.6.0.js"') }}></script>
+
+    @yield('css')
 </head>
 
 <body>
@@ -273,8 +275,8 @@
                             <i class='fas menu-icon'>&#xf46d;</i> <span class="nav-text">Categories</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-category.php">Add Category</a></li>
-                            <li><a href="list-category.php">List Categories</a></li>
+                            <li><a href="{{ route('category.create') }}">Add Category</a></li>
+                            <li><a href="{{ route('category.index') }}">List Categories</a></li>
                         </ul>
                     </li>
 
