@@ -286,8 +286,8 @@
                             <i class='fas menu-icon'>&#xf0cb;</i> <span class="nav-text">Subcategories</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-subcategory.php">Add Subcategory</a></li>
-                            <li><a href="list-subcategory.php">List Subcategory</a></li>
+                            <li><a href="{{ route('subcategory.create') }}">Add Subcategory</a></li>
+                            <li><a href="{{ route('subcategory.index') }}">List Subcategory</a></li>
                         </ul>
                     </li>
 

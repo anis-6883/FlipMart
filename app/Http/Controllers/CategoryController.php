@@ -20,13 +20,6 @@ class CategoryController extends Controller
         return view('admin.add-category');
     }
 
-    public function test_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-
     public function store(Request $req)
     {
         $cat_obj = new Category;
@@ -35,7 +28,7 @@ class CategoryController extends Controller
             'category_name' => 'required|unique:categories'
         ]);
         
-        $cat_obj->category_name = $this->test_input($req->post('category_name'));
+        $cat_obj->category_name = $req->post('category_name');
         $cat_obj->created_at = date("Y-m-d H:i:s");
         $cat_obj->save();
 
@@ -69,7 +62,7 @@ class CategoryController extends Controller
 
         Category::where('id', $category_id)
             ->update([
-                'category_name' => $this->test_input($req->post('category_name')),
+                'category_name' => $req->post('category_name'),
                 'updated_at' => date("Y-m-d H:i:s")
         ]);
 
