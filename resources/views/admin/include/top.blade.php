@@ -23,9 +23,9 @@
     <link href="{{ asset('admin_asset/css/style.css') }}" rel="stylesheet">
     <!-- Rich Text Editor -->
     <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
-    <script src="{{ asset('admin_asset/js/richTextEditor/tinyRTE.js"') }}></script>
+    <script src="{{ asset('admin_asset/js/richTextEditor/tinyRTE.js') }}"></script>
     <!-- jQuery library -->
-    <script src="{{ asset('admin_asset/js/jQuery/jquery-3.6.0.js"') }}></script>
+    <script src="{{ asset('admin_asset/js/jQuery/jquery-3.6.0.js"') }}"></script>
 
     @yield('css')
 </head>
@@ -297,8 +297,8 @@
                             <i class='fas menu-icon'>&#xf54e;</i> <span class="nav-text">Products</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-product.php">Add Product</a></li>
-                            <li><a href="list-product.php">List Product</a></li>
+                            <li><a href="{{ route('product.create') }}">Add Product</a></li>
+                            <li><a href="{{ route('product.index') }}">List Product</a></li>
                         </ul>
                     </li>
 

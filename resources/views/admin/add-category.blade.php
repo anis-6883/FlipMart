@@ -1,4 +1,3 @@
-
 @extends('admin.include.app')
 
 @section('title', 'Add New Category')
