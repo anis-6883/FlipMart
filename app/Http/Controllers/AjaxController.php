@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Coupon;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Subcategory;
 use Exception;
@@ -48,6 +50,36 @@ class AjaxController extends Controller
             $product = Product::find($req->post('product_id'));
             $product->product_status = $req->post('statusText');
             if($product->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function couponUpdateStatus(Request $req)
+    {
+        try{
+            $coupon = Coupon::find($req->post('coupon_id'));
+            $coupon->coupon_status = $req->post('statusText');
+            if($coupon->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function customerUpdateStatus(Request $req)
+    {
+        try{
+            $customer = Customer::find($req->post('customer_id'));
+            $customer->customer_status = $req->post('statusText');
+            if($customer->save())
                 return 1;
             else
                 return 0;

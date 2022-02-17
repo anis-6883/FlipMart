@@ -269,6 +269,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-label">Manage Customers</li>
+                    <li>
+                        <a href="{{ route('customer.index') }}" aria-expanded="false">
+                            <i class='fas menu-icon'>&#xf500;</i></i><span class="nav-text">List Customers</span>
+                        </a>
+                    </li>
+
                     <li class="nav-label">Manage Category</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -287,7 +294,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('subcategory.create') }}">Add Subcategory</a></li>
-                            <li><a href="{{ route('subcategory.index') }}">List Subcategory</a></li>
+                            <li><a href="{{ route('subcategory.index') }}">List Subcategories</a></li>
                         </ul>
                     </li>
 
@@ -298,7 +305,18 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('product.create') }}">Add Product</a></li>
-                            <li><a href="{{ route('product.index') }}">List Product</a></li>
+                            <li><a href="{{ route('product.index') }}">List Products</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-label">Manage Coupon</li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class='fas menu-icon'>&#xf3ff;</i> <span class="nav-text">Coupons</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('coupon.create') }}">Add Coupon</a></li>
+                            <li><a href="{{ route('coupon.index') }}">List Coupons</a></li>
                         </ul>
                     </li>
 

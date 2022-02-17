@@ -56,7 +56,7 @@ class CategoryController extends Controller
         ]);
 
         // $cat_obj = Category::find($category_id);
-        // $cat_obj->category_name = $this->test_input($req->post('category_name'));
+        // $cat_obj->category_name = $req->post('category_name');
         // $cat_obj->updated_at = date("Y-m-d H:i:s");
         // $cat_obj->save();
 

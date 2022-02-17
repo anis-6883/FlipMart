@@ -37,7 +37,7 @@ class ProductController extends Controller
             'product_regular_price' => 'required',
             'product_quantity' => 'required',
             'product_status' => 'required',
-            'product_master_image' => 'mimes:png,jpg,jpeg',
+            'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
 
         $pro_obj->category_id = $req->post('category_id');
@@ -92,7 +92,7 @@ class ProductController extends Controller
             'product_regular_price' => 'required',
             'product_quantity' => 'required',
             'product_status' => 'required',
-            'product_master_image' => 'mimes:png,jpg,jpeg',
+            'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
 
         $pro_obj->category_id = $req->post('category_id');
