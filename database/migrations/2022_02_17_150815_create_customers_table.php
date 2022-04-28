@@ -25,7 +25,7 @@ class CreateCustomersTable extends Migration
             $table->enum('customer_gender', ['Male', 'Female', 'Other'])->nullable();
             $table->enum('customer_status', ['Active', 'Inactive'])->default('Active');
             $table->dateTimeTz('created_at');
-            $table->dateTimeTz('updated_at')->nullable();
+            $table->dateTimeTz('updated_at');
         });
     }
 

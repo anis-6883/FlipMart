@@ -20,10 +20,7 @@ class AdminController extends Controller
     {
         $email = $req->post('admin_email');
         $password = $req->post('admin_password');
-        $result = Admin::where(
-            ['admin_username' => $email, 
-            'admin_password' => sha1($password)])
-            ->get();
+        $result = Admin::where(['admin_username' => $email, 'admin_password' => sha1($password)])->get();
 
         if(isset($result[0]->id)){
             
@@ -35,7 +32,6 @@ class AdminController extends Controller
             return redirect()->route('admin.dashboard');
         }
         else{
-
             $req->session()->flash('error', 'Please, Enter Valid Email and Password!');
             return redirect()->route('admin.index');
         }

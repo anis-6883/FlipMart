@@ -101,7 +101,7 @@
                                                     echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
                                                 @endphp
                                             </td>
-                                            <td>{{ $product->product_discounted_price ?? 0 }}</td>
+                                            <td>{{ $product->product_discounted_price ?? 0 }}%</td>
                                             <td>
                                                 @php
                                                     $date = date_parse($product->discount_start_date);

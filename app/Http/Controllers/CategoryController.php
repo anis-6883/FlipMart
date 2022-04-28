@@ -11,7 +11,8 @@ class CategoryController extends Controller
     public function index()
     {
         // $categories = Category::all();
-        $categories = DB::table('categories')->orderBy('created_at', 'desc')->get();
+        // $categories = DB::table('categories')->orderBy('created_at', 'desc')->get();
+        $categories = Category::orderBy('created_at', 'desc')->get();
         return view('admin.list-category', compact('categories'));
     }
 
@@ -25,20 +26,15 @@ class CategoryController extends Controller
         $cat_obj = new Category;
 
         $req->validate([
-            'category_name' => 'required|unique:categories'
+            'category_name' => 'required|unique:categories|max:50'
         ]);
         
         $cat_obj->category_name = $req->post('category_name');
-        $cat_obj->created_at = date("Y-m-d H:i:s");
         $cat_obj->save();
 
-        // $cat_obj = Category::create([
-        //     'category_name' => $this->test_input($req->post('category_name')),
-        //     'created_at' => date("Y-m-d H:i:s")
-        // ]);
-
-        $req->session()->flash('success', 'Category is Created Successfully!');
-        return redirect()->route('category.index');
+        // Category::create($valid_data);
+        // $req->session()->flash('success', 'Category is Created Successfully!');
+        return redirect()->route('category.index')->with('success', 'Category is Created Successfully!');
     }
 
     public function edit($category_id)
@@ -51,20 +47,11 @@ class CategoryController extends Controller
 
     public function update(Request $req, $category_id)
     {
-        $req->validate([
+        $valid_data = $req->validate([
             'category_name' => 'required|unique:categories'
         ]);
 
-        // $cat_obj = Category::find($category_id);
-        // $cat_obj->category_name = $req->post('category_name');
-        // $cat_obj->updated_at = date("Y-m-d H:i:s");
-        // $cat_obj->save();
-
-        Category::where('id', $category_id)
-            ->update([
-                'category_name' => $req->post('category_name'),
-                'updated_at' => date("Y-m-d H:i:s")
-        ]);
+        Category::find($category_id)->update($valid_data);
 
         $req->session()->flash('success', 'Category is Updated Successfully!');
         return redirect()->route('category.index');
@@ -76,6 +63,6 @@ class CategoryController extends Controller
         $category_name = $category->category_name;
         $category->delete();
         $req->session()->flash('success', "Category \"$category_name\" has Deleted Successfully...");
-        return redirect()->route('category.index');
+        return redirect()->back();
     }
 }

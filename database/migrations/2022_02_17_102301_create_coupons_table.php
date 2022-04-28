@@ -25,7 +25,7 @@ class CreateCouponsTable extends Migration
             $table->dateTimeTz('coupon_end_date')->nullable();
             $table->enum('coupon_status', ['Active', 'Inactive'])->default('Inactive');
             $table->dateTimeTz('created_at');
-            $table->dateTimeTz('updated_at')->nullable();
+            $table->dateTimeTz('updated_at');
         });
     }
 

@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('subcategory_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('product_order')->nullable();
-            $table->enum('product_status', ['Active', 'Inactive']);
+            $table->enum('product_status', ['Active', 'Inactive'])->default('Inactive');
             $table->string('product_name', 255);
             $table->text('product_summary')->nullable();
             $table->longText('product_description')->nullable();
@@ -29,7 +29,7 @@ class CreateProductsTable extends Migration
             $table->dateTimeTz('discount_end_date')->nullable();
             $table->integer('product_quantity');
             $table->dateTimeTz('created_at');
-            $table->dateTimeTz('updated_at')->nullable();
+            $table->dateTimeTz('updated_at');
             $table->index('product_name');
         });
     }

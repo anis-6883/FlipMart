@@ -15,13 +15,13 @@ class CreateAdminsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('admin_fullname', 255)->nullable();
-            $table->string('admin_username', 255);
+            $table->string('admin_fullname', 255);
+            $table->string('admin_username', 255)->unique();
             $table->string('admin_password', 255);
             $table->enum('admin_status', ['Active', 'Inactive'])->default('Active');
             $table->enum('admin_type', ['Root Admin', 'Manager'])->default('Root Admin');
-            $table->dateTimeTz('created_at')->nullable();
-            $table->dateTimeTz('updated_at')->nullable();
+            $table->dateTimeTz('created_at');
+            $table->dateTimeTz('updated_at');
         });
     }
 

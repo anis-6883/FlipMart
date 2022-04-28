@@ -18,8 +18,8 @@ class CreateSubcategoriesTable extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('subcategory_name', 127)->unique();
             $table->enum('subcategory_status', ['Active', 'Inactive'])->default('Inactive');
-            $table->dateTimeTz('created_at')->nullable();
-            $table->dateTimeTz('updated_at')->nullable();
+            $table->dateTimeTz('created_at');
+            $table->dateTimeTz('updated_at');
         });
     }
 

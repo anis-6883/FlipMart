@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = [
         'category_id',
@@ -19,6 +19,13 @@ class Product extends Model
         'product_description',
         'product_regular_price',
         'product_quantity',
-        'created_at'
     ];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    
+    public function subcategory(){
+        return $this->belongsTo(Subcategory::class);
+    }
 }

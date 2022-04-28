@@ -1,4 +1,3 @@
-
 @extends('admin.include.app')
 
 @section('title', 'List Category')
@@ -47,6 +46,7 @@
                     <div class="card-body">
                         <h4 class="card-title">List Category</h4>
                         <a class="btn btn-info ml-4 mt-4" href="{{ route('category.create') }}">Add Category</a>
+                        <h5 class="ml-4 mt-4">Total Category: <span class="badge bg-dark">{{ count($categories) }}</span></h5>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
 
@@ -77,10 +77,11 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @php
+                                                {{-- @php
                                                     $date = date_parse($category->created_at);
                                                     echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp
+                                                @endphp --}}
+                                                {{ $category->created_at->diffForHumans() }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -101,7 +102,7 @@
                                                                     <form action="{{ route('category.destroy', $category->id) }}" method="post">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Never Mind</button>
                                                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                                                     </form>
                                                                 </div>

@@ -17,6 +17,9 @@ class ProductController extends Controller
                     ->select('c.category_name', 's.subcategory_name', 'p.*')
                     ->orderByDesc('created_at')
                     ->get();
+
+        // $products = Product::with('category', 'subcategory')->get();
+        // return $products;
         return view('admin.list-product', compact('products'));
     }
 

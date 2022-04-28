@@ -9,6 +9,6 @@ class Admin extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
 }

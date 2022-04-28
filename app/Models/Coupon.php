@@ -9,12 +9,7 @@ class Coupon extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = [
-        'coupon_title', 
-        'coupon_code', 
-        'discount_amount', 
-        'created_at'
-    ];
+    protected $fillable = ['coupon_title', 'coupon_code', 'discount_amount'];
 }

@@ -4,15 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Category;
+use App\Models\Subcategory;
 
 class CustomerController extends Controller
 {
+
+    public function practice()
+    {
+        // $customers = Customer::all();
+        // $customers = Customer::first();
+        // $customers = Customer::count();
+        // $customers = Customer::pluck('customer_name');
+        // $customers = Customer::find(2);
+        // $customers = Customer::findOrFail(12122);
+        // $categories = Category::find(1);
+        // return $categories->subcategories->where("subcategory_status", "Active")->count();
+
+        $subcategories = Subcategory::latest('created_at')->with('category')->get(); // Eager Loading
+        
+        return view('practice', compact('subcategories'));
+    }
 
     public function index()
     {
         $customers = Customer::all();
         return view('admin.list-customer', compact('customers'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.

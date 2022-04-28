@@ -47,6 +47,7 @@
                     <div class="card-body">
                         <h4 class="card-title">List Subcategory</h4>
                         <a class="btn btn-info ml-4 mt-4" href="{{ route('subcategory.create') }}">Add Subcategory</a>
+                        <h5 class="ml-4 mt-4">Total Subcategory: <span class="badge bg-dark">{{ count($subcategories) }}</span></h5>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
 
@@ -65,7 +66,7 @@
                                     @foreach ($subcategories as $subcategory)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $subcategory->category_name }}</td>
+                                            <td>{{ $subcategory->category->category_name }}</td>
                                             <td>{{ $subcategory->subcategory_name }}</td>
                                             <td>
                                                 @if ($subcategory->subcategory_status == "Active")
@@ -79,10 +80,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @php
-                                                    $date = date_parse($subcategory->created_at);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp
+                                                {{ $subcategory->created_at->diffForHumans() }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -100,7 +98,7 @@
                                                                 </div>
                                                                 <div class="modal-body">Are you sure to delete <b>"{{ $subcategory->subcategory_name }}"</b> Sucategory? </div>
                                                                 <div class="modal-footer">
-                                                                    <form action="{{ route('subcategory.destroy', $subcategory->id) }}" method="post">
+                                                                    <form action="{{ route('subcategory.destroy', $subcategory->id) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
