@@ -309,6 +309,17 @@
                         </ul>
                     </li>
 
+                    <li class="nav-label">Manage Product Image</li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class='fas menu-icon'>&#xf302;</i> <span class="nav-text">Product Images</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('product-images.create') }}">Add Images</a></li>
+                            <li><a href="{{ route('product-images.index') }}">List Images</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-label">Manage Coupon</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">

@@ -6,20 +6,20 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = DB::table('products as p')
-                    ->join('categories as c', 'c.id', '=', 'p.category_id')
-                    ->join('subcategories as s', 's.id', '=', 'p.subcategory_id')
-                    ->select('c.category_name', 's.subcategory_name', 'p.*')
-                    ->orderByDesc('created_at')
-                    ->get();
+        // $products = DB::table('products as p')
+        //             ->join('categories as c', 'c.id', '=', 'p.category_id')
+        //             ->join('subcategories as s', 's.id', '=', 'p.subcategory_id')
+        //             ->select('c.category_name', 's.subcategory_name', 'p.*')
+        //             ->orderByDesc('created_at')
+        //             ->get();
 
-        // $products = Product::with('category', 'subcategory')->get();
-        // return $products;
+        $products = Product::with('category', 'subcategory')->latest()->get();
         return view('admin.list-product', compact('products'));
     }
 
@@ -36,9 +36,9 @@ class ProductController extends Controller
         $req->validate([
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'product_name' => 'required',
-            'product_regular_price' => 'required',
-            'product_quantity' => 'required',
+            'product_name' => 'required|min:8',
+            'product_regular_price' => 'required|numeric',
+            'product_quantity' => 'required|integer',
             'product_status' => 'required',
             'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
@@ -52,7 +52,6 @@ class ProductController extends Controller
         $pro_obj->product_regular_price = $req->post('product_regular_price');
         $pro_obj->product_quantity = $req->post('product_quantity');
         $pro_obj->product_status = $req->post('product_status');
-        $pro_obj->created_at = date("Y-m-d H:i:s");
 
         if(!empty($req->post('product_discounted_price')))
         {
@@ -71,7 +70,13 @@ class ProductController extends Controller
         $pro_obj->save();
 
         if($req->hasFile('product_master_image') and $req->file('product_master_image')->isValid())
-            $req->product_master_image->move(public_path('/uploads/products'), $masterImageName);
+        {
+            Image::make($req->file('product_master_image'))
+                ->resize(400, 300)
+                ->save(public_path('/uploads/products/' . $masterImageName));
+            // $req->product_master_image->move(public_path('/uploads/products'), $masterImageName);
+        }
+            
 
         $req->session()->flash('success', 'Product is Created Successfully!');
         return redirect()->route('product.index');
@@ -91,9 +96,9 @@ class ProductController extends Controller
         $req->validate([
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'product_name' => 'required',
-            'product_regular_price' => 'required',
-            'product_quantity' => 'required',
+            'product_name' => 'required|min:8',
+            'product_regular_price' => 'required|numeric',
+            'product_quantity' => 'required|integer',
             'product_status' => 'required',
             'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
@@ -107,7 +112,6 @@ class ProductController extends Controller
         $pro_obj->product_regular_price = $req->post('product_regular_price');
         $pro_obj->product_quantity = $req->post('product_quantity');
         $pro_obj->product_status = $req->post('product_status');
-        $pro_obj->updated_at = date("Y-m-d H:i:s");
 
         if(!empty($req->post('product_discounted_price')))
         {
@@ -129,7 +133,10 @@ class ProductController extends Controller
 
         if($req->hasFile('product_master_image') and $req->file('product_master_image')->isValid())
         {
-            $req->product_master_image->move(public_path('/uploads/products'), $masterImageName);
+            // $req->product_master_image->move(public_path('/uploads/products'), $masterImageName);
+            Image::make($req->file('product_master_image'))
+                ->resize(400, 300)
+                ->save(public_path('/uploads/products/' . $masterImageName));
             $img_path = public_path('/uploads/products/' . $prevImageName);
             if(File::exists($img_path))
                 File::delete($img_path);

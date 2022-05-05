@@ -49,7 +49,8 @@
                                             name="product_name" 
                                             class="form-control @error('product_name') is-invalid @enderror" 
                                             placeholder="Enter Product Name..." 
-                                            required autofocus autocomplete="off">
+                                            required autofocus autocomplete="off"
+                                            value="{{ old('product_name') }}">
 
                                         <div class="invalid-feedback">
                                             @error('product_name')
@@ -75,37 +76,37 @@
 
                                     <label class="col-sm-2 col-form-label">Product Summary</label>
                                     <div class="col-sm-10 mb-4">
-                                        <textarea name="product_summary" id="richTextEditor1"></textarea>
+                                        <textarea name="product_summary" id="richTextEditor1">{{ old('product_summary') }}</textarea>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Product Details</label>
                                     <div class="col-sm-10 mb-4">
-                                        <textarea name="product_description" id="richTextEditor2"></textarea>
+                                        <textarea name="product_description" id="richTextEditor2">{{ old('product_description') }}</textarea>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Regular Price</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="number" name="product_regular_price" class="form-control input-default" required autocomplete="off">
+                                        <input type="number" name="product_regular_price" class="form-control input-default" required autocomplete="off" value="{{ old('product_regular_price') }}">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Discounted Price</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="number" name="product_discounted_price" class="form-control input-default" autocomplete="off">
+                                        <input type="number" name="product_discounted_price" class="form-control input-default" autocomplete="off" value="{{ old('product_discounted_price') }}">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Discounted Start On</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input class="form-control input-default jqdatepicker" id="discount_start_date" name="discount_start_date" type="text" autocomplete="off" />
+                                        <input class="form-control input-default jqdatepicker" id="discount_start_date" name="discount_start_date" type="text" autocomplete="off" value="{{ old('discount_start_date') }}"/>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Discounted Ends On</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input class="form-control input-default jqdatepicker" id="discount_end_date" name="discount_end_date" type="text" autocomplete="off" />
+                                        <input class="form-control input-default jqdatepicker" id="discount_end_date" name="discount_end_date" type="text" autocomplete="off" value="{{ old('discount_end_date') }}"/>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Stock Quantity</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="number" name="product_quantity" class="form-control input-default" required autocomplete="off">
+                                        <input type="number" name="product_quantity" class="form-control input-default" required autocomplete="off" value="{{ old('product_quantity') }}">
                                     </div>
                                                 
                                     <label class="col-sm-2 col-form-label">Preview</label>

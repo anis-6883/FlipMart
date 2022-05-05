@@ -72,8 +72,8 @@
                                     @foreach ($products as $product)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $product->category_name }}</td>
-                                            <td>{{ $product->subcategory_name }}</td>
+                                            <td>{{ $product->category->category_name }}</td>
+                                            <td>{{ $product->subcategory->subcategory_name }}</td>
                                             <td>{{ Str::of($product->product_name)->limit(50)  }}</td>
                                             <td>
                                                 @if ($product->product_master_image != null)
@@ -82,7 +82,7 @@
                                                     <img id="master_img" src="{{ asset('admin_asset/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
-                                            <td>{{ $product->product_regular_price }}</td>
+                                            <td>{{ number_format($product->product_regular_price, 2, '.', ',')  }}</td>
                                             <td>
                                                 @if ($product->product_status == "Active")
                                                     <button id="status{{ $product->id }}" onclick="chnageStatus({{ $product->id }})" class="badge badge-success px-2">
@@ -96,23 +96,23 @@
                                             </td>
                                             <td>{{ $product->product_quantity }}</td>
                                             <td>
-                                                @php
-                                                    $date = date_parse($product->created_at);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp
+                                                {{-- {{ date('d-m-Y', strtotime($product->created_at)) }} --}}
+                                                {{ $product->created_at->diffForHumans() }}
                                             </td>
                                             <td>{{ $product->product_discounted_price ?? 0 }}%</td>
                                             <td>
-                                                @php
-                                                    $date = date_parse($product->discount_start_date);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp
+                                                @if ($product->discount_start_date != NULL)
+                                                    {{ date('d-m-Y', strtotime($product->discount_start_date)) }}
+                                                @else
+                                                    NULL
+                                                @endif
                                             </td>
                                             <td>
-                                                @php
-                                                    $date = date_parse($product->discount_end_date);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp
+                                                @if ($product->discount_end_date != NULL)
+                                                    {{ date('d-m-Y', strtotime($product->discount_end_date)) }}
+                                                @else
+                                                    NULL
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -130,10 +130,10 @@
                                                                 </div>
                                                                 <div class="modal-body">Are you sure to delete <b>"{{ Str::of($product->product_name)->limit(20) }}"</b> Product? </div>
                                                                 <div class="modal-footer">
-                                                                    <form action="{{ route('product.destroy', $product->id) }}" method="post">
+                                                                    <form action="{{ route('product.destroy', $product->id) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Not Yet</button>
                                                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                                                     </form>
                                                                 </div>

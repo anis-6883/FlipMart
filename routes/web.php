@@ -8,6 +8,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 
@@ -49,6 +50,7 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::resource('/admin/category', CategoryController::class);
     Route::resource('/admin/subcategory', SubcategoryController::class);
     Route::resource('/admin/product', ProductController::class);
+    Route::resource('/admin/product-images', ProductImageController::class);
     Route::resource('/admin/coupon', CouponController::class);
     Route::resource('/admin/customer', CustomerController::class);
 });
