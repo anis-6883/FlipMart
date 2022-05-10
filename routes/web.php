@@ -6,6 +6,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -23,10 +24,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('home');
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register', [UserController::class, 'create'])->name('user.create')->middleware('guest');
 Route::post('/register', [UserController::class, 'store'])->name('user.store')->middleware('guest');
 Route::get('/login', [SessionController::class, 'login'])->name('user.login')->middleware('guest');
@@ -34,7 +36,7 @@ Route::post('/login', [SessionController::class, 'store'])->name('user.authentic
 Route::post('/logout', [SessionController::class, 'destroy'])->name('user.logout')->middleware('auth');
 Route::get('/verification/{random_token}', [SessionController::class, 'email_verify'])->name('user.verify');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index'); # admin login page
 Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 
 Route::group(['middleware' => 'admin_auth'], function(){

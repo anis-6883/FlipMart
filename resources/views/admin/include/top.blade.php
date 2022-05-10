@@ -7,25 +7,25 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title> @yield('title') </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('admin_asset/images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('backend_assets/images/favicon.png') }}">
     <!-- Pignose Calender -->
-    <link href="{{ asset('admin_asset/plugins/pg-calendar/css/pignose.calendar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('backend_assets/plugins/pg-calendar/css/pignose.calendar.min.css') }}" rel="stylesheet">
     <!-- Chartist -->
-    <link rel="stylesheet" href="{{ asset('admin_asset/plugins/chartist/css/chartist.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_asset/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend_assets/plugins/chartist/css/chartist.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend_assets/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css') }}">
     <!-- DataTable -->
-    <link href="{{asset('admin_asset/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{asset('backend_assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <!-- jqueryui date picker -->
-    <link rel="stylesheet" href="{{asset('admin_asset/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{asset('backend_assets/css/jquery-ui.css') }}">
     <!-- Custom Stylesheet -->
-    <link href="{{ asset('admin_asset/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('backend_assets/css/style.css') }}" rel="stylesheet">
     <!-- Rich Text Editor -->
     <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
-    <script src="{{ asset('admin_asset/js/richTextEditor/tinyRTE.js') }}"></script>
+    <script src="{{ asset('backend_assets/js/richTextEditor/tinyRTE.js') }}"></script>
     <!-- jQuery library -->
-    <script src="{{ asset('admin_asset/js/jQuery/jquery-3.6.0.js"') }}"></script>
+    <script src="{{ asset('backend_assets/js/jQuery/jquery-3.6.0.js"') }}"></script>
 
     @yield('css')
 </head>
@@ -60,10 +60,10 @@
         <div class="nav-header">
             <div class="brand-logo">
                 <a href="{{ route('admin.dashboard') }}">
-                    <b class="logo-abbr"><img src="{{ asset('admin_asset/images/logo.png') }}" alt=""> </b>
-                    <span class="logo-compact"><img src="{{ asset('admin_asset/images/logo-compact.png') }}" alt=""></span>
+                    <b class="logo-abbr"><img src="{{ asset('backend_assets/images/logo.png') }}" alt=""> </b>
+                    <span class="logo-compact"><img src="{{ asset('backend_assets/images/logo-compact.png') }}" alt=""></span>
                     <span class="brand-title">
-                        <img src="{{ asset('admin_asset/images/logo-text.png') }}" alt="">
+                        <img src="{{ asset('backend_assets/images/logo-text.png') }}" alt="">
                     </span>
                 </a>
             </div>
@@ -114,7 +114,7 @@
                                     <ul>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="{{ asset('admin_asset/images/avatar/1.jpg') }}" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="{{ asset('backend_assets/images/avatar/1.jpg') }}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Saiful Islam</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -218,7 +218,7 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="{{ asset('admin_asset/images/user/1.png') }}" height="40" width="40" alt="">
+                                <img src="{{ asset('backend_assets/images/user/1.png') }}" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -316,7 +316,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('product-images.create') }}">Add Images</a></li>
-                            <li><a href="{{ route('product-images.index') }}">List Images</a></li>
+                            <li><a href="{{ route('product-images.create') }}">List Images</a></li>
                         </ul>
                     </li>
 

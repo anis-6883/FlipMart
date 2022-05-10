@@ -56,12 +56,11 @@ class ProductImageController extends Controller
             $productImageName = "PRODUCT_IMAGES_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
             $obj->product_image_filename = $productImageName;
             $obj->product_id = $product_id;
-            $isSaved = $obj->save();
-            if($isSaved)
+            if($obj->save())
                 Image::make($image)->resize(400, 300)->save(public_path('/uploads/product-images/' . $productImageName));
         }
 
-        $request->session()->flash('success', 'Product Images is Uploaded Successfully!');
+        // $request->session()->flash('success', 'Product Images is Uploaded Successfully!');
         // return redirect()->route('product-images.create');
         return redirect()->back()->with('success', 'Product Images is Uploaded Successfully!');
     }

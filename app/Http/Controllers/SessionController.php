@@ -14,16 +14,16 @@ class SessionController extends Controller
             'password' => 'required'
         ]);
 
+        $email = $request->post('email');
+        $password = $request->post('password');
+
         if($request->has('remember_me')){
-            setcookie('user_login_email', $request->post('email'), time() + 60*60*24*365);
-            setcookie('user_login_pass', $request->post('password'), time() + 60*60*24*365);
+            setcookie('user_login_email', $email, time() + 60*60*24*365);
+            setcookie('user_login_pass', $password, time() + 60*60*24*365);
         }else{
             setcookie('user_login_email', '', time() - 3600);
             setcookie('user_login_pass', '', time() - 3600);
         }
-
-        $email = $request->post('email');
-        $password = $request->post('password');
 
         if(!auth()->attempt(['email' => $email, 'password'=> $password, 'status' => 'Active']))
         {
