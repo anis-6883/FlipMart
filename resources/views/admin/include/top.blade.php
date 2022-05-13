@@ -271,7 +271,7 @@
 
                     <li class="nav-label">Manage Customers</li>
                     <li>
-                        <a href="{{ route('customer.index') }}" aria-expanded="false">
+                        <a href="#" aria-expanded="false">
                             <i class='fas menu-icon'>&#xf500;</i></i><span class="nav-text">List Customers</span>
                         </a>
                     </li>

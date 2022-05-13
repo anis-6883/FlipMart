@@ -24,19 +24,26 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('home');
-
+// user authentication
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/register', [UserController::class, 'create'])->name('user.create')->middleware('guest');
-Route::post('/register', [UserController::class, 'store'])->name('user.store')->middleware('guest');
+Route::get('/register', [UserController::class, 'register'])->name('user.register')->middleware('guest');
+Route::post('/register', [UserController::class, 'register'])->name('user.register')->middleware('guest');
 Route::get('/login', [SessionController::class, 'login'])->name('user.login')->middleware('guest');
 Route::post('/login', [SessionController::class, 'store'])->name('user.authenticate')->middleware('guest');
 Route::post('/logout', [SessionController::class, 'destroy'])->name('user.logout')->middleware('auth');
-Route::get('/verification/{random_token}', [SessionController::class, 'email_verify'])->name('user.verify');
+Route::get('/verification/{random_token}', [UserController::class, 'emailVerify'])->name('user.verify');
+Route::get('/forgetPassword', [UserController::class, 'forgetPassword'])->name('user.forgetPassword')->middleware('guest');
+Route::post('/forgetPassword', [UserController::class, 'forgetPassword'])->name('user.forgetPassword')->middleware('guest');
+Route::get('/resetPassword/{random_token}', [UserController::class, 'resetPassword'])->name('resetPassword.verify');
+Route::post('/resetConfirm', [UserController::class, 'resetConfirm'])->name('user.resetConfirm');
+Route::get('/changePassword', [UserController::class, 'changePassword'])->name('user.changePassword')->middleware('auth');
+Route::post('/changePassword', [UserController::class, 'changePassword'])->name('user.changePassword')->middleware('auth');
+Route::get('/user/profile', [UserController::class, 'userProfile'])->name('user.profile')->middleware('auth');
+Route::get('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
+Route::post('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index'); # admin login page
+// admin login page
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 
 Route::group(['middleware' => 'admin_auth'], function(){
@@ -54,5 +61,4 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::resource('/admin/product', ProductController::class);
     Route::resource('/admin/product-images', ProductImageController::class);
     Route::resource('/admin/coupon', CouponController::class);
-    Route::resource('/admin/customer', CustomerController::class);
 });

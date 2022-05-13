@@ -10,24 +10,24 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'login_email' => 'required|email',
+            'login_pass' => 'required'
         ]);
 
-        $email = $request->post('email');
-        $password = $request->post('password');
+        $email = $request->post('login_email');
+        $password = $request->post('login_pass');
 
+        if(!auth()->attempt(['email' => $email, 'password'=> $password, 'status' => 'Active']))
+        {
+            return back()->withInput()->withErrors(['login_email' => 'Your provided credential could not be varified']);
+        }
+        
         if($request->has('remember_me')){
             setcookie('user_login_email', $email, time() + 60*60*24*365);
             setcookie('user_login_pass', $password, time() + 60*60*24*365);
         }else{
             setcookie('user_login_email', '', time() - 3600);
             setcookie('user_login_pass', '', time() - 3600);
-        }
-
-        if(!auth()->attempt(['email' => $email, 'password'=> $password, 'status' => 'Active']))
-        {
-            return back()->withInput()->withErrors(['email' => 'Your provided credential could not be varified']);
         }
         // for prevent session fixation
         session()->regenerate();
@@ -40,7 +40,7 @@ class SessionController extends Controller
         return redirect()->route('user.login')->with('success', 'GoodBye! Logout Successfully.');
     }
 
-    public function login()
+    public function login(Request $request)
     {
         if(isset($_COOKIE['user_login_email']) && isset($_COOKIE['user_login_pass']))
         {
@@ -56,19 +56,4 @@ class SessionController extends Controller
         return view('auth.login', compact('arr'));
     }
 
-    public function email_verify($token)
-    {
-        $user = User::where('remember_token', $token)->get();
-
-        if(isset($user[0]))
-        {
-            User::find($user[0]->id)
-                ->update(['status' => 'Active', 'email_verified_at' => date('Y-m-d H:i:s')]);
-            session()->flash('success', 'Your Email is Verified Successfully. Log In Now...');
-            return redirect()->route('user.login');
-        }
-        else{
-            return redirect('/');
-        }
-    }
 }

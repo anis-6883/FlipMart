@@ -23,6 +23,8 @@ class User extends Authenticatable
     //     'password',
     // ];
     protected $guarded = [];
+    public $timestamps = true;
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -35,10 +37,10 @@ class User extends Authenticatable
     ];
 
 
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
+    // public function setPasswordAttribute($password)
+    // {
+    //     $this->attributes['password'] = bcrypt($password);
+    // }
 
     /**
      * The attributes that should be cast.

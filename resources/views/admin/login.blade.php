@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Admin Login</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('admin_asset/images/favicon.png') }}">
-    <link href="{{ asset('admin_asset/css/style.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('backend_assets/images/favicon.png') }}">
+    <link href="{{ asset('backend_assets/css/style.css') }}" rel="stylesheet">
     
 </head>
 
@@ -67,10 +67,10 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <script src="{{ asset('admin_asset/plugins/common/common.min.js') }}"></script>
-    <script src="{{ asset('admin_asset/js/custom.min.js') }}"></script>
-    <script src="{{ asset('admin_asset/js/settings.js') }}"></script>
-    <script src="{{ asset('admin_asset/js/gleek.js') }}"></script>
-    <script src="{{ asset('admin_asset/js/styleSwitcher.js') }}"></script>
+    <script src="{{ asset('backend_assets/plugins/common/common.min.js') }}"></script>
+    <script src="{{ asset('backend_assets/js/custom.min.js') }}"></script>
+    <script src="{{ asset('backend_assets/js/settings.js') }}"></script>
+    <script src="{{ asset('backend_assets/js/gleek.js') }}"></script>
+    <script src="{{ asset('backend_assets/js/styleSwitcher.js') }}"></script>
 </body>
 </html>

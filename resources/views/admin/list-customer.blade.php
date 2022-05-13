@@ -62,7 +62,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($customers as $customer)
+                                    {{-- @foreach ($customers as $customer)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $customer->customer_name }}</td>
@@ -87,7 +87,7 @@
                                                 @endphp
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                                 <tfoot>
                                     <tr>

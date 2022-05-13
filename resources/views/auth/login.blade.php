@@ -1,79 +1,95 @@
-@extends('include.auth-app')
-@section('title', 'User Login')
+@extends('include.app')
+
+@section('title', 'Login')
+
 @section('content')
 
-<div style="height: 100vh" class="row w-100 d-flex justify-content-center align-items-center">
-    <div class="col-12 col-md-6">
-        <div class="card">
-            <div class="card-header bg-dark text-center">
-                <h3 class="text-light">User Login</h3>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('user.authenticate') }}" method="POST">
-                @csrf
-                @if (session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="breadcrumb">
+	<div class="container">
+		<div class="breadcrumb-inner">
+			<ul class="list-inline list-unstyled">
+				<li><a href="{{ route('home') }}">Home</a></li>
+				<li class='active'>Login</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="body-content" style="margin-bottom: 30px">
+	<div class="container">
+		<div class="sign-in-page">
+			<div class="row">
+                <!-- Sign-in -->	
+
+                <div class="col-md-6 col-sm-6 sign-in">
+
+                    @if (session()->has('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <h4 class="">Sign in</h4>
+                    <p class="">Hello, Welcome To Your Account...❤️</p>
+
+                    <div class="social-sign-in outer-top-xs">
+                        <a href="#" class="facebook-sign-in"><i class="fa fa-facebook"></i> Sign In with Facebook</a>
+                        <a href="#" class="twitter-sign-in"><i class="fa fa-twitter"></i> Sign In with Twitter</a>
                     </div>
-                @endif
-                <div class="mb-2">
-                    <label for="email" class="form-label">Email</label>
-                    <input
-                    name="email"
-                    type="email"
-                    class="form-control @error('email') {{ "is-invalid" }} @enderror"
-                    id="email"
-                    value="{{ $arr['user_login_email'] }}"
-                    required
-                    />
-                    @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+
+                    <form action="{{ route('user.authenticate') }}" method="POST" class="register-form outer-top-xs">
+                        @csrf
+                        <div class="form-group">
+                            <label class="info-title" for="login_email"><b>Email Address </b><span>*</span></label>
+                            <input 
+                                name="login_email" 
+                                type="email" 
+                                class="form-control unicase-form-control text-input @error('login_email') {{ "is-invalid" }} @enderror" 
+                                id="login_email"
+                                value="{{ $arr['user_login_email'] ?: old('login_email') }}"
+                                autofocus
+                                autocomplete="off"
+                            />
+                            @error('login_email')
+                                <div class="invalid-feedback" style="color: red">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div> 
+                        <div class="form-group">
+                            <label class="info-title" for="login_pass"><b>Password </b><span>*</span></label>
+                            <input 
+                                type="password"
+                                name="login_pass" 
+                                class="form-control unicase-form-control text-input @error('login_pass') {{ "is-invalid" }} @enderror" 
+                                id="login_pass"
+                                value="{{ $arr['user_login_pass'] ?: "" }}"
+                            />
+                            @error('login_pass')
+                                <div class="invalid-feedback" style="color: red">
+                                        {{ $messages }}
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input
-                    name="password"
-                    type="password"
-                    class="form-control @error('password') {{ "is-invalid" }} @enderror"
-                    id="password"
-                    value="{{ $arr['user_login_pass'] }}"
-                    required
-                    />
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                        <div class="radio outer-xs">
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    name="remember_me" 
+                                    id="remember_me"
+                                    {{ $arr['is_remember'] }}
+                                /> Remember me!
+                            </label>
+                            <a href="{{ route('user.forgetPassword') }}" class="forgot-password pull-right">Forgot your Password?</a>
                         </div>
-                    @enderror
+                        <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
+                    </form>	
+                    <p style="margin-top: 15px">Need an Account? <a href="{{ route('user.register') }}" class="text-primary text-decoration-none">Sign Up </a> now</p>				
                 </div>
-
-                <div class="mb-3 form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="remember_me"
-                      name="remember_me"
-                      {{ $arr['is_remember'] }}
-                    />
-                    <label class="form-check-label" for="remember_me"
-                      >Remember Me</label
-                    >
-                </div>
-
-                <button type="submit" class="btn btn-dark btn-sm">
-                    <i style="font-size: 16px" class="far">&#xf1d8;</i> Login
-                </button>
-                </form>
-                <p class="mt-3">Need an Account? <a href="{{ route('user.create') }}" class="text-primary text-decoration-none">Sign Up </a> now</p>
             </div>
-        </div>
+		</div>
     </div>
 </div>
 
 @endsection
-
-

@@ -1,5 +1,7 @@
 @extends('include.app')
 
+@section('title', 'Home')
+
 @section('content')
 
 <div class="body-content outer-top-xs" id="top-banner-and-menu">
