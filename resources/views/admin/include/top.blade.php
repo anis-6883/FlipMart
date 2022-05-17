@@ -21,11 +21,14 @@
     <link rel="stylesheet" href="{{asset('backend_assets/css/jquery-ui.css') }}">
     <!-- Custom Stylesheet -->
     <link href="{{ asset('backend_assets/css/style.css') }}" rel="stylesheet">
+    <!-- TagsInput -->
+    <link rel="stylesheet" href="{{ asset('backend_assets/css/tagsinput.css') }}">
     <!-- Rich Text Editor -->
     <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
     <script src="{{ asset('backend_assets/js/richTextEditor/tinyRTE.js') }}"></script>
     <!-- jQuery library -->
     <script src="{{ asset('backend_assets/js/jQuery/jquery-3.6.0.js"') }}"></script>
+
 
     @yield('css')
 </head>
@@ -298,6 +301,17 @@
                         </ul>
                     </li>
 
+                    <li class="nav-label">Manage Sub-Subcategory</li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class='fas menu-icon'>&#xf0ca;</i> <span class="nav-text">Sub-Subcategories</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('subSubcategory.create') }}">Add Sub-Subcategory</a></li>
+                            <li><a href="{{ route('subSubcategory.index') }}">List Sub-Subcategories</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-label">Manage Product</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -315,8 +329,8 @@
                             <i class='fas menu-icon'>&#xf302;</i> <span class="nav-text">Product Images</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('product-images.create') }}">Add Images</a></li>
-                            <li><a href="{{ route('product-images.create') }}">List Images</a></li>
+                            <li><a href="{{ route('product-images.create') }}">Add Product Images</a></li>
+                            <li><a href="{{ route('product-images.index') }}">List Product Images</a></li>
                         </ul>
                     </li>
 

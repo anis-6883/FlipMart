@@ -22,7 +22,8 @@ class SubcategoryController extends Controller
 
     public function create()
     {
-        $categories = DB::table('categories')->get();
+        // $categories = DB::table('categories')->get();
+        $categories = Category::orderBy('category_name')->get();
         return view('admin.add-subcategory')->with('categories', $categories);
     }
 
@@ -48,17 +49,20 @@ class SubcategoryController extends Controller
 
     public function update(Request $req, $subcat_id)
     {
-        $subcat_obj = Subcategory::find($subcat_id);
-
-        $req->validate([
-            'subcategory_name' => 'required|unique:subcategories',
+        $valid_data = $req->validate([
+            'subcategory_name' => 'required',
             'category_id' => 'required'
         ]);
 
-        $subcat_obj->category_id = $req->post('category_id');
-        $subcat_obj->subcategory_name = $req->post('subcategory_name');
-        $subcat_obj->save();
+        $subcat_obj = Subcategory::where([
+            ['subcategory_name', '=', $req->subcategory_name],
+            ['category_id', '=', $req->category_id],
+            ])->first();
 
+        if($subcat_obj)
+            return redirect()->back()->with('danger', 'The subcategory has already been taken...');
+
+        Subcategory::find($subcat_id)->update($valid_data);
         $req->session()->flash('success', 'Subcategory is Updated Successfully!');
         return redirect()->route('subcategory.index');
     }

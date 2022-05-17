@@ -27,25 +27,48 @@
                             <form action="{{ route('product.destroy', $product->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
+
+                                <div class="row">
+                                    
+                                    <div class="col-md-4">
+                                        <label class="col-form-label">Category</label>
+                                        <div class="mb-4">
+                                            <select name="category_id" class="custom-select mr-sm-2" id="select_category">
+                                                <option value="">Select Category</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}" @if ($category->id == $product->category_id) {{ "selected" }} @endif>
+                                                        {{ $category->category_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label">Subcategory</label>
+                                        <div class="mb-4">
+                                            <select name="subcategory_id" class="custom-select mr-sm-2" id="select_subcategory"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label">Sub-Subategory</label>
+                                        <div class="mb-4">
+                                            <select name="sub_subcategory_id" class="custom-select mr-sm-2" id="select_sub_subcategory">
+                                                @foreach ($sub_subcategories as $sub_subcategory)
+                                                    <option value="{{ $sub_subcategory->id }}" @if ($sub_subcategory->id == $product->sub_subcategory_id) {{ "selected" }} @endif>
+                                                        {{ $sub_subcategory->sub_subcategory_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                                 <div class="form-group row">
 
-                                    <label class="col-sm-2 col-form-label">Category</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="category_id" class="custom-select mr-sm-2" id="select_category">
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @if ($category->id == $product->category_id) {{ "selected" }} @endif>
-                                                    {{ $category->category_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Subcategory</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="subcategory_id" class="custom-select mr-sm-2" id="select_subcategory"></select>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Product</label>
+                                    <label class="col-sm-2 col-form-label">Product Name</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
@@ -62,20 +85,14 @@
                                         </div>
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Product Order</label>
+                                    <label class="col-sm-2 col-form-label">Product Code</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
-                                            type="number" 
-                                            name="product_order" 
-                                            class="form-control @error('product_order') is-invalid @enderror" 
+                                            type="text" 
+                                            name="product_code" 
+                                            class="form-control" 
                                             autocomplete="off"
-                                            value="{{ $product->product_order }}"/>
-
-                                        <div class="invalid-feedback">
-                                            @error('product_order')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
+                                            value="{{ $product->product_code }}"/>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Product Summary</label>
@@ -141,14 +158,14 @@
                                     </div>
                                                 
                                     <label class="col-sm-2 col-form-label">Preview</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <td>@if ($product->product_master_image != null)
                                             <img 
                                             id="master_img" 
                                             src="{{ asset('uploads/products/' . $product->product_master_image) }}" 
                                             alt="No Image" width="100px" height="100px">
                                         @else
-                                            <img id="master_img" src="{{ asset('admin_asset/images/no-image.png') }}" 
+                                            <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" 
                                             alt="No Image" width="100px" height="100px">
                                         @endif
                                         </td>
@@ -176,11 +193,62 @@
                                             <option @if ($product->product_status == 'Inactive') {{ "selected" }} @endif >Inactive</option>
                                         </select>
                                     </div>
+
+                                    
+                                    <label class="col-sm-2 col-form-label">Product Offer</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <select name="product_offer" class="custom-select mr-sm-2" id="product_offer">
+                                            <option @if ($product->product_offer == 'Regular') {{ "selected" }} @endif>Regular</option>
+                                            <option @if ($product->product_offer == 'Hot Deals') {{ "selected" }} @endif>Hot Deals</option>
+                                            <option @if ($product->product_offer == 'Featured') {{ "selected" }} @endif>Featured</option>
+                                            <option @if ($product->product_offer == 'Special Offer') {{ "selected" }} @endif>Special Offer</option>
+                                            <option @if ($product->product_offer == 'Special Deals') {{ "selected" }} @endif>Special Deals</option>
+                                        </select>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Order</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="number" 
+                                            name="product_order" 
+                                            class="form-control" 
+                                            autocomplete="off"
+                                            value="{{ $product->product_order }}">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Tags</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="text" 
+                                            name="product_tags"
+                                            data-role="tagsinput"
+                                            class="form-control"
+                                            value="{{ $product->product_tags }}">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Colors</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="text" 
+                                            name="product_color"
+                                            data-role="tagsinput"
+                                            class="form-control"
+                                            value="{{ $product->product_color }}">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Sizes</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="text" 
+                                            name="product_size"
+                                            data-role="tagsinput"
+                                            class="form-control"
+                                            value="{{ $product->product_size }}">
+                                    </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-10">
                                         <button name="save_product" type="submit" class="btn btn-primary">Submit</button>
-                                        <button type="reset" class="btn btn-secondary">Cancel</button>
                                     </div>
                                 </div>
                             </form>
@@ -205,7 +273,7 @@
             if (cat_id != "") {
                 $.ajax({
                     url: "{{ route('product.loadSeletedSubcategory') }}",
-                    type: "post",
+                    type: "POST",
                     data: {
                         category_id: cat_id,
                         subcategory_id: "{{ $product->subcategory_id }}",
@@ -236,12 +304,37 @@
                         success: function(response) {
                             if (response) {
                                 $("#select_subcategory").html(response);
-                            } else {
-                                $("#select_subcategory").html("<option value=''>No Subcategory Found</option>");
+                                $("#select_sub_subcategory").html("<option value=''>Select Subcategory</option>");
                             }
                         }
                     })
                 }
+            })
+
+            // ------------ WHEN CHANGE THE SUBCATEGORY | LOAD SUB-SUBCATEGORY ------------ //
+            $("#select_subcategory").change(function() {
+
+            let subcat_id = $(this).val();
+            if (subcat_id != "") {
+                $.ajax({
+                    url: "{{ route('product.loadSubSubcategory') }}",
+                    type: "POST",
+                    data: {
+                        subcategory_id: subcat_id,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response) {
+                            $("#select_sub_subcategory").html(response);
+                        } else {
+                            $("#select_sub_subcategory").html("<option value=''>No Subcategory Found</option>");
+                        }
+                    }
+                })
+            }
+            else{
+                $("#select_sub_subcategory").html("<option value=''>Select Subcategory</option>");
+            }
             })
         });
 

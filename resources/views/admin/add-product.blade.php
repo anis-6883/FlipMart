@@ -24,31 +24,48 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Add New Product</h4>
                         <div class="basic-form">
-                            <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label">Category</label>
+                                        <div class="mb-4">
+                                            <select name="category_id" class="custom-select mr-sm-2" id="select_category" required>
+                                                <option value="">Select Category</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label">Subcategory</label>
+                                        <div class="mb-4">
+                                            <select name="subcategory_id" class="custom-select mr-sm-2" id="select_subcategory" required></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label">Sub-Subategory</label>
+                                        <div class="mb-4">
+                                            <select name="sub_subcategory_id" class="custom-select mr-sm-2" id="select_sub_subcategory" required></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
                                 <div class="form-group row">
 
-                                    <label class="col-sm-2 col-form-label">Category</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="category_id" class="custom-select mr-sm-2" id="select_category">
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Subcategory</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="subcategory_id" class="custom-select mr-sm-2" id="select_subcategory"></select>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Product</label>
+                                    <label class="col-sm-2 col-form-label">Product Name</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="product_name" 
-                                            class="form-control @error('product_name') is-invalid @enderror" 
-                                            placeholder="Enter Product Name..." 
+                                            class="form-control @error('product_name') is-invalid @enderror"  
                                             required autofocus autocomplete="off"
                                             value="{{ old('product_name') }}">
 
@@ -59,19 +76,14 @@
                                         </div>
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Product Order</label>
+                                    <label class="col-sm-2 col-form-label">Product Code</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
-                                            type="number" 
-                                            name="product_order" 
-                                            class="form-control @error('product_order') is-invalid @enderror" 
-                                            autocomplete="off">
-
-                                        <div class="invalid-feedback">
-                                            @error('product_order')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
+                                            type="text" 
+                                            name="product_code" 
+                                            class="form-control"
+                                            autocomplete="off"
+                                            value="{{ old('product_code') }}">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Product Summary</label>
@@ -111,10 +123,10 @@
                                                 
                                     <label class="col-sm-2 col-form-label">Preview</label>
                                     <div class="col-sm-10">
-                                        <img id="master_img" src="{{ asset('admin_asset/images/no-image.png') }}" alt="No Image" width="100px" height="100px">
+                                        <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="100px" height="100px">
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Master Image</label>
+                                    <label class="col-sm-2 col-form-label">Product Master Image</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
                                             type="file" 
@@ -135,6 +147,57 @@
                                             <option>Active</option>
                                             <option selected>Inactive</option>
                                         </select>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Offer</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <select name="product_offer" class="custom-select mr-sm-2" id="product_offer">
+                                            <option selected>Regular</option>
+                                            <option>Hot Deals</option>
+                                            <option>Featured</option>
+                                            <option>Special Offer</option>
+                                            <option>Special Deals</option>
+                                        </select>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Order</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="number" 
+                                            name="product_order" 
+                                            class="form-control" 
+                                            autocomplete="off"
+                                            value="0">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Tags</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="text" 
+                                            name="product_tags"
+                                            data-role="tagsinput"
+                                            class="form-control"
+                                            value="Lorem,Ipsum,Asnt">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Colors</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="text" 
+                                            name="product_color"
+                                            data-role="tagsinput"
+                                            class="form-control"
+                                            value="Red,Blue,Black">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Sizes</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="text" 
+                                            name="product_size"
+                                            data-role="tagsinput"
+                                            class="form-control"
+                                            value="S,M,L,XL,XXL">
                                     </div>
 
                                 </div>
@@ -160,25 +223,15 @@
 @section('javascript')
     <script>
         $(function() {
-            // ------------ ON PAGE LOAD GET CATEGORY ID AND LOAD SUBCATEGORY ------------ //
+            // ------------ ON PAGE LOAD GET CATEGORY ID AND LOAD OPTION ------------ //
             var cat_id = $("#select_category").val();
+            if (cat_id == "") {
+                $("#select_subcategory").html("<option value=''>Select Category</option>");
+            }
 
-            if (cat_id != "") {
-                $.ajax({
-                    url: "{{ route('product.loadSubcategory') }}",
-                    type: "post",
-                    data: {
-                        category_id: cat_id,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        if (response) {
-                            $("#select_subcategory").html(response);
-                        } else {
-                            $("#select_subcategory").html("<option value=''>No Subcategory Found</option>");
-                        }
-                    }
-                })
+            var subcat_id = $("#select_subcategory").val();
+            if (subcat_id == "") {
+                $("#select_sub_subcategory").html("<option value=''>Select Category</option>");
             }
 
             // ------------ WHEN CHANGE THE CATEGORY | LOAD SUBCATEGORY ------------ //
@@ -188,12 +241,15 @@
                 if (cat_id != "") {
                     $.ajax({
                         url: "{{ route('product.loadSubcategory') }}",
-                        type: "post",
+                        type: "POST",
                         data: {
                             category_id: cat_id,
                             _token: "{{ csrf_token() }}"
                         },
                         success: function(response) {
+
+                            $("#select_sub_subcategory").html("<option value=''>Select Category</option>");
+
                             if (response) {
                                 $("#select_subcategory").html(response);
                             } else {
@@ -201,6 +257,35 @@
                             }
                         }
                     })
+                }
+                else{
+                    $("#select_subcategory").html("<option value=''>Select Category</option>");
+                }
+            })
+
+            // ------------ WHEN CHANGE THE SUBCATEGORY | LOAD SUB-SUBCATEGORY ------------ //
+            $("#select_subcategory").change(function() {
+
+                let subcat_id = $(this).val();
+                if (subcat_id != "") {
+                    $.ajax({
+                        url: "{{ route('product.loadSubSubcategory') }}",
+                        type: "POST",
+                        data: {
+                            subcategory_id: subcat_id,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            if (response) {
+                                $("#select_sub_subcategory").html(response);
+                            } else {
+                                $("#select_sub_subcategory").html("<option value=''>No Subcategory Found</option>");
+                            }
+                        }
+                    })
+                }
+                else{
+                    $("#select_sub_subcategory").html("<option value=''>Select Subcategory</option>");
                 }
             })
         });

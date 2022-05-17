@@ -26,7 +26,7 @@
                             {{ session($msg) }}
                         </div>
                         @endif
-            @endforeach   
+            @endforeach 
 
             <div class="col-md-4">
                 <h4>My Profile</h4>

@@ -1,7 +1,7 @@
 
 @extends('admin.include.app')
 
-@section('title', 'Add New Sucategory')
+@section('title', 'Add New Subcategory')
 
 @section('content')
     <!--**********************************

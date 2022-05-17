@@ -44,6 +44,8 @@ Scripts
 <script src="{{ asset('backend_assets/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('backend_assets/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('backend_assets/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
+<!-- TagsInput -->
+<script src="{{ asset('backend_assets/js/tagsinput.js') }}"></script>
 
 <script src="{{ asset('backend_assets/js/dashboard/dashboard-1.js') }}"></script>
 

@@ -1,7 +1,7 @@
 
 @extends('admin.include.app')
 
-@section('title', 'List Subcategory')
+@section('title', 'List Sub-Subcategory')
 
 @section('css')
 <style>
@@ -23,8 +23,8 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('subcategory.index') }}">Manage Subcategory</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('subcategory.index') }}">List Subcategory</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('subSubcategory.index') }}">Manage Sub-Subcategory</a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('subSubcategory.index') }}">List Sub-Subcategory</a></li>
             </ol>
         </div>
     </div>
@@ -45,9 +45,9 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">List Subcategory</h4>
-                        <a class="btn btn-info ml-4 mt-4" href="{{ route('subcategory.create') }}">Add Subcategory</a>
-                        <h5 class="ml-4 mt-4">Total Subcategory: <span class="badge bg-dark">{{ count($subcategories) }}</span></h5>
+                        <h4 class="card-title">List Sub-Subcategory</h4>
+                        <a class="btn btn-info ml-4 mt-4" href="{{ route('subSubcategory.create') }}">Add Sub-Subcategory</a>
+                        <h5 class="ml-4 mt-4">Total Sub-Subcategory: <span class="badge bg-dark">{{ count($sub_subCats) }}</span></h5>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
 
@@ -56,6 +56,7 @@
                                         <th>Serial No</th>
                                         <th>Category Name</th>
                                         <th>Subcategory Name</th>
+                                        <th>Sub-Subcategory Name</th>
                                         <th>Status</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
@@ -63,18 +64,19 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($subcategories as $subcategory)
+                                    @foreach ($sub_subCats as $subcategory)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $subcategory->category->category_name }}</td>
-                                            <td>{{ $subcategory->subcategory_name }}</td>
+                                            <td>{{ $subcategory->subcategory->subcategory_name }}</td>
+                                            <td>{{ $subcategory->sub_subcategory_name }}</td>
                                             <td>
-                                                @if ($subcategory->subcategory_status == "Active")
-                                                    <button id="status{{ $subcategory->id }}" onclick="chnageStatus({{ $subcategory->id }})" class="badge badge-success px-2">
+                                                @if ($subcategory->sub_subcategory_status == "Active")
+                                                    <button id="status{{ $subcategory->id }}" onclick="changeStatus({{ $subcategory->id }})" class="badge badge-success px-2">
                                                         Active
                                                     </button>
                                                 @else
-                                                    <button id="status{{ $subcategory->id }}" onclick="chnageStatus({{ $subcategory->id }})" class="badge badge-danger px-2">
+                                                    <button id="status{{ $subcategory->id }}" onclick="changeStatus({{ $subcategory->id }})" class="badge badge-danger px-2">
                                                         Inactive
                                                     </button>
                                                 @endif
@@ -85,7 +87,7 @@
                                             <td>
                                                 <div class="d-flex justify-content-center">
 
-                                                    <a class="btn btn-info btn-xs mr-2" href="{{ route('subcategory.edit', $subcategory->id) }}">Edit</a>
+                                                    <a class="btn btn-info btn-xs mr-2" href="{{ route('subSubcategory.edit', $subcategory->id) }}">Edit</a>
 
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="basicModal{{ $subcategory->id }}">
@@ -96,12 +98,12 @@
                                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">Are you sure to delete <b>"{{ $subcategory->subcategory_name }}"</b> Sucategory? </div>
+                                                                <div class="modal-body">Are you sure to delete <b>"{{ $subcategory->sub_subcategory_name }}"</b> Sucategory? </div>
                                                                 <div class="modal-footer">
-                                                                    <form action="{{ route('subcategory.destroy', $subcategory->id) }}" method="POST">
+                                                                    <form action="{{ route('subSubcategory.destroy', $subcategory->id) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Never Mind</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                                                     </form>
                                                                 </div>
@@ -121,6 +123,7 @@
                                         <th>Serial No</th>
                                         <th>Category Name</th>
                                         <th>Subcategory Name</th>
+                                        <th>Sub-Subcategory Name</th>
                                         <th>Status</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
@@ -142,13 +145,13 @@
 @section('javascript')
 
 <script>
-    function chnageStatus(subcategory_id) {
+    function changeStatus(subcategory_id) {
         $(function() {
             var statusBtn = $(`#status${subcategory_id}`);
             var statusText = statusBtn.text();
             $.ajax({
-                url: "{{ route('subcategory.updateStatus') }}",
-                type: "post",
+                url: "{{ route('subSubcategory.updateStatus') }}",
+                type: "POST",
                 data: {
                     subcategory_id,
                     statusText: statusText === "Active" ? "Inactive" : "Active",

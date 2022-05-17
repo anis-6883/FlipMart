@@ -17,9 +17,14 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('subcategory_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('sub_subcategory_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('product_order')->nullable();
-            $table->enum('product_status', ['Active', 'Inactive'])->default('Inactive');
             $table->string('product_name', 255);
+            $table->string('product_slug', 255);
+            $table->string('product_code', 255)->nullable();
+            $table->string('product_tags', 255)->nullable();
+            $table->string('product_size', 255)->nullable();
+            $table->string('product_color', 255)->nullable();
             $table->text('product_summary')->nullable();
             $table->longText('product_description')->nullable();
             $table->text('product_master_image')->nullable();
@@ -28,6 +33,8 @@ class CreateProductsTable extends Migration
             $table->dateTimeTz('discount_start_date')->nullable();
             $table->dateTimeTz('discount_end_date')->nullable();
             $table->integer('product_quantity');
+            $table->enum('product_offer', ['Regular', 'Hot Deals', 'Featured', 'Special Offer', 'Special Deals'])->default('Regular');
+            $table->enum('product_status', ['Active', 'Inactive'])->default('Inactive');
             $table->dateTimeTz('created_at');
             $table->dateTimeTz('updated_at');
             $table->index('product_name');

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Coupon;
-use App\Models\Customer;
 use App\Models\Product;
+use App\Models\Product_Image;
+use App\Models\Sub_Subcategory;
 use App\Models\Subcategory;
 use Exception;
 use Illuminate\Http\Request;
@@ -34,6 +35,21 @@ class AjaxController extends Controller
         try{
             $subcategory = Subcategory::find($req->post('subcategory_id'));
             $subcategory->subcategory_status = $req->post('statusText');
+            if($subcategory->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function subSubcategoryUpdateStatus(Request $req)
+    {
+        try{
+            $subcategory = Sub_Subcategory::find($req->post('subcategory_id'));
+            $subcategory->sub_subcategory_status = $req->post('statusText');
             if($subcategory->save())
                 return 1;
             else
@@ -74,12 +90,12 @@ class AjaxController extends Controller
         }
     }
 
-    public function customerUpdateStatus(Request $req)
+    public function productImageUpdateStatus(Request $req)
     {
         try{
-            $customer = Customer::find($req->post('customer_id'));
-            $customer->customer_status = $req->post('statusText');
-            if($customer->save())
+            $image = Product_Image::find($req->post('image_id'));
+            $image->image_status = $req->post('statusText');
+            if($image->save())
                 return 1;
             else
                 return 0;
@@ -93,14 +109,36 @@ class AjaxController extends Controller
     {
         try
         {
-            $subcategories = DB::table('subcategories')
-            ->where('category_id', $req->post('category_id'))
-            ->get();
+            $subcategories = Subcategory::where('category_id', $req->post('category_id'))->get();
+
+            if(count($subcategories) > 0)
+            {
+                echo "<option value=''>Select Subcategory</option>";
+
+                foreach($subcategories as $subcategory)
+                {
+                    echo '<option value="'. $subcategory->id . '">' . $subcategory->subcategory_name .'</option>';
+                }
+            }
+            else
+                echo "<option value=''>No Subcategory Found</option>";
+        }
+        catch(Exception $e)
+        {
+            return 0;
+        } 
+    }
+
+    public function loadSubSubcategory(Request $req)
+    {
+        try
+        {
+            $subcategories = Sub_Subcategory::where('subcategory_id', $req->subcategory_id)->get();
 
             if(!empty($subcategories))
                 foreach($subcategories as $subcategory)
                 {
-                    echo '<option value="'. $subcategory->id . '">' . $subcategory->subcategory_name .'</option>';
+                    echo '<option value="'. $subcategory->id . '">' . $subcategory->sub_subcategory_name .'</option>';
                 }
             else
                 return 0;

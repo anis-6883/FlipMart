@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Product_Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
 class ProductImageController extends Controller
@@ -16,7 +17,8 @@ class ProductImageController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with('product_image')->get();
+        return view('admin.list-productImages', compact('products'));
     }
 
     /**
@@ -59,10 +61,7 @@ class ProductImageController extends Controller
             if($obj->save())
                 Image::make($image)->resize(400, 300)->save(public_path('/uploads/product-images/' . $productImageName));
         }
-
-        // $request->session()->flash('success', 'Product Images is Uploaded Successfully!');
-        // return redirect()->route('product-images.create');
-        return redirect()->back()->with('success', 'Product Images is Uploaded Successfully!');
+        return redirect()->route('product-images.index')->with('success', 'Product Images is Uploaded Successfully!');
     }
 
     /**
@@ -84,7 +83,12 @@ class ProductImageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::with('product_image')->where('id', $id)->first();
+        if(count($product->product_image) > 0)
+        {
+            return view('admin.delete-productImages', compact('product'));
+        }
+        return redirect()->back()->with('danger', 'This product has no images for deleteing... Please Add Images!');
     }
 
     /**
@@ -107,6 +111,31 @@ class ProductImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product_image = Product_Image::find($id);
+        $img_path = public_path('/uploads/product-images/' . $product_image->product_image_filename);
+        $product_image->delete();
+        if(File::exists($img_path))
+            File::delete($img_path);
+            
+        return redirect()->back()->with('success', 'Product Image is Deleted Successfully');
+    }
+
+    public function destoryAll($id)
+    {
+        $product = Product::with('product_image')->where('id', $id)->first();
+        if(count($product->product_image) > 0)
+        {
+            foreach($product->product_image as $image)
+            {
+                $product_image = Product_Image::find($image->id);
+                $img_path = public_path('/uploads/product-images/' . $image->product_image_filename);
+                $product_image->delete();
+                if(File::exists($img_path))
+                    File::delete($img_path);
+            }
+            return redirect()->route('product-images.index')->with('success', 'Delete All Images Of Product "'. $product->product_name .'"!');
+        }
+        return redirect()->back()->with('danger', 'This product has no images for deleteing... Please Add Images!');
+
     }
 }

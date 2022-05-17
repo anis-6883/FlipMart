@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Product_Image;
+use App\Models\Sub_Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -19,23 +21,22 @@ class ProductController extends Controller
         //             ->orderByDesc('created_at')
         //             ->get();
 
-        $products = Product::with('category', 'subcategory')->latest()->get();
+        $products = Product::with('category', 'subcategory', 'sub_subcategory')->latest()->get();
         return view('admin.list-product', compact('products'));
     }
 
     public function create()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')->orderBy('category_name')->get();
         return view('admin.add-product', compact('categories'));
     }
 
-    public function store(Request $req)
+    public function store(Request $request)
     {
-        $pro_obj = new Product;
-
-        $req->validate([
+        $valid_data = $request->validate([
             'category_id' => 'required',
             'subcategory_id' => 'required',
+            'sub_subcategory_id' => 'required',
             'product_name' => 'required|min:8',
             'product_regular_price' => 'required|numeric',
             'product_quantity' => 'required|integer',
@@ -43,59 +44,64 @@ class ProductController extends Controller
             'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
 
-        $pro_obj->category_id = $req->post('category_id');
-        $pro_obj->subcategory_id = $req->post('subcategory_id');
-        $pro_obj->product_name = $req->post('product_name');
-        $pro_obj->product_order = $req->post('product_order');
-        $pro_obj->product_summary = $req->post('product_summary');
-        $pro_obj->product_description = $req->post('product_description');
-        $pro_obj->product_regular_price = $req->post('product_regular_price');
-        $pro_obj->product_quantity = $req->post('product_quantity');
-        $pro_obj->product_status = $req->post('product_status');
+        // Not required (Default: NULL) 
+        $valid_data['product_slug'] = strtolower(str_replace(' ', '-', $request->product_name)) . '-' . date('YmdHis') . rand(100000, 999999);
+        $valid_data['product_code'] = $request->product_code;
+        $valid_data['product_summary'] = $request->product_summary;     
+        $valid_data['product_description'] = $request->product_description;
+        $valid_data['product_offer'] = $request->product_offer;
+        $valid_data['product_order'] = $request->product_order;
+        $valid_data['product_tags'] = $request->product_tags;
+        $valid_data['product_color'] = $request->product_color;
+        $valid_data['product_size'] = $request->product_size;
 
-        if(!empty($req->post('product_discounted_price')))
+        if(!empty($request->product_discounted_price))
         {
-            $pro_obj->product_discounted_price = $req->post('product_discounted_price');
-            $pro_obj->discount_start_date = $req->post('discount_start_date');
-            $pro_obj->discount_end_date = $req->post('discount_end_date');
+            $valid_data['product_discounted_price'] = $request->product_discounted_price;
+            $valid_data['discount_start_date'] = $request->discount_start_date;
+            $valid_data['discount_end_date'] = $request->discount_end_date;
         }
 
-        if($req->hasFile('product_master_image') and $req->file('product_master_image')->isValid())
+        if($request->hasFile('product_master_image') and $request->file('product_master_image')->isValid())
         {
-            $originalImageName = $req->file('product_master_image')->getClientOriginalName();
+            $originalImageName = $request->file('product_master_image')->getClientOriginalName();
             $masterImageName = "PRODUCT_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
-            $pro_obj->product_master_image = $masterImageName;
+            $valid_data['product_master_image'] = $masterImageName;
         }
 
-        $pro_obj->save();
+        Product::create($valid_data);
 
-        if($req->hasFile('product_master_image') and $req->file('product_master_image')->isValid())
+        if($request->hasFile('product_master_image') and $request->file('product_master_image')->isValid())
         {
-            Image::make($req->file('product_master_image'))
+            Image::make($request->file('product_master_image'))
                 ->resize(400, 300)
                 ->save(public_path('/uploads/products/' . $masterImageName));
             // $req->product_master_image->move(public_path('/uploads/products'), $masterImageName);
         }
-            
 
-        $req->session()->flash('success', 'Product is Created Successfully!');
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('success', 'Product is Created Successfully!');
+    }
+
+    public function show($product_id)
+    {
+        $product = Product::with('category', 'subcategory', 'sub_subcategory')->where('id', $product_id)->first();
+        return view('admin.show-product', compact('product'));
     }
 
     public function edit($product_id)
     {
         $categories = DB::table('categories')->get();
         $product = Product::find($product_id);
-        return view('admin.edit-product', compact('product', 'categories'));
+        $sub_subcategories = Sub_Subcategory::where('subcategory_id', $product->subcategory_id)->get();
+        return view('admin.edit-product', compact('product', 'categories', 'sub_subcategories'));
     }
 
-    public function update(Request $req, $product_id)
+    public function update(Request $request, $product_id)
     {
-        $pro_obj = Product::find($product_id);
-
-        $req->validate([
+        $valid_data = $request->validate([
             'category_id' => 'required',
             'subcategory_id' => 'required',
+            'sub_subcategory_id' => 'required',
             'product_name' => 'required|min:8',
             'product_regular_price' => 'required|numeric',
             'product_quantity' => 'required|integer',
@@ -103,59 +109,73 @@ class ProductController extends Controller
             'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
 
-        $pro_obj->category_id = $req->post('category_id');
-        $pro_obj->subcategory_id = $req->post('subcategory_id');
-        $pro_obj->product_name = $req->post('product_name');
-        $pro_obj->product_order = $req->post('product_order');
-        $pro_obj->product_summary = $req->post('product_summary');
-        $pro_obj->product_description = $req->post('product_description');
-        $pro_obj->product_regular_price = $req->post('product_regular_price');
-        $pro_obj->product_quantity = $req->post('product_quantity');
-        $pro_obj->product_status = $req->post('product_status');
+        // Not required (Default: NULL) 
+        $valid_data['product_slug'] = strtolower(str_replace(' ', '-', $request->product_name)) . '-' . date('YmdHis') . rand(100000, 999999);
+        $valid_data['product_code'] = $request->product_code;
+        $valid_data['product_summary'] = $request->product_summary;     
+        $valid_data['product_description'] = $request->product_description;
+        $valid_data['product_offer'] = $request->product_offer;
+        $valid_data['product_order'] = $request->product_order;
+        $valid_data['product_tags'] = $request->product_tags;
+        $valid_data['product_color'] = $request->product_color;
+        $valid_data['product_size'] = $request->product_size;
 
-        if(!empty($req->post('product_discounted_price')))
+        if(!empty($request->product_discounted_price))
         {
-            $pro_obj->product_discounted_price = $req->post('product_discounted_price');
-            $pro_obj->discount_start_date = $req->post('discount_start_date');
-            $pro_obj->discount_end_date = $req->post('discount_end_date');
+            $valid_data['product_discounted_price'] = $request->product_discounted_price;
+            $valid_data['discount_start_date'] = $request->discount_start_date;
+            $valid_data['discount_end_date'] = $request->discount_end_date;
         }
 
+        $pro_obj = Product::find($product_id);
         $prevImageName = $pro_obj->product_master_image;
 
-        if($req->hasFile('product_master_image') and $req->file('product_master_image')->isValid())
+        if($request->hasFile('product_master_image') and $request->file('product_master_image')->isValid())
         {
-            $originalImageName = $req->file('product_master_image')->getClientOriginalName();
+            $originalImageName = $request->file('product_master_image')->getClientOriginalName();
             $masterImageName = "PRODUCT_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
-            $pro_obj->product_master_image = $masterImageName;
+            $valid_data['product_master_image'] = $masterImageName;
         }
 
-        $pro_obj->save();
+        Product::find($product_id)->update($valid_data);
 
-        if($req->hasFile('product_master_image') and $req->file('product_master_image')->isValid())
+        if($request->hasFile('product_master_image') and $request->file('product_master_image')->isValid())
         {
             // $req->product_master_image->move(public_path('/uploads/products'), $masterImageName);
-            Image::make($req->file('product_master_image'))
+            Image::make($request->file('product_master_image'))
                 ->resize(400, 300)
                 ->save(public_path('/uploads/products/' . $masterImageName));
             $img_path = public_path('/uploads/products/' . $prevImageName);
             if(File::exists($img_path))
                 File::delete($img_path);
         }
-
-        $req->session()->flash('success', 'Product is Updated Successfully!');
-        return redirect()->route('product.index');
+        
+        return redirect()->route('product.show', $product_id)->with('success', 'Product is Updated Successfully!');
     }
 
     public function destroy(Request $req, $product_id)
     {
-        $product = Product::find($product_id);
+        $product = Product::with('product_image')->where('id', $product_id)->first();
         $product_name = $product->product_name;
-        $img_path = public_path('/uploads/products/' . $product->product_master_image);
+
+        if(count($product->product_image) > 0)
+        {
+            foreach($product->product_image as $image)
+            {
+                $product_image = Product_Image::find($image->id);
+                $img_path = public_path('/uploads/product-images/' . $image->product_image_filename);
+                $product_image->delete();
+                if(File::exists($img_path))
+                    File::delete($img_path);
+            }
+        }
+
+        $master_img_path = public_path('/uploads/products/' . $product->product_master_image);
         $product->delete();
 
-        if(File::exists($img_path))
-            File::delete($img_path);
-            
+        if(File::exists($master_img_path))
+            File::delete($master_img_path);
+
         $req->session()->flash('success', "Product \"$product_name\" has Deleted Successfully...");
         return redirect()->route('product.index');
     }

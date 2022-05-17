@@ -18,6 +18,19 @@
         </div>
     </div>
 
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+            @if(Session::has($msg))
+            <div class="container-fluid mt-3">
+                <div class="alert alert-{{ $msg }} alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{{ session($msg) }}</strong> 
+                </div>
+            </div>
+            @endif
+    @endforeach 
+
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-12">
@@ -25,7 +38,7 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Edit A Sucategory</h4>
                         <div class="basic-form">
-                            <form action="{{ route('subcategory.update', $subcategory->id) }}" method="post">
+                            <form action="{{ route('subcategory.update', $subcategory->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">

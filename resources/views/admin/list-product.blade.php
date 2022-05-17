@@ -55,15 +55,13 @@
                                         <th>S.No</th>
                                         <th>Category</th>
                                         <th>Subcategory</th>
+                                        <th>Sub-Subcategory</th>
                                         <th>Product</th>
                                         <th>Image</th>
                                         <th>Reg. Price</th>
                                         <th>Status</th>
-                                        <th>Stock Qty</th>
-                                        <th>Created</th>
+                                        <th>Stock Qty</th> 
                                         <th>Dis. Price</th>
-                                        <th>Dis. Start</th>
-                                        <th>Dis. End</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -74,46 +72,30 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $product->category->category_name }}</td>
                                             <td>{{ $product->subcategory->subcategory_name }}</td>
-                                            <td>{{ Str::of($product->product_name)->limit(50)  }}</td>
+                                            <td>{{ $product->sub_subcategory->sub_subcategory_name }}</td>
+                                            <td><a href="{{ route('product.show', $product->id) }}" style="color: blue">{{ Str::of($product->product_name)->limit(50)  }}</a></td>
                                             <td>
                                                 @if ($product->product_master_image != null)
                                                     <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="No Image" width="80px" height="80px">  
                                                 @else
-                                                    <img id="master_img" src="{{ asset('admin_asset/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
+                                                    <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
                                             <td>{{ number_format($product->product_regular_price, 2, '.', ',')  }}</td>
                                             <td>
                                                 @if ($product->product_status == "Active")
-                                                    <button id="status{{ $product->id }}" onclick="chnageStatus({{ $product->id }})" class="badge badge-success px-2">
+                                                    <button id="status{{ $product->id }}" onclick="changeStatus({{ $product->id }})" class="badge badge-success px-2">
                                                         Active
                                                     </button>
                                                 @else
-                                                    <button id="status{{ $product->id }}" onclick="chnageStatus({{ $product->id }})" class="badge badge-danger px-2">
+                                                    <button id="status{{ $product->id }}" onclick="changeStatus({{ $product->id }})" class="badge badge-danger px-2">
                                                         Inactive
                                                     </button>
                                                 @endif
                                             </td>
                                             <td>{{ $product->product_quantity }}</td>
-                                            <td>
-                                                {{-- {{ date('d-m-Y', strtotime($product->created_at)) }} --}}
-                                                {{ $product->created_at->diffForHumans() }}
-                                            </td>
+                                            
                                             <td>{{ $product->product_discounted_price ?? 0 }}%</td>
-                                            <td>
-                                                @if ($product->discount_start_date != NULL)
-                                                    {{ date('d-m-Y', strtotime($product->discount_start_date)) }}
-                                                @else
-                                                    NULL
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($product->discount_end_date != NULL)
-                                                    {{ date('d-m-Y', strtotime($product->discount_end_date)) }}
-                                                @else
-                                                    NULL
-                                                @endif
-                                            </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
 
@@ -153,15 +135,13 @@
                                         <th>S.No</th>
                                         <th>Category</th>
                                         <th>Subcategory</th>
+                                        <th>Sub-Subcategory</th>
                                         <th>Product</th>
                                         <th>Image</th>
                                         <th>Reg. Price</th>
                                         <th>Status</th>
                                         <th>Stock Qty</th>
-                                        <th>Created</th>
                                         <th>Dis. Price</th>
-                                        <th>Dis. Start</th>
-                                        <th>Dis. End</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -181,7 +161,7 @@
 @section('javascript')
 
 <script>
-    function chnageStatus(product_id) {
+    function changeStatus(product_id) {
         $(function() {
             var statusBtn = $(`#status${product_id}`);
             var statusText = statusBtn.text();

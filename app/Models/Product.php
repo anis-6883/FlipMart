@@ -10,16 +10,8 @@ class Product extends Model
     use HasFactory;
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = [
-        'category_id',
-        'subcategory_id',
-        'product_status',
-        'product_name',
-        'product_summary',
-        'product_description',
-        'product_regular_price',
-        'product_quantity',
-    ];
+
+    protected $guarded = ['id'];
 
     public function category(){
         return $this->belongsTo(Category::class);
@@ -27,6 +19,10 @@ class Product extends Model
     
     public function subcategory(){
         return $this->belongsTo(Subcategory::class);
+    }
+
+    public function sub_subcategory(){
+        return $this->belongsTo(Sub_Subcategory::class);
     }
 
     public function product_image(){
