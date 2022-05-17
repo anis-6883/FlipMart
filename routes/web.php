@@ -10,9 +10,9 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\Sub_SubcategoryController;
 use App\Http\Controllers\UserController;
-use App\Models\Product_Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +48,7 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 
 Route::group(['middleware' => 'admin_auth'], function(){
+
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::delete('/product-images/{id}/destoryAll', [ProductImageController::class, 'destoryAll'])->name('product-images.destroyAll');
@@ -57,6 +58,7 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::resource('/admin/product', ProductController::class);
     Route::resource('/admin/product-images', ProductImageController::class);
     Route::resource('/admin/coupon', CouponController::class);
+    Route::resource('/admin/slider', SliderController::class);
 
     // Ajax Controller Route
     Route::post('/categoryUpdateStatus', [AjaxController::class, 'categoryUpdateStatus'])->name('category.updateStatus');
@@ -65,8 +67,10 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::post('/productUpdateStatus', [AjaxController::class, 'productUpdateStatus'])->name('product.updateStatus');
     Route::post('/couponUpdateStatus', [AjaxController::class, 'couponUpdateStatus'])->name('coupon.updateStatus');
     Route::post('/productImageUpdateStatus', [AjaxController::class, 'productImageUpdateStatus'])->name('productImage.updateStatus');
+    Route::post('/sliderUpdateStatus', [AjaxController::class, 'sliderUpdateStatus'])->name('slider.updateStatus');
     Route::post('/loadSubcategory', [AjaxController::class, 'loadSubcategory'])->name('product.loadSubcategory');
     Route::post('/loadSubSubcategory', [AjaxController::class, 'loadSubSubcategory'])->name('product.loadSubSubcategory');
     Route::post('/loadSeletedSubcategory', [AjaxController::class, 'loadSeletedSubcategory'])->name('product.loadSeletedSubcategory');
     Route::post('/loadSeletedSubSubcategory', [AjaxController::class, 'loadSeletedSubSubcategory'])->name('product.loadSeletedSubSubcategory');
+
 });

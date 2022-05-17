@@ -345,6 +345,17 @@
                         </ul>
                     </li>
 
+                    <li class="nav-label">Manage Slider</li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class='fas menu-icon'>&#xf1de;</i> <span class="nav-text">Sliders</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('slider.create') }}">Add Slider</a></li>
+                            <li><a href="{{ route('slider.index') }}">List Sliders</a></li>
+                        </ul>
+                    </li>
+
                     </li>
                 </ul>
             </div>

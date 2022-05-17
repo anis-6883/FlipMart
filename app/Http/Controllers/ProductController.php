@@ -137,7 +137,7 @@ class ProductController extends Controller
             $valid_data['product_master_image'] = $masterImageName;
         }
 
-        Product::find($product_id)->update($valid_data);
+        $pro_obj->update($valid_data);
 
         if($request->hasFile('product_master_image') and $request->file('product_master_image')->isValid())
         {

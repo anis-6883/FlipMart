@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Product_Image;
+use App\Models\Slider;
 use App\Models\Sub_Subcategory;
 use App\Models\Subcategory;
 use Exception;
@@ -96,6 +97,21 @@ class AjaxController extends Controller
             $image = Product_Image::find($req->post('image_id'));
             $image->image_status = $req->post('statusText');
             if($image->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function sliderUpdateStatus(Request $req)
+    {
+        try{
+            $slider = Slider::find($req->post('slider_id'));
+            $slider->slider_status = $req->post('statusText');
+            if($slider->save())
                 return 1;
             else
                 return 0;
