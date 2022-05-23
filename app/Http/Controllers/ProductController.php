@@ -45,7 +45,7 @@ class ProductController extends Controller
         ]);
 
         // Not required (Default: NULL) 
-        $valid_data['product_slug'] = strtolower(str_replace(' ', '-', $request->product_name)) . '-' . date('YmdHis') . rand(100000, 999999);
+        $valid_data['product_slug'] = strtolower(str_replace(str_split('\\/:*?"<>| '), '-', $request->product_name)) . '-' . date('YmdHis') . rand(100000, 999999);
         $valid_data['product_code'] = $request->product_code;
         $valid_data['product_summary'] = $request->product_summary;     
         $valid_data['product_description'] = $request->product_description;
@@ -60,6 +60,10 @@ class ProductController extends Controller
             $valid_data['product_discounted_price'] = $request->product_discounted_price;
             $valid_data['discount_start_date'] = $request->discount_start_date;
             $valid_data['discount_end_date'] = $request->discount_end_date;
+        }else{
+            $valid_data['product_discounted_price'] = NULL;
+            $valid_data['discount_start_date'] = NULL;
+            $valid_data['discount_end_date'] = NULL;
         }
 
         if($request->hasFile('product_master_image') and $request->file('product_master_image')->isValid())
@@ -110,7 +114,7 @@ class ProductController extends Controller
         ]);
 
         // Not required (Default: NULL) 
-        $valid_data['product_slug'] = strtolower(str_replace(' ', '-', $request->product_name)) . '-' . date('YmdHis') . rand(100000, 999999);
+        $valid_data['product_slug'] = strtolower(str_replace(str_split('\\/:*?"<>| '), '-', $request->product_name)) . '-' . date('YmdHis') . rand(100000, 999999);
         $valid_data['product_code'] = $request->product_code;
         $valid_data['product_summary'] = $request->product_summary;     
         $valid_data['product_description'] = $request->product_description;
@@ -125,6 +129,10 @@ class ProductController extends Controller
             $valid_data['product_discounted_price'] = $request->product_discounted_price;
             $valid_data['discount_start_date'] = $request->discount_start_date;
             $valid_data['discount_end_date'] = $request->discount_end_date;
+        }else{
+            $valid_data['product_discounted_price'] = NULL;
+            $valid_data['discount_start_date'] = NULL;
+            $valid_data['discount_end_date'] = NULL;
         }
 
         $pro_obj = Product::find($product_id);

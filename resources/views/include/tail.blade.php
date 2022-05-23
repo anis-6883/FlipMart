@@ -139,5 +139,68 @@
   <script src="{{ asset("frontend_assets/js/bootstrap-select.min.js") }}"></script> 
   <script src="{{ asset("frontend_assets/js/wow.min.js") }}"></script> 
   <script src="{{ asset("frontend_assets/js/scripts.js") }}"></script>
+
+  {{-- Add to Cart Model AJAX Script --}}
+  <script>
+
+    function fetchProductData(product_id) {
+        $(function() {
+
+            // var statusBtn = $(`#status${category_id}`);
+            // var statusText = statusBtn.text();
+
+            $.ajax({
+                url: "{{ route('fetchProductData') }}",
+                type: "POST",
+                data: {
+                    product_id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(result) {
+                    console.log(result);
+                    $('#m-product-name').text(result.product.product_name);
+                    $('#m-product-category').text(result.product.category.category_name);
+                    $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
+                    if(result.product.product_discounted_price)
+                    {
+                      $('#m-product-discount').text(result.product.product_discounted_price);
+                    }else{
+                      $('#m-product-discount').text(0);
+                    }
+                    
+                    $('#m-product-code').text(result.product.product_code);
+                    $('#m-product-price').text(result.product_price);
+                    $('#m-product-image').attr('src', "uploads/products/" + result.product.product_master_image);
+
+                    $('#m-product-color').empty();
+                    if(result.product_colors != "")
+                    {
+                      $.each(result.product_colors, function(key, value){
+                        $('#m-product-color').append(`<option value=${value}>${value}</option>`);
+                      });
+                      $('#m-product-color-div').show();
+                    }
+                    else{
+                      $('#m-product-color-div').hide();
+                    }
+                    
+
+                    $('#m-product-size').empty();
+                    if(result.product_sizes != "")
+                    {
+                      $.each(result.product_sizes, function(key, value){
+                        $('#m-product-size').append(`<option value=${value}>${value}</option>`);
+                      });
+                      $('#m-product-size-div').show();
+                    }
+                    else{
+                      $('#m-product-size-div').hide();
+                    }
+                }
+            });
+        });
+    }
+
+  </script>
   </body>
   </html>

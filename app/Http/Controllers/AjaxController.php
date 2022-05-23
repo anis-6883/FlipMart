@@ -190,4 +190,30 @@ class AjaxController extends Controller
             return 0;
         } 
     }
+
+    //fetch product data
+    public function fetchProductData(Request $request)
+    {
+        $product = Product::with('category', 'subcategory')->findOrFail($request->post('product_id'));
+        $product_colors = explode(',', $product->product_color);
+        $product_sizes = explode(',', $product->product_size);
+
+        if($product->product_discounted_price != NULL)
+        {
+            $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
+            $product_price = $product->product_regular_price - $discount_price;
+        }
+        else{
+            $product_price = $product->product_regular_price;
+        }
+
+        return response()->json(array(
+            'product' => $product,
+            'product_colors' => $product_colors,
+            'product_sizes' => $product_sizes,
+            'product_price' => $product_price
+        ));
+    }
+
+
 }

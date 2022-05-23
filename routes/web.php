@@ -43,6 +43,13 @@ Route::get('/user/profile', [UserController::class, 'userProfile'])->name('user.
 Route::get('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
 Route::post('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
 
+Route::get('/productDetails/{id}/{slug}', [HomeController::class, 'productDetails'])->name('productDetails');
+Route::get('/tagWiseProducts/{tag}', [HomeController::class, 'tagWiseProducts'])->name('tagWiseProducts');
+Route::get('/subCategoryWiseProducts/{subCat_id}/{subCat_name}', [HomeController::class, 'subCategoryWiseProducts'])->name('subCategoryWiseProducts');
+Route::get('/sub-subCategoryWiseProducts/{sub_subCat_id}/{sub_subCat_name}', [HomeController::class, 'sub_subCategoryWiseProducts'])->name('sub_subCategoryWiseProducts');
+Route::post('/fetchProductData', [AjaxController::class, 'fetchProductData'])->name('fetchProductData');
+
+
 // admin login page
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth');

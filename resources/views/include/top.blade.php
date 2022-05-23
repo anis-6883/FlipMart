@@ -185,7 +185,7 @@
   <!-- /.main-header --> 
   
   <!-- ============================================== NAVBAR ============================================== -->
-  <div class="header-nav animate-dropdown">
+  {{-- <div class="header-nav animate-dropdown">
     <div class="container">
       <div class="yamm navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -197,74 +197,50 @@
             <div class="nav-outer">
               <ul class="nav navbar-nav">
                 <li class="active dropdown yamm-fw"> <a href="{{ route('home') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Home</a> </li>
-                <li class="dropdown yamm mega-menu"> <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Clothing</a>
-                  <ul class="dropdown-menu container">
-                    <li>
-                      <div class="yamm-content ">
-                        <div class="row">
-                          <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-                            <h2 class="title">Men</h2>
-                            <ul class="links">
-                              <li><a href="#">Dresses</a></li>
-                              <li><a href="#">Shoes </a></li>
-                              <li><a href="#">Jackets</a></li>
-                              <li><a href="#">Sunglasses</a></li>
-                              <li><a href="#">Sport Wear</a></li>
-                              <li><a href="#">Blazers</a></li>
-                              <li><a href="#">Shirts</a></li>
-                            </ul>
+
+                @php
+                  $categories = App\Models\Category::where('category_status', 'Active')->orderBy('category_name')->get();
+                @endphp
+
+                @foreach ($categories as $category)
+
+                  <li class="dropdown yamm mega-menu"> <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">{{ $category->category_name }}</a>
+                    <ul class="dropdown-menu container">
+                      <li>
+                        <div class="yamm-content ">
+                          <div class="row">
+
+                            @php
+                              $subcategories = App\Models\Subcategory::where('category_id', $category->id)->orderBy('subcategory_name')->get();
+                            @endphp
+
+                            @foreach ($subcategories as $subcategory)
+                              <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
+                                <h2 class="title">{{ $subcategory->subcategory_name }}</h2>
+                                <ul class="links">
+                                  @php
+                                    $sub_subcategories = App\Models\Sub_Subcategory::where('subcategory_id', $subcategory->id)->get();
+                                  @endphp
+
+                                  @foreach ($sub_subcategories as $sub_subcategory)
+                                    <li><a href="#">{{ $sub_subcategory->sub_subcategory_name }}</a></li>
+                                  @endforeach
+
+                                </ul>
+                              </div>
+                            @endforeach
+                            <!-- /.col -->
+                            
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" src="{{ asset("frontend_assets/images/banners/top-menu-banner.jpg") }}" alt=""> </div>
+                            <!-- /.yamm-content --> 
                           </div>
-                          <!-- /.col -->
-                          
-                          <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-                            <h2 class="title">Women</h2>
-                            <ul class="links">
-                              <li><a href="#">Handbags</a></li>
-                              <li><a href="#">Jwellery</a></li>
-                              <li><a href="#">Swimwear </a></li>
-                              <li><a href="#">Tops</a></li>
-                              <li><a href="#">Flats</a></li>
-                              <li><a href="#">Shoes</a></li>
-                              <li><a href="#">Winter Wear</a></li>
-                            </ul>
-                          </div>
-                          <!-- /.col -->
-                          
-                          <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-                            <h2 class="title">Boys</h2>
-                            <ul class="links">
-                              <li><a href="#">Toys & Games</a></li>
-                              <li><a href="#">Jeans</a></li>
-                              <li><a href="#">Shirts</a></li>
-                              <li><a href="#">Shoes</a></li>
-                              <li><a href="#">School Bags</a></li>
-                              <li><a href="#">Lunch Box</a></li>
-                              <li><a href="#">Footwear</a></li>
-                            </ul>
-                          </div>
-                          <!-- /.col -->
-                          
-                          <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-                            <h2 class="title">Girls</h2>
-                            <ul class="links">
-                              <li><a href="#">Sandals </a></li>
-                              <li><a href="#">Shorts</a></li>
-                              <li><a href="#">Dresses</a></li>
-                              <li><a href="#">Jwellery</a></li>
-                              <li><a href="#">Bags</a></li>
-                              <li><a href="#">Night Dress</a></li>
-                              <li><a href="#">Swim Wear</a></li>
-                            </ul>
-                          </div>
-                          <!-- /.col -->
-                          
-                          <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" src="{{ asset("frontend_assets/images/banners/top-menu-banner.jpg") }}" alt=""> </div>
-                          <!-- /.yamm-content --> 
                         </div>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
+                      </li>
+                    </ul>
+                  </li>
+
+                @endforeach
+
                 <li class="dropdown mega-menu"> 
                 <a href="category.html"  data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Electronics <span class="menu-label hot-menu hidden-xs">hot</span> </a>
                   <ul class="dropdown-menu container">
@@ -344,10 +320,6 @@
                   </ul>
                 </li>
                 <li class="dropdown hidden-sm"> <a href="category.html">Health & Beauty <span class="menu-label new-menu hidden-xs">new</span> </a> </li>
-                <li class="dropdown hidden-sm"> <a href="category.html">Watches</a> </li>
-                <li class="dropdown"> <a href="contact.html">Jewellery</a> </li>
-                <li class="dropdown"> <a href="contact.html">Shoes</a> </li>
-                <li class="dropdown"> <a href="contact.html">Kids & Girls</a> </li>
                 <li class="dropdown"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Pages</a>
                   <ul class="dropdown-menu pages">
                     <li>
@@ -377,6 +349,8 @@
                     </li>
                   </ul>
                 </li>
+
+
                 <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
               </ul>
               <!-- /.navbar-nav -->
@@ -393,10 +367,65 @@
     </div>
     <!-- /.container-class --> 
     
-  </div>
+  </div> --}}
   <!-- /.header-nav --> 
   <!-- ============================================== NAVBAR : END ============================================== --> 
   
 </header>
 
 <!-- ============================================== HEADER : END ============================================== -->
+
+<!-- Add to Cart Product Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="m-product-name"></h5>
+        <button style="margin-top: -21px" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+
+          <div class="col-md-4">
+              <img id="m-product-image" src="" class="img-thumbnail" alt="Product Images">
+          </div>
+
+          <div class="col-md-4">
+
+              <ul class="list-group">
+                <li class="list-group-item">Category: <b id="m-product-category"></b></li>
+                <li class="list-group-item">Subcategory: <b id="m-product-subcategory"></b></li>
+                <li class="list-group-item">Price: &#2547;<b id="m-product-price"></b></li>
+                <li class="list-group-item">Discount: <b id="m-product-discount"></b>%</li>
+                <li class="list-group-item">Product Code: <b id="m-product-code"></b></li>
+              </ul>
+
+          </div>
+
+          <div class="col-md-4">
+              <div class="form-group" id="m-product-size-div">
+                <label for="m-product-size">Choose Size</label>
+                <select class="form-control" id="m-product-size"></select>
+              </div>
+              <div class="form-group" id="m-product-color-div">
+                <label for="m-product-color">Choose Color</label>
+                <select class="form-control" id="m-product-color"></select>
+              </div>
+              <div class="form-group">
+                <label for="qty">Quantity</label>
+                <input type="number" class="form-control" id="qty" min="1" max="10" value="1">
+              </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
