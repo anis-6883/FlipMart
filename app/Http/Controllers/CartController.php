@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Cart as ShoppingcartCart;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -49,5 +50,26 @@ class CartController extends Controller
 
             return response()->json(['success' => "Successfully Added On Your Cart!"]);
         }
+    }
+
+    // get data from Cart
+    public function getFromCart()
+    {
+        $carts = Cart::content();
+        $cartQty = Cart::count();
+        $cartTotal = Cart::total();
+
+        return response()->json([
+            'carts' => $carts,
+            'cartQty' => $cartQty,
+            'cartTotal' => round($cartTotal),
+        ]);
+    }
+
+    // product remove from Cart
+    public function removeFromCart($rowId)
+    {
+        Cart::remove($rowId);
+        return response()->json(['success' => "Successfully Delete From Your Cart!"]);
     }
 }

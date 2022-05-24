@@ -140,29 +140,29 @@
           <div class="dropdown dropdown-cart"> <a href="#" class="dropdown-toggle lnk-cart" data-toggle="dropdown">
             <div class="items-cart-inner">
               <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
-              <div class="basket-item-count"><span class="count">2</span></div>
-              <div class="total-price-basket"> <span class="lbl">cart -</span> <span class="total-price"> <span class="sign">$</span><span class="value">600.00</span> </span> </div>
+              <div class="basket-item-count"><span class="count" id="c-cartQty">2</span></div>
+              <div class="total-price-basket"> 
+                <span class="lbl">cart -</span> 
+                <span class="total-price"> 
+                  <span class="sign">$</span>
+                  <span class="value" id="c-cartTotal"></span> 
+                </span> 
+              </div>
             </div>
             </a>
             <ul class="dropdown-menu">
               <li>
-                <div class="cart-item product-summary">
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <div class="image"> <a href="detail.html"><img src="{{ asset("frontend_assets/images/cart.jpg") }}" alt=""></a> </div>
-                    </div>
-                    <div class="col-xs-7">
-                      <h3 class="name"><a href="index.php?page-detail">Simple Product</a></h3>
-                      <div class="price">$600.00</div>
-                    </div>
-                    <div class="col-xs-1 action"> <a href="#"><i class="fa fa-trash"></i></a> </div>
-                  </div>
+
+                <!-- Start Mini Cart With AJAX -->
+
+                <div id="loadMiniCart">
+
                 </div>
-                <!-- /.cart-item -->
-                <div class="clearfix"></div>
-                <hr>
+
+                <!-- End Mini Cart With AJAX -->
+                
                 <div class="clearfix cart-total">
-                  <div class="pull-right"> <span class="text">Sub Total :</span><span class='price'>$600.00</span> </div>
+                  <div class="pull-right"> <span class="text">Sub Total :</span><span class='price' id="c-cartSubTotal">$600.00</span> </div>
                   <div class="clearfix"></div>
                   <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
                 <!-- /.cart-total--> 
@@ -374,64 +374,3 @@
 </header>
 
 <!-- ============================================== HEADER : END ============================================== -->
-
-<!--  Start Add to Cart Product Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="m-product-name"></h5>
-        <button id="closeModel" style="margin-top: -21px" type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        <div class="row">
-
-          <div class="col-md-4">
-              <img id="m-product-image" src="" class="img-thumbnail" alt="Product Images">
-          </div>
-
-          <div class="col-md-4">
-
-              <ul class="list-group">
-                <li class="list-group-item">Category: <b id="m-product-category"></b></li>
-                <li class="list-group-item">Subcategory: <b id="m-product-subcategory"></b></li>
-                <li class="list-group-item">Price: &#2547;<b id="m-product-price"></b></li>
-                <li class="list-group-item">Discount: <b id="m-product-discount"></b>%</li>
-                <li class="list-group-item">Product Code: <b id="m-product-code"></b></li>
-              </ul>
-
-          </div>
-
-          <div class="col-md-4">
-
-              <div class="form-group" id="m-product-size-div">
-                <label for="m-product-size">Choose Size</label>
-                <select class="form-control" id="m-product-size"></select>
-              </div>
-
-              <div class="form-group" id="m-product-color-div">
-                <label for="m-product-color">Choose Color</label>
-                <select class="form-control" id="m-product-color"></select>
-              </div>
-
-              <div class="form-group">
-                <label for="m-product-qty">Quantity</label>
-                <input type="number" class="form-control" id="m-product-qty" min="1" max="10" value="1">
-              </div>
-
-          </div>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <input type="hidden" id="m-product-id">
-        <button type="submit" class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--  End Add to Cart Product Modal -->

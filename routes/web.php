@@ -52,7 +52,9 @@ Route::get('/sub-subCategoryWiseProducts/{sub_subCat_id}/{sub_subCat_name}', [Ho
 Route::post('/fetchProductData', [AjaxController::class, 'fetchProductData'])->name('fetchProductData');
 
 // Cart Route
-Route::post('/product/addToCart/{product_id}', [CartController::class, 'addToCart'])->name('product.addToCart');
+Route::post('/cart/addToCart/{product_id}', [CartController::class, 'addToCart'])->name('cart.addToCart');
+Route::get('/cart/getFromCart', [CartController::class, 'getFromCart'])->name('cart.getFromCart');
+Route::post('/cart/removeFromCart/{rowId}', [CartController::class, 'removeFromCart'])->name('cart.removeFromCart');
 
 // Admin Login Route
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

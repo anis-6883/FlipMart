@@ -121,6 +121,66 @@
     </div>
   </footer>
   <!-- ============================================================= FOOTER : END============================================================= --> 
+
+<!--  Start Add to Cart Product Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="m-product-name"></h5>
+        <button id="closeModel" style="margin-top: -21px" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+
+          <div class="col-md-4">
+              <img id="m-product-image" src="" class="img-thumbnail" alt="Product Images">
+          </div>
+
+          <div class="col-md-4">
+
+              <ul class="list-group">
+                <li class="list-group-item">Category: <b id="m-product-category"></b></li>
+                <li class="list-group-item">Subcategory: <b id="m-product-subcategory"></b></li>
+                <li class="list-group-item">Price: &#2547;<b id="m-product-price"></b></li>
+                <li class="list-group-item">Discount: <b id="m-product-discount"></b>%</li>
+                <li class="list-group-item">Product Code: <b id="m-product-code"></b></li>
+              </ul>
+
+          </div>
+
+          <div class="col-md-4">
+
+              <div class="form-group" id="m-product-size-div">
+                <label for="m-product-size">Choose Size</label>
+                <select class="form-control" id="m-product-size"></select>
+              </div>
+
+              <div class="form-group" id="m-product-color-div">
+                <label for="m-product-color">Choose Color</label>
+                <select class="form-control" id="m-product-color"></select>
+              </div>
+
+              <div class="form-group">
+                <label for="m-product-qty">Quantity</label>
+                <input type="number" class="form-control" id="m-product-qty" min="1" max="10" value="1">
+              </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="m-product-id">
+        <button type="submit" class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  End Add to Cart Product Modal -->
   
   <!-- For demo purposes – can be removed on production --> 
   
@@ -141,73 +201,75 @@
   <script src="{{ asset("frontend_assets/js/sweetAlert.js") }}"></script>
   <script src="{{ asset("frontend_assets/js/scripts.js") }}"></script>
 
-  <!-- Start Add to Cart Model AJAX Script -->
-  <script>
+<!-- Start Add to Cart Model AJAX Script -->
 
-    function fetchProductData(product_id) {
-        $(function() {
+<script>
 
-            $.ajax({
-                url: "{{ route('fetchProductData') }}",
-                type: "POST",
-                data: {
-                    product_id,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(result) {
+  function fetchProductData(product_id) {
+      $(function() {
 
-                    $('#m-product-name').text(result.product.product_name);
-                    $('#m-product-category').text(result.product.category.category_name);
-                    $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
+          $.ajax({
+              url: "{{ route('fetchProductData') }}",
+              type: "POST",
+              data: {
+                  product_id,
+                  _token: "{{ csrf_token() }}"
+              },
+              success: function(result) {
 
-                    if(result.product.product_discounted_price)
-                    {
-                      $('#m-product-discount').text(result.product.product_discounted_price);
-                    }else{
-                      $('#m-product-discount').text(0);
-                    }
+                  $('#m-product-name').text(result.product.product_name);
+                  $('#m-product-category').text(result.product.category.category_name);
+                  $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
 
-                    $('#m-product-code').text(result.product.product_code);
-                    $('#m-product-price').text(result.product_price);
-                    $('#m-product-image').attr('src', "uploads/products/" + result.product.product_master_image);
+                  if(result.product.product_discounted_price)
+                  {
+                    $('#m-product-discount').text(result.product.product_discounted_price);
+                  }else{
+                    $('#m-product-discount').text(0);
+                  }
 
-                    $('#m-product-color').empty();
-                    if(result.product_colors != "")
-                    {
-                      $.each(result.product_colors, function(key, value){
-                        $('#m-product-color').append(`<option value=${value}>${value}</option>`);
-                      });
-                      $('#m-product-color-div').show();
-                    }
-                    else{
-                      $('#m-product-color-div').hide();
-                    }
-                    
+                  $('#m-product-code').text(result.product.product_code);
+                  $('#m-product-price').text(result.product_price);
+                  $('#m-product-image').attr('src', "uploads/products/" + result.product.product_master_image);
 
-                    $('#m-product-size').empty();
-                    if(result.product_sizes != "")
-                    {
-                      $.each(result.product_sizes, function(key, value){
-                        $('#m-product-size').append(`<option value=${value}>${value}</option>`);
-                      });
-                      $('#m-product-size-div').show();
-                    }
-                    else{
-                      $('#m-product-size-div').hide();
-                    }
+                  $('#m-product-color').empty();
+                  if(result.product_colors != "")
+                  {
+                    $.each(result.product_colors, function(key, value){
+                      $('#m-product-color').append(`<option value=${value}>${value}</option>`);
+                    });
+                    $('#m-product-color-div').show();
+                  }
+                  else{
+                    $('#m-product-color-div').hide();
+                  }
+                  
 
-                    $('#m-product-id').val(result.product.id); // push product id for submit it
-                    $('#m-product-qty').val(1); // push quantity default 1
-                }
-            });
-        });
-    }
-  </script>
-  <!-- End Add to Cart Model AJAX Script -->
+                  $('#m-product-size').empty();
+                  if(result.product_sizes != "")
+                  {
+                    $.each(result.product_sizes, function(key, value){
+                      $('#m-product-size').append(`<option value=${value}>${value}</option>`);
+                    });
+                    $('#m-product-size-div').show();
+                  }
+                  else{
+                    $('#m-product-size-div').hide();
+                  }
+
+                  $('#m-product-id').val(result.product.id); // push product id for submit it
+                  $('#m-product-qty').val(1); // push quantity default 1
+              }
+          });
+      });
+  }
+</script>
+
+<!-- End Add to Cart Model AJAX Script -->
 
 <!-- Start Add to Cart Function -->
 
-  <script>
+<script>
 
       function addToCart(){
 
@@ -218,7 +280,7 @@
               var product_size = $('#m-product-size option:selected').text();
               var product_qty = $('#m-product-qty').val();
 
-              var url = "{{ route('product.addToCart', ':product_id') }}";
+              var url = "{{ route('cart.addToCart', ':product_id') }}";
               url = url.replace(':product_id', product_id);
 
               $.ajax({
@@ -232,8 +294,8 @@
                 },
                 success: function(result)
                 {
+                  miniCart();
                   $('#closeModel').click();
-                  console.log(result);
 
                   // start sweet alert
 
@@ -257,9 +319,115 @@
           
       }
 
-  </script>
-  
+</script>
+
 <!-- End Add to Cart Function -->
+
+<!-- Start Get data from Cart -->
+
+<script>
+
+    function miniCart()
+    {
+      $(function(){
+
+          $.ajax({
+              type: "GET",
+              url: "{{ route('cart.getFromCart') }}",
+              dataType: "json",
+              success: function(res)
+              {
+                var miniCart = "";
+                $('#c-cartQty').text(res.cartQty);
+                $('span[ id="c-cartTotal" ]').text(res.cartTotal);
+                $('span[ id="c-cartSubTotal" ]').text(res.cartTotal);
+
+                $.each(res.carts, function(key, value){
+
+                    miniCart += `
+                    <div class="cart-item product-summary">
+                      <div class="row">
+                        <div class="col-xs-4">
+                            <div class="image"> 
+                              <a href="#">
+                                <img src="{{ asset('uploads/products/${value.options.image}') }}" alt="product image">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-7">
+                            <h3 class="name"><a href="#">${value.name}</a></h3>
+                            <div class="price">$${value.price} * ${value.qty}</div>
+                        </div>
+                              <div class="col-xs-1 action"> 
+                                <button type="submit" id="${value.rowId}" onclick="removeFromCart(this.id)">
+                                  <i class="fa fa-trash"></i>
+                                </button> 
+                              </div>
+                        </div>
+                    </div>
+                    <!-- /.cart-item -->
+                    <div class="clearfix"></div>
+                    <hr>`;
+
+                });
+
+                $('#loadMiniCart').html(miniCart);
+              }
+          });
+      })
+    }
+
+    miniCart();
+
+</script>
+
+<!-- End Get Data From Cart -->
+
+<!-- Start Remove From Cart -->
+
+<script>
+
+    function removeFromCart(rowId){
+
+      var url = "{{ route('cart.removeFromCart', ':rowId') }}";
+      url = url.replace(':rowId', rowId);
+
+      $(function(){
+        $.ajax({
+          type: "POST",
+          url,
+          data:{
+            _token: "{{ csrf_token() }}"
+          },
+          success: function(res){
+
+            miniCart();
+            $('#closeModel').click();
+
+            // start sweet alert
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 3000
+            })
+
+            Toast.fire({
+              // type: 'success',
+              title: res.success
+            })
+
+            // end sweet alert
+          }
+        });
+      });
+    }
+
+</script>
+
+<!-- End Remove From Cart -->
 
   </body>
 </html>

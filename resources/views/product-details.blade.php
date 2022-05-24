@@ -145,7 +145,7 @@
                 
                 <div class="col-sm-6 col-md-7 product-info-block">
                   <div class="product-info">
-                    <h1 class="name">{{ $product->product_name }}</h1>
+                    <h1 class="name" id="m-product-name">{{ $product->product_name }}</h1>
         
                     <div class="rating-reviews m-t-20">
                       <div class="row">
@@ -254,10 +254,10 @@
                             <div class="col-sm-6">
 
                               <div class="form-group">
-                                <label for="" class="info-title control-label">Choose Size</label>
-                                <select class="form-control unicase-form-control selectpicker">
+                                <label for="m-product-size" class="info-title control-label">Choose Size</label>
+                                <select id="m-product-size" class="form-control unicase-form-control selectpicker" required>
 
-                                  <option value="" selected disabled>-- Choose Size --</option>
+                                  {{-- <option value="" selected disabled>-- Choose Size --</option> --}}
                                   @foreach ($product_sizes as $size)
                                   <option value="{{ $size }}">{{ ucwords($size) }}</option>
                                   @endforeach
@@ -278,9 +278,9 @@
                           <div class="col-sm-6">
                           
                             <div class="form-group">
-                              <label for="" class="info-title control-label">Choose Color</label>
-                              <select class="form-control unicase-form-control selectpicker">
-                                <option value="" selected disabled>-- Choose Color --</option>
+                              <label for="m-product-color" class="info-title control-label">Choose Color</label>
+                              <select id="m-product-color" class="form-control unicase-form-control selectpicker" required>
+                                {{-- <option value="" selected disabled>-- Choose Color --</option> --}}
                                   @foreach ($product_colors as $color)
                                   <option value="{{ $color }}">{{ ucwords($color) }}</option>
                                   @endforeach
@@ -301,11 +301,18 @@
                     <div class="quantity-container info-container">
 
                       <div class="row">
+                        
                         <div class="col-sm-2">
                           <span class="label">Qty :</span>
                         </div>
-        
+
                         <div class="col-sm-2">
+                          <div class="form-group">
+                            <input style="padding: 6px 6px;" type="number" class="form-control" id="m-product-qty" min="1" max="10" value="1">
+                          </div>
+                        </div>
+        
+                        {{-- <div class="col-sm-2">
                           <div class="cart-quantity">
                             <div class="quant-input">
                               <div class="arrows">
@@ -323,14 +330,17 @@
                               <input type="text" value="1" />
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
         
                         <div class="col-sm-7">
-                          <a href="#" class="btn btn-primary"
-                            ><i class="fa fa-shopping-cart inner-right-vs"></i>
-                            ADD TO CART</a
-                          >
+                          <input type="hidden" id="m-product-id" value="{{ $product->id }}">
+                          <button class="btn btn-primary" type="submit" onclick="addToCart()">
+                            <i class="fa fa-shopping-cart inner-right-vs"></i>
+                            ADD TO CART
+                          </button>
                         </div>
+
+
                       </div>
                       <!-- /.row -->
                     </div>
