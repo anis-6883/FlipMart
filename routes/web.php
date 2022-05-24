@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
@@ -25,7 +26,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// user authentication
+// User Authentication Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register', [UserController::class, 'register'])->name('user.register')->middleware('guest');
 Route::post('/register', [UserController::class, 'register'])->name('user.register')->middleware('guest');
@@ -43,14 +44,17 @@ Route::get('/user/profile', [UserController::class, 'userProfile'])->name('user.
 Route::get('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
 Route::post('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
 
+// Product Route
 Route::get('/productDetails/{id}/{slug}', [HomeController::class, 'productDetails'])->name('productDetails');
 Route::get('/tagWiseProducts/{tag}', [HomeController::class, 'tagWiseProducts'])->name('tagWiseProducts');
 Route::get('/subCategoryWiseProducts/{subCat_id}/{subCat_name}', [HomeController::class, 'subCategoryWiseProducts'])->name('subCategoryWiseProducts');
 Route::get('/sub-subCategoryWiseProducts/{sub_subCat_id}/{sub_subCat_name}', [HomeController::class, 'sub_subCategoryWiseProducts'])->name('sub_subCategoryWiseProducts');
 Route::post('/fetchProductData', [AjaxController::class, 'fetchProductData'])->name('fetchProductData');
 
+// Cart Route
+Route::post('/product/addToCart/{product_id}', [CartController::class, 'addToCart'])->name('product.addToCart');
 
-// admin login page
+// Admin Login Route
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 

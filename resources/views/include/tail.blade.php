@@ -138,16 +138,14 @@
   <script src="{{ asset("frontend_assets/js/lightbox.min.js") }}"></script> 
   <script src="{{ asset("frontend_assets/js/bootstrap-select.min.js") }}"></script> 
   <script src="{{ asset("frontend_assets/js/wow.min.js") }}"></script> 
+  <script src="{{ asset("frontend_assets/js/sweetAlert.js") }}"></script>
   <script src="{{ asset("frontend_assets/js/scripts.js") }}"></script>
 
-  {{-- Add to Cart Model AJAX Script --}}
+  <!-- Start Add to Cart Model AJAX Script -->
   <script>
 
     function fetchProductData(product_id) {
         $(function() {
-
-            // var statusBtn = $(`#status${category_id}`);
-            // var statusText = statusBtn.text();
 
             $.ajax({
                 url: "{{ route('fetchProductData') }}",
@@ -157,17 +155,18 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(result) {
-                    console.log(result);
+
                     $('#m-product-name').text(result.product.product_name);
                     $('#m-product-category').text(result.product.category.category_name);
                     $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
+
                     if(result.product.product_discounted_price)
                     {
                       $('#m-product-discount').text(result.product.product_discounted_price);
                     }else{
                       $('#m-product-discount').text(0);
                     }
-                    
+
                     $('#m-product-code').text(result.product.product_code);
                     $('#m-product-price').text(result.product_price);
                     $('#m-product-image').attr('src', "uploads/products/" + result.product.product_master_image);
@@ -196,11 +195,71 @@
                     else{
                       $('#m-product-size-div').hide();
                     }
+
+                    $('#m-product-id').val(result.product.id); // push product id for submit it
+                    $('#m-product-qty').val(1); // push quantity default 1
                 }
             });
         });
     }
+  </script>
+  <!-- End Add to Cart Model AJAX Script -->
+
+<!-- Start Add to Cart Function -->
+
+  <script>
+
+      function addToCart(){
+
+          $(function()
+          {
+              var product_id = $('#m-product-id').val();
+              var product_color = $('#m-product-color option:selected').text();
+              var product_size = $('#m-product-size option:selected').text();
+              var product_qty = $('#m-product-qty').val();
+
+              var url = "{{ route('product.addToCart', ':product_id') }}";
+              url = url.replace(':product_id', product_id);
+
+              $.ajax({
+                url,
+                type: "POST",
+                data:{
+                  product_color,
+                  product_size,
+                  product_qty,
+                  _token: "{{ csrf_token() }}",
+                },
+                success: function(result)
+                {
+                  $('#closeModel').click();
+                  console.log(result);
+
+                  // start sweet alert
+
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000
+                  })
+
+                  Toast.fire({
+                    // type: 'success',
+                    title: result.success
+                  })
+
+                  // end sweet alert
+                }
+              });
+          });
+          
+      }
 
   </script>
+  
+<!-- End Add to Cart Function -->
+
   </body>
-  </html>
+</html>

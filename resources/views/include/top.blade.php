@@ -375,13 +375,13 @@
 
 <!-- ============================================== HEADER : END ============================================== -->
 
-<!-- Add to Cart Product Modal -->
+<!--  Start Add to Cart Product Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="m-product-name"></h5>
-        <button style="margin-top: -21px" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button id="closeModel" style="margin-top: -21px" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -406,26 +406,32 @@
           </div>
 
           <div class="col-md-4">
+
               <div class="form-group" id="m-product-size-div">
                 <label for="m-product-size">Choose Size</label>
                 <select class="form-control" id="m-product-size"></select>
               </div>
+
               <div class="form-group" id="m-product-color-div">
                 <label for="m-product-color">Choose Color</label>
                 <select class="form-control" id="m-product-color"></select>
               </div>
-              <div class="form-group">
-                <label for="qty">Quantity</label>
-                <input type="number" class="form-control" id="qty" min="1" max="10" value="1">
-              </div>
-          </div>
 
+              <div class="form-group">
+                <label for="m-product-qty">Quantity</label>
+                <input type="number" class="form-control" id="m-product-qty" min="1" max="10" value="1">
+              </div>
+
+          </div>
         </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add to Cart</button>
+        <input type="hidden" id="m-product-id">
+        <button type="submit" class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
       </div>
     </div>
   </div>
 </div>
+
+<!--  End Add to Cart Product Modal -->
