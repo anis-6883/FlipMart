@@ -180,11 +180,7 @@
     </div>
   </div>
 </div>
-<!--  End Add to Cart Product Modal -->
-  
-  <!-- For demo purposes – can be removed on production --> 
-  
-  <!-- For demo purposes – can be removed on production : End --> 
+<!--  End Add to Cart Product Modal --> 
   
   <!-- JavaScripts placed at the end of the document so the pages load faster --> 
   <script src="{{ asset("frontend_assets/js/jquery-1.11.1.min.js") }}"></script> 
@@ -205,64 +201,71 @@
 
 <script>
 
-  function fetchProductData(product_id) {
-      $(function() {
+      function fetchProductData(product_id) {
+          $(function() {
 
-          $.ajax({
-              url: "{{ route('fetchProductData') }}",
-              type: "POST",
-              data: {
-                  product_id,
-                  _token: "{{ csrf_token() }}"
-              },
-              success: function(result) {
+              $.ajax({
+                  url: "{{ route('fetchProductData') }}",
+                  type: "POST",
+                  data: {
+                      product_id,
+                      _token: "{{ csrf_token() }}"
+                  },
+                  success: function(result) {
 
-                  $('#m-product-name').text(result.product.product_name);
-                  $('#m-product-category').text(result.product.category.category_name);
-                  $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
+                      $('#m-product-name').text(result.product.product_name);
+                      $('#m-product-category').text(result.product.category.category_name);
+                      $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
 
-                  if(result.product.product_discounted_price)
-                  {
-                    $('#m-product-discount').text(result.product.product_discounted_price);
-                  }else{
-                    $('#m-product-discount').text(0);
+                      if(result.product.product_discounted_price)
+                      {
+                        $('#m-product-discount').text(result.product.product_discounted_price);
+                      }else{
+                        $('#m-product-discount').text(0);
+                      }
+
+                      $('#m-product-code').text(result.product.product_code);
+                      $('#m-product-price').text(result.product_price);
+
+                      // push image src
+                      var img_path = "{{ asset('uploads/products/:img_name') }}";
+                      img_path = img_path.replace(':img_name', result.product.product_master_image);
+                      $('#m-product-image').attr('src', img_path);
+
+                      // product color
+                      $('#m-product-color').empty();
+                      if(result.product_colors != "")
+                      {
+                        $.each(result.product_colors, function(key, value){
+                          $('#m-product-color').append(`<option value=${value}>${value}</option>`);
+                        });
+                        $('#m-product-color-div').show();
+                      }
+                      else{
+                        $('#m-product-color-div').hide();
+                      }
+                      
+                      // product size
+                      $('#m-product-size').empty();
+                      if(result.product_sizes != "")
+                      {
+                        $.each(result.product_sizes, function(key, value){
+                          $('#m-product-size').append(`<option value=${value}>${value}</option>`);
+                        });
+                        $('#m-product-size-div').show();
+                      }
+                      else{
+                        $('#m-product-size-div').hide();
+                      }
+
+                      // push product id for submit it
+                      $('#m-product-id').val(result.product.id); 
+                      $('#m-product-qty').val(1); // push quantity default 1
                   }
-
-                  $('#m-product-code').text(result.product.product_code);
-                  $('#m-product-price').text(result.product_price);
-                  $('#m-product-image').attr('src', "uploads/products/" + result.product.product_master_image);
-
-                  $('#m-product-color').empty();
-                  if(result.product_colors != "")
-                  {
-                    $.each(result.product_colors, function(key, value){
-                      $('#m-product-color').append(`<option value=${value}>${value}</option>`);
-                    });
-                    $('#m-product-color-div').show();
-                  }
-                  else{
-                    $('#m-product-color-div').hide();
-                  }
-                  
-
-                  $('#m-product-size').empty();
-                  if(result.product_sizes != "")
-                  {
-                    $.each(result.product_sizes, function(key, value){
-                      $('#m-product-size').append(`<option value=${value}>${value}</option>`);
-                    });
-                    $('#m-product-size-div').show();
-                  }
-                  else{
-                    $('#m-product-size-div').hide();
-                  }
-
-                  $('#m-product-id').val(result.product.id); // push product id for submit it
-                  $('#m-product-qty').val(1); // push quantity default 1
-              }
+              });
           });
-      });
-  }
+      }
+
 </script>
 
 <!-- End Add to Cart Model AJAX Script -->
@@ -273,8 +276,8 @@
 
       function addToCart(){
 
-          $(function()
-          {
+          $(function(){
+
               var product_id = $('#m-product-id').val();
               var product_color = $('#m-product-color option:selected').text();
               var product_size = $('#m-product-size option:selected').text();
@@ -327,8 +330,8 @@
 
 <script>
 
-    function miniCart()
-    {
+    function miniCart(){
+
       $(function(){
 
           $.ajax({
@@ -428,6 +431,73 @@
 </script>
 
 <!-- End Remove From Cart -->
+
+<!-- Start Add TO Wishlist -->
+
+<script>
+
+    function addToWishList(product_id){
+
+      $(function(){
+        $.ajax({
+          type: "POST",
+          url: "{{ route('wishlist.addToWishlist') }}",
+          data:{
+            _token: "{{ csrf_token() }}",
+            product_id
+          },
+          success: function(res){
+            
+            countWishlist();
+            // start sweet alert
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            })
+
+            if($.isEmptyObject(res.error)){
+
+              Toast.fire({
+                title: res.success,
+                icon: 'success',
+              })
+            }
+            else{
+              Toast.fire({
+                title: res.error,
+                icon: 'error',
+              })
+            }
+
+            // end sweet alert
+          }
+        });
+      });
+    }
+
+    function countWishlist()
+    {
+      $(function(){
+        $.ajax({
+          type: "GET",
+          url: "{{ route('wishlist.countWishlist') }}",
+          success: function(res){
+            $('#wishlist-count').text(res.count);
+          }
+        });
+      });
+    }
+
+    countWishlist();
+
+</script>
+
+<!-- End Add TO Wishlist -->
+
+@yield('javascript')
 
   </body>
 </html>

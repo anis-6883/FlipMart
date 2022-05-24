@@ -41,10 +41,22 @@
 
         <div class="cnt-account">
           <ul class="list-unstyled">
-
-            <li><a href="#"><i class="icon fa fa-heart"></i>Wishlist</a></li>
-            <li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
+            
+            @auth
+              <li>
+                <a href="{{ route('wishlist.index') }}">
+                  Wishlist 
+                  <span 
+                    style="padding: 1px 7px; color:#000; background-color:#fff" 
+                    class="badge badge-secondary" 
+                    id="wishlist-count">
+                    
+                  </span>
+                </a>
+              </li> 
+            @endauth
             <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
+            <li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
             @guest
               <li><a href="{{ route('user.login') }}"><i class="icon fa fa-lock"></i>Login</a></li>
             @endguest
@@ -162,7 +174,7 @@
                 <!-- End Mini Cart With AJAX -->
                 
                 <div class="clearfix cart-total">
-                  <div class="pull-right"> <span class="text">Sub Total :</span><span class='price' id="c-cartSubTotal">$600.00</span> </div>
+                  <div class="pull-right"> <span class="text">Sub Total : $</span><span class='price' id="c-cartSubTotal"></span> </div>
                   <div class="clearfix"></div>
                   <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
                 <!-- /.cart-total--> 

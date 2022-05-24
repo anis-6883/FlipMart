@@ -14,6 +14,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\Sub_SubcategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,12 +57,21 @@ Route::post('/cart/addToCart/{product_id}', [CartController::class, 'addToCart']
 Route::get('/cart/getFromCart', [CartController::class, 'getFromCart'])->name('cart.getFromCart');
 Route::post('/cart/removeFromCart/{rowId}', [CartController::class, 'removeFromCart'])->name('cart.removeFromCart');
 
+// Wishlist Route
+Route::group(['middleware' => 'auth'], function()
+{
+    Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('/wishlist/count', [WishlistController::class, 'countWishlist'])->name('wishlist.countWishlist');
+    Route::post('/wishlist/store', [WishlistController::class, 'store'])->name('wishlist.addToWishlist');
+    Route::delete('/wishlist/delete/{product_id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+});
+
 // Admin Login Route
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 
-Route::group(['middleware' => 'admin_auth'], function(){
-
+Route::group(['middleware' => 'admin_auth'], function()
+{
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::delete('/product-images/{id}/destoryAll', [ProductImageController::class, 'destoryAll'])->name('product-images.destroyAll');
