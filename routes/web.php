@@ -58,13 +58,10 @@ Route::get('/cart/getFromCart', [CartController::class, 'getFromCart'])->name('c
 Route::post('/cart/removeFromCart/{rowId}', [CartController::class, 'removeFromCart'])->name('cart.removeFromCart');
 
 // Wishlist Route
-Route::group(['middleware' => 'auth'], function()
-{
-    Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::get('/wishlist/count', [WishlistController::class, 'countWishlist'])->name('wishlist.countWishlist');
-    Route::post('/wishlist/store', [WishlistController::class, 'store'])->name('wishlist.addToWishlist');
-    Route::delete('/wishlist/delete/{product_id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
-});
+Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');
+Route::get('/wishlist/count', [WishlistController::class, 'countWishlist'])->name('wishlist.countWishlist')->middleware('auth');
+Route::post('/wishlist/store', [WishlistController::class, 'store'])->name('wishlist.addToWishlist');
+Route::delete('/wishlist/delete/{product_id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy')->middleware('auth');
 
 // Admin Login Route
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

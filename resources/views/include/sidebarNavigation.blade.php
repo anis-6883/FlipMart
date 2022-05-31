@@ -1,5 +1,5 @@
 @php
-$categories = App\Models\Category::where('category_status', 'Active')->orderBy('category_name')->get();
+$categories = App\Models\Category::where('category_status', 'Active')->get();
 @endphp
 
 <!-- ================================== SIDEBAR NAVIGATION ================================== -->

@@ -1,7 +1,7 @@
 @php
   $special_offer = App\Models\Product::where([
             ['product_status', 'Active'],
-            ['product_offer', 'Special Offer']
+            ['special_offer', '1']
         ])->limit(3)->get();
 @endphp
     

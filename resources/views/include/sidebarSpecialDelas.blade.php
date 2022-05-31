@@ -2,7 +2,7 @@
 @php
   $special_deals = App\Models\Product::where([
             ['product_status', 'Active'],
-            ['product_offer', 'Special Deals']
+            ['special_offer', '1']
         ])->limit(3)->get();
 @endphp
     

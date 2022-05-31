@@ -4,15 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        // $categories = Category::all();
-        // $categories = DB::table('categories')->orderBy('created_at', 'desc')->get();
-        $categories = Category::orderBy('created_at', 'desc')->get();
+        $categories = Category::latest()->get();
         return view('admin.list-category', compact('categories'));
     }
 
@@ -30,6 +27,7 @@ class CategoryController extends Controller
         ]);
         
         $cat_obj->category_name = $req->post('category_name');
+        $cat_obj->category_order = $req->post('category_order');
         $cat_obj->save();
 
         // Category::create($valid_data);
@@ -40,29 +38,33 @@ class CategoryController extends Controller
     public function edit($category_id)
     {
         $category = Category::find($category_id);
-        $cat_id = $category->id;
-        $cat_name = $category->category_name;
-        return view('admin.edit-category', compact('cat_id', 'cat_name'));
+        return view('admin.edit-category', compact('category'));
     }
 
     public function update(Request $req, $category_id)
     {
-        $valid_data = $req->validate([
-            'category_name' => 'required|unique:categories'
-        ]);
+        $category = Category::find($category_id);
 
-        Category::find($category_id)->update($valid_data);
+        $isExist = Category::where([
+            ['category_name', $req->category_name], 
+            ['category_order', $req->category_order]
+            ])->exists();
 
-        $req->session()->flash('success', 'Category is Updated Successfully!');
-        return redirect()->route('category.index');
+        if($isExist)
+            return back()->withErrors(['isExist' => 'The category name has already been taken.']);
+
+        $category->category_name = $req->category_name;
+        $category->category_order = $req->category_order;
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category is Updated Successfully!');
     }
 
-    public function destroy(Request $req, $category)
+    public function destroy($category_id)
     {
-        $category = Category::find($category);
+        $category = Category::find($category_id);
         $category_name = $category->category_name;
         $category->delete();
-        $req->session()->flash('success', "Category \"$category_name\" has Deleted Successfully...");
-        return redirect()->back();
+        return redirect()->back()->with('success', "Category \"$category_name\" has Deleted Successfully...");
     }
 }

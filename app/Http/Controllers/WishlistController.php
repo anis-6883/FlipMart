@@ -35,8 +35,8 @@ class WishlistController extends Controller
 
             return response()->json(['error' => 'This Product Already Exists!']);
         }
-
-        return response()->json(['error' => 'At First Login Your Account!']);
+        else
+            return response()->json(['error' => 'At First Login Your Account!']);
     }
 
     // Count Wishlist

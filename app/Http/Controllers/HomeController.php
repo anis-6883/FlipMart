@@ -13,11 +13,11 @@ class HomeController extends Controller
     {
         $products = Product::where('product_status', 'Active')->orderBy('product_name')->get();
         $sliders = Slider::where('slider_status', 'Active')->orderBy('slider_order', 'ASC')->limit(3)->get();
-        $categories = Category::where('category_status', 'Active')->orderBy('category_name')->get();
+        $categories = Category::where('category_status', 'Active')->get();
 
         $featured = Product::where([
             ['product_status', 'Active'],
-            ['product_offer', 'Featured']
+            ['featured', '1']
         ])->limit(6)->get();
 
         return view('index', compact('sliders', 'categories', 'products', 'featured'));

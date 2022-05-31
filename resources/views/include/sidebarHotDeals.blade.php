@@ -1,7 +1,7 @@
 @php
   $hot_deals = App\Models\Product::where([
             ['product_status', 'Active'],
-            ['product_offer', 'Hot Deals'],
+            ['hot_deals', '1'],
             ['product_discounted_price', '!=', NULL]
         ])->limit(3)->get();
 @endphp 

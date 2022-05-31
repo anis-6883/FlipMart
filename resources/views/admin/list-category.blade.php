@@ -55,6 +55,7 @@
                                         <th>Serial No</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
+                                        <th>Category Order</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -76,6 +77,7 @@
                                                     </button>
                                                 @endif
                                             </td>
+                                            <td>{{ $category->category_order }}</td>
                                             <td>
                                                 {{-- @php
                                                     $date = date_parse($category->created_at);
@@ -122,6 +124,7 @@
                                         <th>Serial No</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
+                                        <th>Category Order</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>

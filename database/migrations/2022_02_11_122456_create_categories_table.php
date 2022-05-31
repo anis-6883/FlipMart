@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('category_name', 127)->unique();
             $table->enum('category_status', ['Active', 'Inactive'])->default('Inactive');
+            $table->integer('category_order')->default(0);
             $table->dateTimeTz('created_at');
             $table->dateTimeTz('updated_at');
         });

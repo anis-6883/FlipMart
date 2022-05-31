@@ -25,30 +25,39 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Update A Category</h4>
                         <div class="basic-form">
-                            <form action="{{ route('category.update', $cat_id) }}" method="post">
+                            <form action="{{ route('category.update', $category->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Category Name</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="category_name" 
-                                            class="form-control @error('category_name') is-invalid @enderror" 
+                                            class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Category Name..." 
                                             required autofocus autocomplete="off"
-                                            value="{{ $cat_name }}">
+                                            value="{{ $category->category_name }}">
 
                                         <div class="invalid-feedback">
-                                            @error('category_name')
+                                            @error('isExist')
                                                 {{ $message }}
                                             @enderror
                                         </div>
                                     </div>
+
+                                    <label class="col-sm-2 col-form-label">Order</label>
+                                    <div class="col-sm-10">
+                                        <input 
+                                            type="number" 
+                                            name="category_order" 
+                                            class="form-control"
+                                            value="{{ $category->category_order }}">
+                                    </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-10">
-                                        <button name="save_category" type="submit" class="btn btn-primary">Submit</button>
+                                        <button name="edit_category" type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
                             </form>

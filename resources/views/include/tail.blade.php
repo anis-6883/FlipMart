@@ -448,7 +448,10 @@
           },
           success: function(res){
             
-            countWishlist();
+            @if (Auth::check())
+              countWishlist();
+            @endif
+
             // start sweet alert
 
             const Toast = Swal.mixin({
@@ -478,8 +481,8 @@
       });
     }
 
-    function countWishlist()
-    {
+    function countWishlist(){
+      
       $(function(){
         $.ajax({
           type: "GET",
@@ -491,7 +494,9 @@
       });
     }
 
-    countWishlist();
+    @if (Auth::check())
+      countWishlist();
+    @endif
 
 </script>
 

@@ -28,7 +28,7 @@
                                 @csrf
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Category</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="category_name" 
@@ -41,6 +41,14 @@
                                                 {{ $message }}
                                             @enderror
                                         </div>
+                                    </div>
+                                    <label class="col-sm-2 col-form-label">Order</label>
+                                    <div class="col-sm-10">
+                                        <input 
+                                            type="number" 
+                                            name="category_order" 
+                                            class="form-control"
+                                            value="0">
                                     </div>
                                 </div>
                                 <div class="form-group row">

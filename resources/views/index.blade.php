@@ -404,7 +404,7 @@
                   </div>
                   <!-- /.product-info -->
                   
-                  <div class="cart clearfix animate-effect">
+                  {{-- <div class="cart clearfix animate-effect m-auto">
                     <div class="action">
                       <ul class="list-unstyled">
 
@@ -424,8 +424,10 @@
                       </ul>
                     </div>
                     <!-- /.action --> 
-                  </div>
-                  <!-- /.cart --> 
+                  </div> --}}
+                  <!-- /.cart animate-effect --> 
+
+
                 </div>
                 <!-- /.product --> 
                 
