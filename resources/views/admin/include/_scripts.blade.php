@@ -7,6 +7,8 @@ Scripts
 <script src="{{ asset('assets/backend/js/gleek.js') }}"></script>
 <script src="{{ asset('assets/backend/js/styleSwitcher.js') }}"></script>
 
+<!-- Sweet Alert -->
+<script src="{{ asset('assets/backend/js/sweetalert2@11.js') }}"></script>
 <!-- Chartjs -->
 <script src="{{ asset('assets/backend/plugins/chart.js/Chart.bundle.min.js') }}"></script>
 <!-- Circle progress -->

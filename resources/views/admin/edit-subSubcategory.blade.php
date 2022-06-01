@@ -1,4 +1,3 @@
-
 @extends('admin.include.app')
 
 @section('title', 'Edit New Sub-Subcategory')
@@ -17,19 +16,6 @@
             </ol>
         </div>
     </div>
-
-    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-            @if(Session::has($msg))
-            <div class="container-fluid mt-3">
-                <div class="alert alert-{{ $msg }} alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <strong>{{ session($msg) }}</strong> 
-                </div>
-            </div>
-            @endif
-    @endforeach 
 
     <div class="container-fluid mt-3">
         <div class="row">
@@ -60,20 +46,29 @@
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Sub-Subcategory</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="sub_subcategory_name" 
-                                            class="form-control @error('sub_subcategory_name') is-invalid @enderror" 
+                                            class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Sub-Subategory Name..." 
                                             required autofocus autocomplete="off"
                                             value="{{ $sub_subCat->sub_subcategory_name }}">
 
                                         <div class="invalid-feedback">
-                                            @error('sub_subcategory_name')
+                                            @error('isExist')
                                                 {{ $message }}
                                             @enderror
                                         </div>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Order</label>
+                                    <div class="col-sm-10">
+                                        <input 
+                                            type="number" 
+                                            name="sub_subcategory_order" 
+                                            class="form-control"
+                                            value="{{ $sub_subCat->sub_subcategory_order }}">
                                     </div>
 
                                 </div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
@@ -75,6 +76,7 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::resource('/admin/category', CategoryController::class);
     Route::resource('/admin/subcategory', SubcategoryController::class);
     Route::resource('/admin/subSubcategory', Sub_SubcategoryController::class);
+    Route::resource('/admin/brand', BrandController::class);
     Route::resource('/admin/product', ProductController::class);
     Route::resource('/admin/product-images', ProductImageController::class);
     Route::resource('/admin/coupon', CouponController::class);
@@ -84,6 +86,7 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::post('/categoryUpdateStatus', [AjaxController::class, 'categoryUpdateStatus'])->name('category.updateStatus');
     Route::post('/subcategoryUpdateStatus', [AjaxController::class, 'subcategoryUpdateStatus'])->name('subcategory.updateStatus');
     Route::post('/subSubcategoryUpdateStatus', [AjaxController::class, 'subSubcategoryUpdateStatus'])->name('subSubcategory.updateStatus');
+    Route::post('/brandUpdateStatus', [AjaxController::class, 'brandUpdateStatus'])->name('brand.updateStatus');
     Route::post('/productUpdateStatus', [AjaxController::class, 'productUpdateStatus'])->name('product.updateStatus');
     Route::post('/couponUpdateStatus', [AjaxController::class, 'couponUpdateStatus'])->name('coupon.updateStatus');
     Route::post('/productImageUpdateStatus', [AjaxController::class, 'productImageUpdateStatus'])->name('productImage.updateStatus');

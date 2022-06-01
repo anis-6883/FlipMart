@@ -34,7 +34,7 @@
                                             name="category_name" 
                                             class="form-control @error('category_name') is-invalid @enderror" 
                                             placeholder="Enter Category Name..." 
-                                            required autofocus autocomplete="off">
+                                            required autofocus autocomplete="off" value="{{ old('category_name') }}">
 
                                         <div class="invalid-feedback">
                                             @error('category_name')

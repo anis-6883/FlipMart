@@ -52,6 +52,17 @@
                 </ul>
             </li>
 
+            <li class="nav-label">Manage Brand</li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class='fas menu-icon'>&#xf57d;</i> <span class="nav-text">Brands</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('brand.create') }}">Add Brand</a></li>
+                    <li><a href="{{ route('brand.index') }}">List Brands</a></li>
+                </ul>
+            </li>
+
             <li class="nav-label">Manage Product</li>
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -62,7 +73,7 @@
                     <li><a href="{{ route('product.index') }}">List Products</a></li>
                 </ul>
             </li>
-
+            
             <li class="nav-label">Manage Product Image</li>
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">

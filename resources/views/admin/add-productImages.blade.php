@@ -84,7 +84,7 @@
                                                 @if ($product->product_master_image != null)
                                                     <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="Product Image" width="80px" height="80px">              
                                                 @else
-                                                    <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
+                                                    <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
                                             <form action="{{ route('product-images.store') }}" method="POST" enctype="multipart/form-data">

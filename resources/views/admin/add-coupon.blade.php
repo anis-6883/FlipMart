@@ -35,7 +35,7 @@
                                             name="coupon_title" 
                                             class="form-control @error('coupon_title') is-invalid @enderror" 
                                             placeholder="Enter Coupon Title..." 
-                                            required autofocus autocomplete="off">
+                                            required autofocus autocomplete="off" value="{{ old('coupon_title') }}">
 
                                         <div class="invalid-feedback">
                                             @error('coupon_title')

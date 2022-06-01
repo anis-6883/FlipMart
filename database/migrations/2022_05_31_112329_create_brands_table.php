@@ -17,6 +17,7 @@ class CreateBrandsTable extends Migration
             $table->id();
             $table->string('brand_name', 127)->unique();
             $table->text('brand_image')->nullable();
+            $table->enum('brand_status', ['Active', 'Inactive'])->default('Active');
             $table->dateTimeTz('created_at');
             $table->dateTimeTz('updated_at');
         });

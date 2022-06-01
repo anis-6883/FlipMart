@@ -28,17 +28,6 @@
         </div>
     </div>
 
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        </div>
-    @endif
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -173,6 +162,29 @@
             });
         });
     }
+</script>
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+    @if (session()->has('success'))
+        Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+        })
+    @endif
+    
 </script>
 
 @endsection

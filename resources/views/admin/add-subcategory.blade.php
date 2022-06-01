@@ -43,7 +43,8 @@
                                             name="subcategory_name" 
                                             class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Subategory Name..." 
-                                            required autofocus autocomplete="off">
+                                            required autofocus autocomplete="off" 
+                                            value="{{ old('subcategory_name') }}">
 
                                         <div class="invalid-feedback">
                                             @error('isExist')
@@ -51,6 +52,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    
                                     <label class="col-sm-2 col-form-label">Order</label>
                                     <div class="col-sm-10">
                                         <input 

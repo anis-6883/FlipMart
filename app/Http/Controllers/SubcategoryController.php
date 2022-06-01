@@ -48,37 +48,35 @@ class SubcategoryController extends Controller
 
     public function edit($subcat_id)
     {
-        $arr['subcategory'] = Subcategory::find($subcat_id);
-        $arr['categories'] = Category::all();
-        return view('admin.edit-subcategory', $arr);
+        $subcategory = Subcategory::find($subcat_id);
+        $categories = Category::all();
+        return view('admin.edit-subcategory', compact('categories', 'subcategory'));
     }
 
     public function update(Request $req, $subcat_id)
     {
-        $valid_data = $req->validate([
-            'subcategory_name' => 'required',
-            'category_id' => 'required'
-        ]);
+        $isExist = Subcategory::where([
+            ['subcategory_name', $req->subcategory_name], 
+            ['category_id', $req->category_id],
+            ['subcategory_order', $req->subcategory_order]
+            ])->exists();
 
-        $subcat_obj = Subcategory::where([
-            ['subcategory_name', '=', $req->subcategory_name],
-            ['category_id', '=', $req->category_id],
-            ])->first();
+        if($isExist)
+            return back()->withErrors(['isExist' => 'The subcategory name has already been taken.']);
 
-        if($subcat_obj)
-            return redirect()->back()->with('danger', 'The subcategory has already been taken...');
-
-        Subcategory::find($subcat_id)->update($valid_data);
-        $req->session()->flash('success', 'Subcategory is Updated Successfully!');
-        return redirect()->route('subcategory.index');
+        $subcategory = Subcategory::find($subcat_id);
+        $subcategory->category_id = $req->category_id;
+        $subcategory->subcategory_name = $req->subcategory_name;
+        $subcategory->subcategory_order = $req->subcategory_order;
+        $subcategory->save();
+        return redirect()->route('subcategory.index')->with('success', 'Subcategory is Updated Successfully!');
     }
 
-    public function destroy(Request $req, $subcat_id)
+    public function destroy($subcat_id)
     {
         $subcategory = Subcategory::find($subcat_id);
         $subcategory_name = $subcategory->subcategory_name;
         $subcategory->delete();
-        $req->session()->flash('success', "Subcategory \"$subcategory_name\" has Deleted Successfully...");
-        return redirect()->route('subcategory.index');
+        return redirect()->route('subcategory.index')->with('success', "Subcategory \"$subcategory_name\" has Deleted Successfully...");
     }
 }

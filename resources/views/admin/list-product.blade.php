@@ -78,7 +78,7 @@
                                                 @if ($product->product_master_image != null)
                                                     <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="No Image" width="80px" height="80px">  
                                                 @else
-                                                    <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
+                                                    <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
                                             <td>{{ number_format($product->product_regular_price, 2, '.', ',')  }}</td>

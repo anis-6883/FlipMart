@@ -22,43 +22,53 @@ class Sub_SubcategoryController extends Controller
         return view('admin.add-subSubcategory', compact('categories', 'subcategories'));
     }
 
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        $valid_data = $request->validate([
-            'sub_subcategory_name' => 'required|unique:sub_subcategories',
-            'category_id' => 'required',
-            'subcategory_id' => 'required'
-        ]);
+        $isExist = Sub_Subcategory::where([
+            ['sub_subcategory_name', $req->sub_subcategory_name], 
+            ['category_id', $req->category_id],
+            ['subcategory_id', $req->subcategory_id]
+            ])->exists();
 
-        Sub_Subcategory::create($valid_data);
+        if($isExist)
+            return back()->withErrors(['isExist' => 'The sub-subcategory name has already been taken.']);
+
+        $obj = new Sub_Subcategory;
+        $obj->sub_subcategory_name = $req->sub_subcategory_name;
+        $obj->category_id = $req->category_id;
+        $obj->subcategory_id = $req->subcategory_id;
+        $obj->save();
+
         return redirect()->route('subSubcategory.index')->with('success', 'Sub-Subcategory is Created Successfully!');
     }
 
     public function edit($id)
     {
         $sub_subCat = Sub_Subcategory::find($id);
-        $categories = Category::orderBy('category_name')->get();
+        $categories = Category::all();
         return view('admin.edit-subSubcategory', compact('categories', 'sub_subCat'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        $valid_data = $request->validate([
-            'sub_subcategory_name' => 'required',
-            'category_id' => 'required',
-            'subcategory_id' => 'required'
-        ]);
+        $isExist = Sub_Subcategory::where([
+                ['sub_subcategory_name', $req->sub_subcategory_name], 
+                ['category_id', $req->category_id],
+                ['subcategory_id', $req->subcategory_id],
+                ['sub_subcategory_order', $req->sub_subcategory_order],
+            ])->exists();
 
-        $subcat_obj = Sub_Subcategory::where([
-            ['sub_subcategory_name', '=', $request->sub_subcategory_name],
-            ['category_id', '=', $request->category_id],
-            ['subcategory_id', '=', $request->subcategory_id],
-            ])->first();
 
-        if($subcat_obj)
-            return redirect()->back()->with('danger', 'The sub-subcategory has already been taken...');
+        if($isExist)
+            return back()->withErrors(['isExist' => 'The sub-subcategory name has already been taken.']);
 
-        Sub_Subcategory::find($id)->update($valid_data);
+        $obj = Sub_Subcategory::find($id);
+        $obj->sub_subcategory_name = $req->sub_subcategory_name;
+        $obj->category_id = $req->category_id;
+        $obj->subcategory_id = $req->subcategory_id;
+        $obj->sub_subcategory_order = $req->sub_subcategory_order;
+        $obj->save();
+        
         return redirect()->route('subSubcategory.index')->with('success', 'Sub-Subcategory is Updated Successfully!');
     }
 

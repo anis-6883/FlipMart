@@ -44,19 +44,29 @@
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Sub-Subcategory</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="sub_subcategory_name" 
-                                            class="form-control @error('sub_subcategory_name') is-invalid @enderror" 
+                                            class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Sub-Subategory Name..." 
-                                            required autofocus autocomplete="off">
+                                            required autofocus autocomplete="off"
+                                            value="{{ old('sub_subcategory_name') }}">
 
                                         <div class="invalid-feedback">
-                                            @error('sub_subcategory_name')
+                                            @error('isExist')
                                                 {{ $message }}
                                             @enderror
                                         </div>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Order</label>
+                                    <div class="col-sm-10">
+                                        <input 
+                                            type="number" 
+                                            name="sub_subcategory_order" 
+                                            class="form-control"
+                                            value="0">
                                     </div>
 
                                 </div>
@@ -88,7 +98,7 @@
             if (cat_id != "") {
                 $.ajax({
                     url: "{{ route('product.loadSubcategory') }}",
-                    type: "post",
+                    type: "POST",
                     data: {
                         category_id: cat_id,
                         _token: "{{ csrf_token() }}"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
@@ -52,6 +53,21 @@ class AjaxController extends Controller
             $subcategory = Sub_Subcategory::find($req->post('subcategory_id'));
             $subcategory->sub_subcategory_status = $req->post('statusText');
             if($subcategory->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function brandUpdateStatus(Request $req)
+    {
+        try{
+            $brand = Brand::find($req->post('brand_id'));
+            $brand->brand_status = $req->post('statusText');
+            if($brand->save())
                 return 1;
             else
                 return 0;
@@ -129,7 +145,7 @@ class AjaxController extends Controller
 
             if(count($subcategories) > 0)
             {
-                echo "<option value=''>Select Subcategory</option>";
+                // echo "<option value=''>Select Subcategory</option>";
 
                 foreach($subcategories as $subcategory)
                 {

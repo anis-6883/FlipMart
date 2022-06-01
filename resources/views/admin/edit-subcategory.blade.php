@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+    {{-- @foreach (['danger', 'warning', 'success', 'info'] as $msg)
             @if(Session::has($msg))
             <div class="container-fluid mt-3">
                 <div class="alert alert-{{ $msg }} alert-dismissible fade show">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             @endif
-    @endforeach 
+    @endforeach  --}}
 
     <div class="container-fluid mt-3">
         <div class="row">
@@ -45,29 +45,37 @@
                                     <div class="col-sm-10 mb-4">
                                         <select name="category_id" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @if ($category->id == $subcategory->category_id)
-                                                    {{ "selected" }}
-                                                @else
-                                                    {{ "" }}
-                                                @endif>{{ $category->category_name }}</option>
+                                                <option value="{{ $category->id }}" @if ($category->id == $subcategory->category_id) {{ "selected" }} @endif>
+                                                    {{ $category->category_name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
+
                                     <label class="col-sm-2 col-form-label">Subcategory</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="subcategory_name" 
-                                            class="form-control @error('subcategory_name') is-invalid @enderror" 
+                                            class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Subategory Name..." 
                                             required autofocus autocomplete="off"
                                             value="{{ $subcategory->subcategory_name }}">
 
                                         <div class="invalid-feedback">
-                                            @error('subcategory_name')
+                                            @error('isExist')
                                                 {{ $message }}
                                             @enderror
                                         </div>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Order</label>
+                                    <div class="col-sm-10">
+                                        <input 
+                                            type="number" 
+                                            name="subcategory_order" 
+                                            class="form-control"
+                                            value="{{ $subcategory->subcategory_order }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
