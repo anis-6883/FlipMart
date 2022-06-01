@@ -145,7 +145,7 @@ class AjaxController extends Controller
 
             if(count($subcategories) > 0)
             {
-                // echo "<option value=''>Select Subcategory</option>";
+                echo "<option value=''>Select Subcategory</option>";
 
                 foreach($subcategories as $subcategory)
                 {

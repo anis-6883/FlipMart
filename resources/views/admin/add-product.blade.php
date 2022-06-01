@@ -57,9 +57,18 @@
 
                                 </div>
 
-
                                 <div class="form-group row">
 
+                                    <label class="col-sm-2 col-form-label">Brand</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <select name="brand_id" class="custom-select mr-sm-2" id="select_brand" required>
+                                            <option value="">Select Brand</option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    
                                     <label class="col-sm-2 col-form-label">Product Name</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
@@ -122,8 +131,8 @@
                                     </div>
                                                 
                                     <label class="col-sm-2 col-form-label">Preview</label>
-                                    <div class="col-sm-10">
-                                        <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="100px" height="100px">
+                                    <div class="col-sm-10 mb-4">
+                                        <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="100px" height="100px">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Product Master Image</label>
@@ -149,17 +158,6 @@
                                         </select>
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Product Offer</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="product_offer" class="custom-select mr-sm-2" id="product_offer">
-                                            <option selected>Regular</option>
-                                            <option>Hot Deals</option>
-                                            <option>Featured</option>
-                                            <option>Special Offer</option>
-                                            <option>Special Deals</option>
-                                        </select>
-                                    </div>
-
                                     <label class="col-sm-2 col-form-label">Product Order</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
@@ -177,7 +175,7 @@
                                             name="product_tags"
                                             data-role="tagsinput"
                                             class="form-control"
-                                            value="Lorem,Ipsum,Asnt">
+                                            value="">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Product Colors</label>
@@ -187,7 +185,7 @@
                                             name="product_color"
                                             data-role="tagsinput"
                                             class="form-control"
-                                            value="Red,Blue,Black">
+                                            value="">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Product Sizes</label>
@@ -197,7 +195,35 @@
                                             name="product_size"
                                             data-role="tagsinput"
                                             class="form-control"
-                                            value="S,M,L,XL,XXL">
+                                            value="">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Offer</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="featured" value="1">
+                                                    <label class="form-check-label">Featured</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="hot_deals" value="1">
+                                                    <label class="form-check-label">Hot Deals</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="special_offer" value="1">
+                                                    <label class="form-check-label">Special Offer</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
 
                                 </div>

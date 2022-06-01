@@ -29,17 +29,6 @@
         </div>
     </div>
 
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        </div>
-    @endif
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -56,6 +45,7 @@
                                         <th>Category</th>
                                         <th>Subcategory</th>
                                         <th>Sub-Subcategory</th>
+                                        <th>Brand</th>
                                         <th>Product</th>
                                         <th>Image</th>
                                         <th>Reg. Price</th>
@@ -73,6 +63,7 @@
                                             <td>{{ $product->category->category_name }}</td>
                                             <td>{{ $product->subcategory->subcategory_name }}</td>
                                             <td>{{ $product->sub_subcategory->sub_subcategory_name }}</td>
+                                            <td>{{ $product->brand->brand_name }}</td>
                                             <td><a href="{{ route('product.show', $product->id) }}" style="color: blue">{{ Str::of($product->product_name)->limit(50)  }}</a></td>
                                             <td>
                                                 @if ($product->product_master_image != null)
@@ -136,6 +127,7 @@
                                         <th>Category</th>
                                         <th>Subcategory</th>
                                         <th>Sub-Subcategory</th>
+                                        <th>Brand</th>
                                         <th>Product</th>
                                         <th>Image</th>
                                         <th>Reg. Price</th>
@@ -189,6 +181,29 @@
             });
         });
     }
+</script>
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+    @if (session()->has('success'))
+        Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+        })
+    @endif
+    
 </script>
 
 @endsection

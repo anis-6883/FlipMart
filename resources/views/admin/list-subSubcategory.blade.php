@@ -72,7 +72,8 @@
                                             </td>
                                             <td>{{ $subcategory->sub_subcategory_order }}</td>
                                             <td>
-                                                {{ $subcategory->created_at->diffForHumans() }}
+                                                {{ date('d-m-Y', strtotime($subcategory->created_at)) }}
+                                                {{-- {{ $subcategory->created_at->diffForHumans() }} --}}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">

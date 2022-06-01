@@ -10,7 +10,6 @@ class Product extends Model
     use HasFactory;
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-
     protected $guarded = ['id'];
 
     public function category(){
@@ -23,6 +22,10 @@ class Product extends Model
 
     public function sub_subcategory(){
         return $this->belongsTo(Sub_Subcategory::class);
+    }
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
     }
 
     public function product_image(){

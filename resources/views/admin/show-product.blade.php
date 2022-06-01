@@ -29,17 +29,6 @@
         </div>
     </div>
 
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        </div>
-    @endif
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -71,6 +60,10 @@
                                     <tr>
                                         <th>Sub-Subcategory</th>
                                         <td>{{ $product->sub_subcategory->sub_subcategory_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Brand</th>
+                                        <td>{{ $product->brand->brand_name }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Name</th>
@@ -139,8 +132,16 @@
                                         <td>{{ $product->product_quantity }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Product Offer</th>
-                                        <td>{{ $product->product_offer }}</td>
+                                        <th>Featured</th>
+                                        <td>{{ $product->featured == 1 ? "YES" : "NO" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Hot Deals</th>
+                                        <td>{{ $product->hot_deals == 1 ? "YES" : "NO" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Special Offer</th>
+                                        <td>{{ $product->special_offer == 1 ? "YES" : "NO" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Status</th>
@@ -169,4 +170,31 @@
 <!--**********************************
             Content body end
         ***********************************-->
+@endsection
+
+@section('javascript')
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+    @if (session()->has('success'))
+        Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+        })
+    @endif
+    
+</script>
+
 @endsection

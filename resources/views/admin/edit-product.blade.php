@@ -68,6 +68,18 @@
 
                                 <div class="form-group row">
 
+                                    <label class="col-sm-2 col-form-label">Brand</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <select name="brand_id" class="custom-select mr-sm-2" id="select_brand" required>
+                                            <option value="">Select Brand</option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? "selected" : "" }}>
+                                                    {{ $brand->brand_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <label class="col-sm-2 col-form-label">Product Name</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
@@ -194,18 +206,6 @@
                                         </select>
                                     </div>
 
-                                    
-                                    <label class="col-sm-2 col-form-label">Product Offer</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="product_offer" class="custom-select mr-sm-2" id="product_offer">
-                                            <option @if ($product->product_offer == 'Regular') {{ "selected" }} @endif>Regular</option>
-                                            <option @if ($product->product_offer == 'Hot Deals') {{ "selected" }} @endif>Hot Deals</option>
-                                            <option @if ($product->product_offer == 'Featured') {{ "selected" }} @endif>Featured</option>
-                                            <option @if ($product->product_offer == 'Special Offer') {{ "selected" }} @endif>Special Offer</option>
-                                            <option @if ($product->product_offer == 'Special Deals') {{ "selected" }} @endif>Special Deals</option>
-                                        </select>
-                                    </div>
-
                                     <label class="col-sm-2 col-form-label">Product Order</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
@@ -245,10 +245,39 @@
                                             class="form-control"
                                             value="{{ $product->product_size }}">
                                     </div>
+
+                                    <label class="col-sm-2 col-form-label">Product Offer</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="featured" value="1" {{ $product->featured == 1 ? 'checked' : '' }}>
+                                                    <label class="form-check-label">Featured</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="hot_deals" value="1" {{ $product->hot_deals == 1 ? 'checked' : '' }}>
+                                                    <label class="form-check-label">Hot Deals</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="special_offer" value="1" {{ $product->special_offer == 1 ? 'checked' : '' }}>
+                                                    <label class="form-check-label">Special Offer</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-10">
-                                        <button name="save_product" type="submit" class="btn btn-primary">Submit</button>
+                                        <button name="edit_product" type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
                             </form>

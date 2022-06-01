@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Product_Image;
 use App\Models\Sub_Subcategory;
@@ -21,14 +22,15 @@ class ProductController extends Controller
         //             ->orderByDesc('created_at')
         //             ->get();
 
-        $products = Product::with('category', 'subcategory', 'sub_subcategory')->latest()->get();
+        $products = Product::with('category', 'subcategory', 'sub_subcategory', 'brand')->latest()->get();
         return view('admin.list-product', compact('products'));
     }
 
     public function create()
     {
         $categories = DB::table('categories')->orderBy('category_name')->get();
-        return view('admin.add-product', compact('categories'));
+        $brands = Brand::all();
+        return view('admin.add-product', compact('categories', 'brands'));
     }
 
     public function store(Request $request)
@@ -37,6 +39,7 @@ class ProductController extends Controller
             'category_id' => 'required',
             'subcategory_id' => 'required',
             'sub_subcategory_id' => 'required',
+            'brand_id' => 'required',
             'product_name' => 'required|min:8',
             'product_regular_price' => 'required|numeric',
             'product_quantity' => 'required|integer',
@@ -54,6 +57,9 @@ class ProductController extends Controller
         $valid_data['product_tags'] = $request->product_tags;
         $valid_data['product_color'] = $request->product_color;
         $valid_data['product_size'] = $request->product_size;
+        $valid_data['featured'] = $request->featured ?: 0;
+        $valid_data['hot_deals'] = $request->hot_deals ?: 0;
+        $valid_data['special_offer'] = $request->special_offer ?: 0;
 
         if(!empty($request->product_discounted_price))
         {
@@ -88,16 +94,17 @@ class ProductController extends Controller
 
     public function show($product_id)
     {
-        $product = Product::with('category', 'subcategory', 'sub_subcategory')->where('id', $product_id)->first();
+        $product = Product::with('category', 'subcategory', 'sub_subcategory', 'brand')->where('id', $product_id)->first();
         return view('admin.show-product', compact('product'));
     }
 
     public function edit($product_id)
     {
         $categories = DB::table('categories')->get();
+        $brands = Brand::all();
         $product = Product::find($product_id);
         $sub_subcategories = Sub_Subcategory::where('subcategory_id', $product->subcategory_id)->get();
-        return view('admin.edit-product', compact('product', 'categories', 'sub_subcategories'));
+        return view('admin.edit-product', compact('product', 'categories', 'sub_subcategories', 'brands'));
     }
 
     public function update(Request $request, $product_id)
@@ -106,6 +113,7 @@ class ProductController extends Controller
             'category_id' => 'required',
             'subcategory_id' => 'required',
             'sub_subcategory_id' => 'required',
+            'brand_id' => 'required',
             'product_name' => 'required|min:8',
             'product_regular_price' => 'required|numeric',
             'product_quantity' => 'required|integer',
@@ -123,6 +131,9 @@ class ProductController extends Controller
         $valid_data['product_tags'] = $request->product_tags;
         $valid_data['product_color'] = $request->product_color;
         $valid_data['product_size'] = $request->product_size;
+        $valid_data['featured'] = $request->featured ?: 0;
+        $valid_data['hot_deals'] = $request->hot_deals ?: 0;
+        $valid_data['special_offer'] = $request->special_offer ?: 0;
 
         if(!empty($request->product_discounted_price))
         {

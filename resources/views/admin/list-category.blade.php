@@ -68,11 +68,8 @@
                                             </td>
                                             <td>{{ $category->category_order }}</td>
                                             <td>
-                                                {{-- @php
-                                                    $date = date_parse($category->created_at);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp --}}
-                                                {{ $category->created_at->diffForHumans() }}
+                                                {{ date('d-m-Y', strtotime($category->created_at)) }}
+                                                {{-- {{ $category->created_at->diffForHumans() }} --}}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -169,7 +166,7 @@
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 4000,
+        timer: 4500,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

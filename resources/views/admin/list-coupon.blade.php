@@ -81,10 +81,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @php
-                                                    $date = date_parse($coupon->created_at);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp
+                                                {{ date('d-m-Y', strtotime($product->created_at)) }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
