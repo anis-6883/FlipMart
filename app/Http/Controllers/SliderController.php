@@ -24,12 +24,10 @@ class SliderController extends Controller
     {
         $valid_data = $request->validate([
             'slider_name' => ['required', 'min:5'],
-            'slider_title' => ['required', 'min:5'],
             'slider_image_filename' => ['required', 'mimes:png,jpg,jpeg', 'max:5048'],
             'slider_status' => ['required']
         ]);
 
-        $valid_data['slider_subtitle'] = $request->slider_subtitle;
         $valid_data['slider_order'] = $request->slider_order;
 
         if($request->hasFile('slider_image_filename') and $request->file('slider_image_filename')->isValid())
@@ -61,12 +59,10 @@ class SliderController extends Controller
     {
         $valid_data = $request->validate([
             'slider_name' => ['required', 'min:5'],
-            'slider_title' => ['required', 'min:5'],
             'slider_image_filename' => ['mimes:png,jpg,jpeg', 'max:5048'],
             'slider_status' => ['required']
         ]);
 
-        $valid_data['slider_subtitle'] = $request->slider_subtitle;
         $valid_data['slider_order'] = $request->slider_order;
 
         if($request->hasFile('slider_image_filename') and $request->file('slider_image_filename')->isValid())

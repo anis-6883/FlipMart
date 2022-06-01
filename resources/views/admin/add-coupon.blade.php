@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Add New Coupon</h4>
                         <div class="basic-form">
-                            <form action="{{ route('coupon.store') }}" method="post">
+                            <form action="{{ route('coupon.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
                 
@@ -60,6 +60,14 @@
                                         </div>
                                     </div>
 
+                                    <label class="col-sm-2 col-form-label">Discount Type</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <select name="discount_type" class="custom-select mr-sm-2" id="discount_type">
+                                            <option selected>Percentage</option>
+                                            <option>Fixed</option>
+                                        </select>
+                                    </div>
+
                                     <label class="col-sm-2 col-form-label">Discount Amount</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
@@ -73,6 +81,44 @@
                                                 {{ $message }}
                                             @enderror
                                         </div>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Usable Per Person</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="number" 
+                                            name="usable_per_person" 
+                                            class="form-control" 
+                                            autocomplete="off"
+                                            value="0">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Usable In Total</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input 
+                                            type="number" 
+                                            name="usable_in_total" 
+                                            class="form-control" 
+                                            autocomplete="off"
+                                            value="0">
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Coupon Start On</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input class="form-control jqdatepicker" id="coupon_start_date" name="coupon_start_date" type="text" autocomplete="off" value=""/>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Coupon Ends On</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <input class="form-control jqdatepicker" id="coupon_end_date" name="coupon_end_date" type="text" autocomplete="off" value=""/>
+                                    </div>
+
+                                    <label class="col-sm-2 col-form-label">Status</label>
+                                    <div class="col-sm-10 mb-4">
+                                        <select name="coupon_status" class="custom-select mr-sm-2" id="coupon_status">
+                                            <option>Active</option>
+                                            <option selected>Inactive</option>
+                                        </select>
                                     </div>
 
                                 </div>

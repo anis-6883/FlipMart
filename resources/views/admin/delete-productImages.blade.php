@@ -27,17 +27,6 @@
         </div>
     </div>
 
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        </div>
-    @endif
-
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-12">
@@ -80,6 +69,7 @@
                                                         <form method="POST" id="delete_image{{ $image->id }}" action="{{ route('product-images.destroy', $image->id) }}">
                                                             @csrf
                                                             @method('DELETE')
+                                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                         </form>
                                                     </div>
                                                 </div>
@@ -166,6 +156,29 @@
             });
         });
     }
+</script>
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+    @if (session()->has('success'))
+        Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+        })
+    @endif
+    
 </script>
 
 @endsection

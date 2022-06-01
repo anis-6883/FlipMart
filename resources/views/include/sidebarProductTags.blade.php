@@ -1,6 +1,6 @@
-@php
+{{-- @php
     $product_tags = App\Models\Product::groupBy('product_tags')->select('product_tags')->get();
-@endphp
+@endphp --}}
 
 
 <!-- ============================================== PRODUCT TAGS ============================================== -->
@@ -9,11 +9,11 @@
     <div class="sidebar-widget-body outer-top-xs">
         <div class="tag-list"> 
 
-            @foreach ($product_tags as $tag)
+            {{-- @foreach ($product_tags as $tag)
                 <a class="item" href="{{ route('tagWiseProducts', $tag->product_tags) }}">
                     {{ $tag->product_tags }}
                 </a>
-            @endforeach
+            @endforeach --}}
             
         </div>
         <!-- /.tag-list --> 

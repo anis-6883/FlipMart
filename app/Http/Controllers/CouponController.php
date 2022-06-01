@@ -10,7 +10,7 @@ class CouponController extends Controller
 {
     public function index()
     {
-        $coupons = DB::table('coupons')->orderBy('created_at', 'desc')->get();
+        $coupons = Coupon::latest()->get();
         return view('admin.list-coupon', compact('coupons'));
     }
 
@@ -21,22 +21,21 @@ class CouponController extends Controller
 
     public function store(Request $req)
     {
-        $cat_obj = new Coupon;
-
-        $req->validate([
+        $valid_data = $req->validate([
             'coupon_title' => 'required',
             'coupon_code' => 'required|unique:coupons',
-            'discount_amount' => 'required'
+            'discount_type' => 'required',
+            'discount_amount' => 'required',
+            'coupon_status' => 'required',
         ]);
         
-        $cat_obj->coupon_title = $req->post('coupon_title');
-        $cat_obj->coupon_code = $req->post('coupon_code');
-        $cat_obj->discount_amount = $req->post('discount_amount');
-        $cat_obj->created_at = date("Y-m-d H:i:s");
-        $cat_obj->save();
+        $valid_data['usable_per_person'] = $req->usable_per_person;
+        $valid_data['usable_in_total'] = $req->usable_in_total;
+        $valid_data['coupon_start_date'] = $req->coupon_start_date;
+        $valid_data['coupon_end_date'] = $req->coupon_end_date;
 
-        $req->session()->flash('success', 'Coupon is Created Successfully!');
-        return redirect()->route('coupon.index');
+        Coupon::create($valid_data);
+        return redirect()->route('coupon.index')->with('success', 'Coupon is Created Successfully!');
     }
 
     public function edit($coupon_id)
@@ -47,21 +46,21 @@ class CouponController extends Controller
 
     public function update(Request $req, $coupon_id)
     {
-        $req->validate([
+        $valid_data = $req->validate([
             'coupon_title' => 'required',
-            'coupon_code' => 'required|unique:coupons',
-            'discount_amount' => 'required'
+            'coupon_code' => 'required',
+            'discount_type' => 'required',
+            'discount_amount' => 'required',
+            'coupon_status' => 'required',
         ]);
 
-        $cat_obj = Coupon::find($coupon_id);
-        $cat_obj->coupon_title = $req->post('coupon_title');
-        $cat_obj->coupon_code = $req->post('coupon_code');
-        $cat_obj->discount_amount = $req->post('discount_amount');
-        $cat_obj->updated_at = date("Y-m-d H:i:s");
-        $cat_obj->save();
+        $valid_data['usable_per_person'] = $req->usable_per_person;
+        $valid_data['usable_in_total'] = $req->usable_in_total;
+        $valid_data['coupon_start_date'] = $req->coupon_start_date;
+        $valid_data['coupon_end_date'] = $req->coupon_end_date;
 
-        $req->session()->flash('success', 'Coupon is Updated Successfully!');
-        return redirect()->route('coupon.index');
+        Coupon::find($coupon_id)->update($valid_data);
+        return redirect()->route('coupon.index')->with('success', 'Coupon is Updated Successfully!');
     }
 
     public function destroy(Request $req, $coupon_id)

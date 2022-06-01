@@ -27,20 +27,6 @@
         </div>
     </div>
 
-    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-        @if(Session::has($msg))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-{{ $msg }} alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session($msg) }}</strong> 
-            </div>
-        </div>
-        @endif
-    @endforeach  
-
-
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-12">
@@ -73,7 +59,7 @@
                                                 @forelse ($product->product_image as $image)
                                                     <img id="master_img" src="{{ asset('uploads/product-images/' . $image->product_image_filename) }}" alt="Product Image" width="80px" height="80px">              
                                                 @empty
-                                                    <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
+                                                    <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endforelse
                                             </td>
                                             <td>
@@ -104,4 +90,37 @@
 <!--**********************************
             Content body end
         ***********************************-->
+@endsection
+
+@section('javascript')
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    @error('error')
+        Toast.fire({
+            icon: 'error',
+            title: '{{ $message }}'
+        })
+    @enderror
+
+    @if (session()->has('success'))
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session('success') }}'
+        })
+    @endif
+    
+</script>
+
 @endsection

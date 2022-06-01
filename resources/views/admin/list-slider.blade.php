@@ -1,4 +1,3 @@
-
 @extends('admin.include.app')
 
 @section('title', 'List Slider')
@@ -15,9 +14,9 @@
 
 @section('content')
 
-    <!--**********************************
-            Content body start
-        ***********************************-->
+<!--**********************************
+        Content body start
+    ***********************************-->
 <div class="content-body">
 
     <div class="row page-titles mx-0">
@@ -28,17 +27,6 @@
             </ol>
         </div>
     </div>
-
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        </div>
-    @endif
 
     <div class="container-fluid">
         <div class="row">
@@ -54,8 +42,6 @@
                                     <tr>
                                         <th>S.No</th>
                                         <th>Slider Name</th>
-                                        <th>Slider Sub-Title</th>
-                                        <th>Slider Title</th>
                                         <th>Image</th>
                                         <th>Slider Order</th>
                                         <th>Status</th>
@@ -68,13 +54,11 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $slider->slider_name }}</td>
-                                            <td>{{ $slider->slider_subtitle ?: "NULL" }}</td>
-                                            <td>{{ $slider->slider_title }}</td>
                                             <td>
                                                 @if ($slider->slider_image_filename != null)
-                                                    <img id="master_img" src="{{ asset('uploads/sliders/' . $slider->slider_image_filename) }}" alt="No Image" width="80px" height="80px">  
+                                                    <img id="master_img" src="{{ asset('uploads/sliders/' . $slider->slider_image_filename) }}" alt="Slider Image" width="80px" height="80px">  
                                                 @else
-                                                    <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
+                                                    <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
                                             <td>{{ $slider->slider_order }}</td>
@@ -127,8 +111,6 @@
                                     <tr>
                                         <th>S.No</th>
                                         <th>Slider Name</th>
-                                        <th>Slider Sub-Title</th>
-                                        <th>Slider Title</th>
                                         <th>Image</th>
                                         <th>Slider Order</th>
                                         <th>Status</th>
@@ -179,6 +161,35 @@
             });
         });
     }
+</script>
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    @error('error')
+        Toast.fire({
+            icon: 'error',
+            title: '{{ $message }}'
+        })
+    @enderror
+
+    @if (session()->has('success'))
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session('success') }}'
+        })
+    @endif
+    
 </script>
 
 @endsection

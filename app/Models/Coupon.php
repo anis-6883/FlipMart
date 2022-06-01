@@ -11,5 +11,5 @@ class Coupon extends Model
 
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = ['coupon_title', 'coupon_code', 'discount_amount'];
+    protected $guarded = ['id'];
 }

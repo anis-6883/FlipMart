@@ -44,41 +44,9 @@
                                         </div>
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Slider Sub-Title</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <input 
-                                            type="text" 
-                                            name="slider_subtitle" 
-                                            class="form-control @error('slider_subtitle') is-invalid @enderror"  
-                                            autocomplete="off"
-                                            value="{{ old('slider_subtitle') }}">
-
-                                        <div class="invalid-feedback">
-                                            @error('slider_subtitle')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Slider Title</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <input 
-                                            type="text" 
-                                            name="slider_title" 
-                                            class="form-control @error('slider_title') is-invalid @enderror" 
-                                            required autocomplete="off"
-                                            value="{{ old('slider_title') }}">
-
-                                        <div class="invalid-feedback">
-                                            @error('slider_title')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
                                     <label class="col-sm-2 col-form-label">Preview</label>
                                     <div class="col-sm-10">
-                                        <img id="slider_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="100px" height="100px">
+                                        <img id="slider_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="100px" height="100px">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Slider Image</label>

@@ -1,4 +1,3 @@
-
 @extends('admin.include.app')
 
 @section('title', 'List Coupon')
@@ -15,9 +14,9 @@
 
 @section('content')
 
-    <!--**********************************
-            Content body start
-        ***********************************-->
+<!--**********************************
+        Content body start
+    ***********************************-->
 <div class="content-body">
 
     <div class="row page-titles mx-0">
@@ -28,17 +27,6 @@
             </ol>
         </div>
     </div>
-
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        </div>
-    @endif
 
     <div class="container-fluid">
         <div class="row">
@@ -55,8 +43,13 @@
                                         <th>Serial No</th>
                                         <th>Coupon Title</th>
                                         <th>Coupon Code</th>
+                                        <th>Dis. Type</th>
                                         <th>Dis. Amount</th>
                                         <th>Status</th>
+                                        <th>Usable Per Person</th>
+                                        <th>Usable In Total</th>
+                                        <th>Coupon Start On</th>
+                                        <th>Coupon Ends On</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -68,7 +61,8 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $coupon->coupon_title }}</td>
                                             <td>{{ $coupon->coupon_code }}</td>
-                                            <td>{{ $coupon->discount_amount }}%</td>
+                                            <td>{{ $coupon->discount_type }}</td>
+                                            <td>{{ $coupon->discount_amount }}</td>
                                             <td>
                                                 @if ($coupon->coupon_status == "Active")
                                                     <button id="status{{ $coupon->id }}" onclick="chnageStatus({{ $coupon->id }})" class="badge badge-success px-2">
@@ -80,8 +74,12 @@
                                                     </button>
                                                 @endif
                                             </td>
+                                            <td>{{ $coupon->usable_per_person ?: "0" }}</td>
+                                            <td>{{ $coupon->usable_in_total ?: "0" }}</td>
+                                            <td>{{ $coupon->coupon_start_date ? date('d-m-Y', strtotime($coupon->coupon_start_date)) : "NULL" }}</td>
+                                            <td>{{ $coupon->coupon_end_date ? date('d-m-Y', strtotime($coupon->coupon_end_date)) : "NULL" }}</td>
                                             <td>
-                                                {{ date('d-m-Y', strtotime($product->created_at)) }}
+                                                {{ date('d-m-Y', strtotime($coupon->created_at)) }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -99,10 +97,10 @@
                                                                 </div>
                                                                 <div class="modal-body">Are you sure to delete <b>"{{ $coupon->coupon_title }}"</b> Coupon? </div>
                                                                 <div class="modal-footer">
-                                                                    <form action="{{ route('coupon.destroy', $coupon->id) }}" method="post">
+                                                                    <form action="{{ route('coupon.destroy', $coupon->id) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Not Yet</button>
                                                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                                                     </form>
                                                                 </div>
@@ -122,8 +120,13 @@
                                         <th>Serial No</th>
                                         <th>Coupon Title</th>
                                         <th>Coupon Code</th>
+                                        <th>Dis. Type</th>
                                         <th>Dis. Amount</th>
                                         <th>Status</th>
+                                        <th>Usable Per Person</th>
+                                        <th>Usable In Total</th>
+                                        <th>Coupon Start On</th>
+                                        <th>Coupon Ends On</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -172,6 +175,29 @@
             });
         });
     }
+</script>
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+    @if (session()->has('success'))
+        Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+        })
+    @endif
+    
 </script>
 
 @endsection
