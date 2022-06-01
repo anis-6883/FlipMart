@@ -29,15 +29,21 @@ class SubcategoryController extends Controller
 
     public function store(Request $req)
     {
-        $valid_data = $req->validate([
-            'subcategory_name' => 'required|unique:subcategories',
-            'category_id' => 'required'
-        ]);
+        $isExist = Subcategory::where([
+            ['subcategory_name', $req->subcategory_name], 
+            ['category_id', $req->category_id]
+            ])->exists();
 
-        Subcategory::create($valid_data);
+        if($isExist)
+            return back()->withErrors(['isExist' => 'The subcategory name has already been taken.']);
 
-        $req->session()->flash('success', 'Subcategory is Created Successfully!');
-        return redirect()->route('subcategory.index');
+        $subcategory = new Subcategory;
+        $subcategory->category_id = $req->category_id;
+        $subcategory->subcategory_name = $req->subcategory_name;
+        $subcategory->subcategory_order = $req->subcategory_order;
+        $subcategory->save();
+        
+        return redirect()->route('subcategory.index')->with('success', 'Subcategory is Created Successfully!');
     }
 
     public function edit($subcat_id)

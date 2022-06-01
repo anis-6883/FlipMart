@@ -57,6 +57,7 @@
                                         <th>Category Name</th>
                                         <th>Subcategory Name</th>
                                         <th>Status</th>
+                                        <th>Subcategory Order</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -79,6 +80,7 @@
                                                     </button>
                                                 @endif
                                             </td>
+                                            <td>{{ $subcategory->subcategory_order }}</td>
                                             <td>
                                                 {{ $subcategory->created_at->diffForHumans() }}
                                             </td>
@@ -122,6 +124,7 @@
                                         <th>Category Name</th>
                                         <th>Subcategory Name</th>
                                         <th>Status</th>
+                                        <th>Subcategory Order</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>

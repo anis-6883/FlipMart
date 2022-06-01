@@ -37,24 +37,32 @@
                                         </select>
                                     </div>
                                     <label class="col-sm-2 col-form-label">Subcategory</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10 mb-4">
                                         <input 
                                             type="text" 
                                             name="subcategory_name" 
-                                            class="form-control @error('subcategory_name') is-invalid @enderror" 
+                                            class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Subategory Name..." 
                                             required autofocus autocomplete="off">
 
                                         <div class="invalid-feedback">
-                                            @error('subcategory_name')
+                                            @error('isExist')
                                                 {{ $message }}
                                             @enderror
                                         </div>
                                     </div>
+                                    <label class="col-sm-2 col-form-label">Order</label>
+                                    <div class="col-sm-10">
+                                        <input 
+                                            type="number" 
+                                            name="subcategory_order" 
+                                            class="form-control"
+                                            value="0">
+                                    </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-10">
-                                        <button name="save_category" type="submit" class="btn btn-primary">Submit</button>
+                                        <button name="save_subcategory" type="submit" class="btn btn-primary">Submit</button>
                                         <button type="reset" class="btn btn-secondary">Cancel</button>
                                     </div>
                                 </div>
