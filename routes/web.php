@@ -60,6 +60,9 @@ Route::post('/cart/removeFromCart/{rowId}', [CartController::class, 'removeFromC
 Route::post('/cart/cartIncrement/{rowId}', [CartController::class, 'cartIncrement'])->name('cart.cartIncrement');
 Route::post('/cart/cartDecrement/{rowId}', [CartController::class, 'cartDecrement'])->name('cart.cartDecrement');
 Route::get('/cart/myCart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/coupon/applyCoupon', [CouponController::class, 'applyCoupon'])->name('coupon.applyCoupon')->middleware('auth');
+Route::get('/coupon/calculate', [CouponController::class, 'couponCalculate'])->name('coupon.calculate')->middleware('auth');
+Route::post('/coupon/remove', [CouponController::class, 'couponRemove'])->name('coupon.remove')->middleware('auth');
 
 // Wishlist Route
 Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');

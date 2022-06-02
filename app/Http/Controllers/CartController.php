@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -81,7 +85,35 @@ class CartController extends Controller
     public function removeFromCart($rowId)
     {
         Cart::remove($rowId);
-        return response()->json(['success' => "Successfully Delete From Your Cart!"]);
+
+        if(Cart::count() > 0)
+        {
+            if(Session::has('coupon'))
+            {
+                $coupon_code = session()->get('coupon')['coupon_code'];
+                $coupon = Coupon::where(DB::raw('BINARY `coupon_code`'), $coupon_code)
+                        ->where('coupon_end_date', '>=', Carbon::now()->format('Y-m-d H:i:s'))
+                        ->where('coupon_status', 'Active')
+                        ->first();
+    
+                if($coupon)
+                {
+                    Session::put('coupon', [
+                        'coupon_title' => $coupon->coupon_title,
+                        'coupon_code' => $coupon->coupon_code,
+                        'discount_amount' => $coupon->discount_amount,
+                        'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
+                        'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100),
+                    ]);
+                }
+            }
+            return response()->json(['success' => "Successfully Delete From Your Cart!"]);
+        }
+        else
+        {
+            Session::forget('coupon');
+            return response()->json(['error' => "No Cart Available!"]);
+        }
     }
 
     // cartIncrement
@@ -89,6 +121,27 @@ class CartController extends Controller
     {
         $cart = Cart::get($rowId);
         Cart::update($rowId, $cart->qty + 1);
+
+        if(Session::has('coupon'))
+        {
+            $coupon_code = session()->get('coupon')['coupon_code'];
+            $coupon = Coupon::where(DB::raw('BINARY `coupon_code`'), $coupon_code)
+                    ->where('coupon_end_date', '>=', Carbon::now()->format('Y-m-d H:i:s'))
+                    ->where('coupon_status', 'Active')
+                    ->first();
+
+            if($coupon)
+            {
+                Session::put('coupon', [
+                    'coupon_title' => $coupon->coupon_title,
+                    'coupon_code' => $coupon->coupon_code,
+                    'discount_amount' => $coupon->discount_amount,
+                    'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
+                    'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100),
+                ]);
+            }
+        }
+
         return response()->json(['success' => "Successfully Increment Your Cart!"]);
     }
 
@@ -97,6 +150,27 @@ class CartController extends Controller
     {
         $cart = Cart::get($rowId);
         Cart::update($rowId, $cart->qty - 1);
+
+        if(Session::has('coupon'))
+        {
+            $coupon_code = session()->get('coupon')['coupon_code'];
+            $coupon = Coupon::where(DB::raw('BINARY `coupon_code`'), $coupon_code)
+                    ->where('coupon_end_date', '>=', Carbon::now()->format('Y-m-d H:i:s'))
+                    ->where('coupon_status', 'Active')
+                    ->first();
+
+            if($coupon)
+            {
+                Session::put('coupon', [
+                    'coupon_title' => $coupon->coupon_title,
+                    'coupon_code' => $coupon->coupon_code,
+                    'discount_amount' => $coupon->discount_amount,
+                    'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
+                    'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100)
+                ]);
+            }
+        }
+
         return response()->json(['success' => "Successfully Decrement Your Cart!"]);
     }
 }

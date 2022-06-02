@@ -68,7 +68,8 @@
                                             </td>
                                             <td>{{ $category->category_order }}</td>
                                             <td>
-                                                {{ date('d-m-Y', strtotime($category->created_at)) }}
+                                                {{ Carbon\Carbon::parse($category->created_at)->format('D, d F Y') }}
+                                                {{-- {{ date('d-m-Y', strtotime($category->created_at)) }} --}}
                                                 {{-- {{ $category->created_at->diffForHumans() }} --}}
                                             </td>
                                             <td>

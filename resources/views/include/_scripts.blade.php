@@ -232,6 +232,7 @@
 
             miniCart();
             loadMyCart();
+            couponCalculation();
             $('#closeModel').click();
 
             // start sweet alert
@@ -244,10 +245,19 @@
               timer: 3000
             })
 
-            Toast.fire({
-              // type: 'success',
-              title: res.success
-            })
+            if($.isEmptyObject(res.error)){
+              Toast.fire({
+                title: res.success,
+                icon: 'success',
+              })
+            }
+            else{
+                $('#couponCalculateAreaDiv').hide();
+                Toast.fire({
+                  title: res.error,
+                  icon: 'error',
+                })
+              }
 
             // end sweet alert
           }

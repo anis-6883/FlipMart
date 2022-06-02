@@ -79,7 +79,8 @@
                                             <td>{{ $coupon->coupon_start_date ? date('d-m-Y', strtotime($coupon->coupon_start_date)) : "NULL" }}</td>
                                             <td>{{ $coupon->coupon_end_date ? date('d-m-Y', strtotime($coupon->coupon_end_date)) : "NULL" }}</td>
                                             <td>
-                                                {{ date('d-m-Y', strtotime($coupon->created_at)) }}
+                                                {{-- {{ date('d-m-Y', strtotime($coupon->created_at)) }} --}}
+                                                {{ Carbon\Carbon::parse($coupon->created_at)->format('D, d F Y') }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">

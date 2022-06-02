@@ -46,9 +46,80 @@
                         </div>
                     </div>	
 
+
+                    @if (Auth::check())
+
+                        <div class="shopping-cart">
+
+                            <div class="col-md-6 col-sm-12 estimate-ship-tax">
+
+                                @if (!Session::has('coupon'))
+
+                                    <table class="table" id="coupon_input">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <span class="estimate-title">Discount Code</span>
+                                                    <p>Enter your coupon code if you have one..</p>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="apply-coupon-code" type="text" class="form-control unicase-form-control text-input" placeholder="You Coupon..">
+                                                        </div>
+                                                        <div class="clearfix pull-right">
+                                                            <button onclick="applyCoupon()" type="submit" class="btn-upper btn btn-primary">APPLY COUPON</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                        </tbody><!-- /tbody -->
+                                    </table><!-- /table -->
+
+                                @endif
+
+                            </div><!-- /.estimate-ship-tax -->
+            
+                            <div class="col-md-6 col-sm-12 cart-shopping-total" id="couponCalculateAreaDiv">
+
+                                <table class="table">
+                                    <thead id="couponCalculateArea">
+                                        
+                                    </thead><!-- /thead -->
+
+                                    <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="cart-checkout-btn pull-right">
+                                                        <button type="submit" class="btn btn-primary checkout-btn">PROCCED TO CHEKOUT</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                    </tbody><!-- /tbody -->
+                                </table><!-- /table -->
+                            </div><!-- /.cart-shopping-total -->
+
+                        </div>
+                    @else
+                        <div class="col-md-12">
+                            <div class="jumbotron jumbotron-fluid">
+                            <div class="container">
+                                <h1 class="display-4">Message!</h1>
+                                <p class="lead">For Procceding To Chechkout, You Have To Login In First! Thank You.</p>
+                                <p><a href="{{ route('user.login') }}">Login Here</a></p>
+                            </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    
+                    
+
                 @else
 
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="no-cart-alert">
                         <div class="jumbotron jumbotron-fluid">
                         <div class="container">
                             <h1 class="display-4">No Cart Added Yet!</h1>
@@ -78,8 +149,7 @@
 @section('javascript')
     <script>
 
-        function loadMyCart()
-        {
+        function loadMyCart(){
             $(function(){
 
                 $.ajax({
@@ -165,8 +235,8 @@
 
 
     <script>
-        function cartIncrement(rowId)
-        {
+
+        function cartIncrement(rowId){
             $(function(){
 
                 var url = "{{ route('cart.cartIncrement', ':rowId') }}";
@@ -183,6 +253,7 @@
                     {
                         miniCart();
                         loadMyCart();
+                        couponCalculation();
                         
                         // start sweet alert
 
@@ -203,11 +274,12 @@
                 });
             });
         }
+
     </script>
 
     <script>
-        function cartDecrement(rowId)
-        {
+
+        function cartDecrement(rowId){
             $(function(){
 
                 var url = "{{ route('cart.cartDecrement', ':rowId') }}";
@@ -222,6 +294,7 @@
                     },
                     success: function(res)
                     {
+                        couponCalculation();
                         miniCart();
                         loadMyCart();
 
@@ -244,5 +317,151 @@
                 });
             });
         }
+
+    </script>
+
+    <script>
+
+        function applyCoupon(){
+
+            $(function(){
+
+                var coupon_code = $('#apply-coupon-code').val();
+
+                $.ajax({
+                        type: "POST",
+                        url: "{{ route('coupon.applyCoupon') }}",
+                        dataType: "json",
+                        data:{
+                            _token: "{{ csrf_token() }}",
+                            coupon_code
+                        },
+                        success: function(res)
+                        {
+                            const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 4000
+                            })
+
+                            if($.isEmptyObject(res.error))
+                            {
+                                $('#coupon_input').hide();
+                                couponCalculation();
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: res.success
+                                })
+                            }
+                            else{
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: res.error
+                                })
+                            }
+
+                            
+                        }
+                });
+                
+            });
+
+            
+        }
+
+    </script>
+
+    <script>
+        
+        function couponCalculation()
+        {
+            $(function(){
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('coupon.calculate') }}",
+                    dataType: "json",
+                    success: function(res){
+
+                        if(res.total){
+                            $('#couponCalculateArea').html(`
+                            <tr>
+                                <th>
+                                    <div class="cart-sub-total">
+                                        Subtotal<span class="inner-left-md">&#2547;${res.total}</span>
+                                    </div>
+                                    <div class="cart-grand-total">
+                                        Grand Total<span class="inner-left-md">&#2547;${res.total}</span>
+                                    </div>
+                                </th>
+                            </tr>`);
+                        }
+                        else{
+                            $('#couponCalculateArea').html(`
+                            <tr>
+                                <th>
+                                    <div class="cart-sub-total">
+                                        Subtotal<span class="inner-left-md">&#2547;${res.subtotal}</span>
+                                    </div>
+                                    <div class="cart-sub-total">
+                                        <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i></button>
+                                        Coupon<span class="inner-left-md">${res.coupon_title}</span>
+                                    </div>
+                                    <div class="cart-sub-total">
+                                        Dis. Amount<span class="inner-left-md">${res.discount_amount}%</span>
+                                    </div>
+                                    <div class="cart-grand-total">
+                                        Grand Total<span class="inner-left-md">&#2547;${res.total_price}</span>
+                                    </div>
+                                </th>
+                            </tr>`);
+                        }
+                    }
+                });
+            })
+        }
+
+        couponCalculation();
+
+        function couponRemove(){
+
+            $(function(){
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('coupon.remove') }}",
+                    dataType: "json",
+                    data:{
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res){
+
+                        couponCalculation();
+                        $('#coupon_input').show();
+
+                        // start sweet alert
+
+                        const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.success
+                        })
+
+                        // end sweet alert
+                        
+                    }
+                });
+            })
+
+        }
+        
     </script>
 @endsection
