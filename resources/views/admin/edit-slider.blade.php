@@ -43,39 +43,7 @@
                                                 {{ $message }}
                                             @enderror
                                         </div>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Slider Sub-Title</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <input 
-                                            type="text" 
-                                            name="slider_subtitle" 
-                                            class="form-control @error('slider_subtitle') is-invalid @enderror"  
-                                            autocomplete="off"
-                                            value="{{ $slider->slider_subtitle }}">
-
-                                        <div class="invalid-feedback">
-                                            @error('slider_subtitle')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Slider Title</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <input 
-                                            type="text" 
-                                            name="slider_title" 
-                                            class="form-control @error('slider_title') is-invalid @enderror" 
-                                            required autocomplete="off"
-                                            value="{{ $slider->slider_title }}">
-
-                                        <div class="invalid-feedback">
-                                            @error('slider_title')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
+                                    </div>      
 
                                     <label class="col-sm-2 col-form-label">Preview</label>
                                     <div class="col-sm-10 mb-4">
@@ -104,7 +72,6 @@
                                             name="slider_order" 
                                             class="form-control" 
                                             autocomplete="off"
-                                            value="0"
                                             value="{{ $slider->slider_order }}">
                                     </div>
 

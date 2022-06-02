@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::where('product_status', 'Active')->orderBy('product_name')->get();
-        $sliders = Slider::where('slider_status', 'Active')->orderBy('slider_order', 'ASC')->limit(3)->get();
+        $sliders = Slider::where('slider_status', 'Active')->orderBy('slider_order', 'ASC')->limit(6)->get();
         $categories = Category::where('category_status', 'Active')->get();
 
         $featured = Product::where([

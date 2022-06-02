@@ -61,7 +61,10 @@
                 <li class="list-group-item">Subcategory: <b id="m-product-subcategory"></b></li>
                 <li class="list-group-item">Price: &#2547;<b id="m-product-price"></b></li>
                 <li class="list-group-item">Discount: <b id="m-product-discount"></b>%</li>
-                <li class="list-group-item">Product Code: <b id="m-product-code"></b></li>
+                <li class="list-group-item">Stock: 
+                  <b style="color: green" id="m-product-stock-avail"></b>
+                  <b style="color: red" id="m-product-stock-out"></b>
+                </li>
               </ul>
 
           </div>

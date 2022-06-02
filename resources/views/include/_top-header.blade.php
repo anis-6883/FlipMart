@@ -42,10 +42,10 @@
                 <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
                 <div class="basket-item-count"><span class="count" id="c-cartQty">2</span></div>
                 <div class="total-price-basket"> 
-                    <span class="lbl">my cart -</span> 
+                    <span class="lbl">my cart</span> 
                     <span class="total-price"> 
-                    <span class="sign">$</span>
-                    <span class="value" id="c-cartTotal"></span> 
+                    {{-- <span class="sign">$</span>
+                    <span class="value" id="c-cartTotal"></span>  --}}
                     </span> 
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <!-- End Mini Cart With AJAX -->
                 
                 <div class="clearfix cart-total">
-                    <div class="pull-right"> <span class="text">Sub Total : $</span><span class='price' id="c-cartSubTotal"></span> </div>
+                    <div class="pull-right"> <span class="text">Sub Total : &#2547;</span><span class='price' id="c-cartSubTotal"></span> </div>
                     <div class="clearfix"></div>
                     <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
                 <!-- /.cart-total--> 

@@ -37,6 +37,7 @@ class Sub_SubcategoryController extends Controller
         $obj->sub_subcategory_name = $req->sub_subcategory_name;
         $obj->category_id = $req->category_id;
         $obj->subcategory_id = $req->subcategory_id;
+        $obj->sub_subcategory_order = $req->sub_subcategory_order;
         $obj->save();
 
         return redirect()->route('subSubcategory.index')->with('success', 'Sub-Subcategory is Created Successfully!');

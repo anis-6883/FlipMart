@@ -9,10 +9,10 @@
             <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
             <div class="nav-outer">
                 <ul class="nav navbar-nav">
-                <li class="active dropdown yamm-fw"> <a href="{{ route('home') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Home</a> </li>
+                <li class="active dropdown yamm-fw"> <a href="{{ route('home') }}">Home</a></li>
 
                 @php
-                    $categories = App\Models\Category::where('category_status', 'Active')->get();
+                    $categories = App\Models\Category::where('category_status', 'Active')->orderBy('category_order')->get();
                 @endphp
 
                 @foreach ($categories as $category)
@@ -54,7 +54,7 @@
 
                 @endforeach
 
-                <li class="dropdown mega-menu"> 
+                {{-- <li class="dropdown mega-menu"> 
                 <a href="category.html"  data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Electronics <span class="menu-label hot-menu hidden-xs">hot</span> </a>
                     <ul class="dropdown-menu container">
                     <li>
@@ -161,7 +161,7 @@
                         </div>
                     </li>
                     </ul>
-                </li>
+                </li> --}}
 
 
                 <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>

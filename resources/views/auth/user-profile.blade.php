@@ -33,7 +33,7 @@
                 <p>Hi <b>{{ auth()->user()->username }}</b>, Welcome to your Profile!</p>
                 <div class="thumbnail">
                     <img 
-                        src="{{ url('/frontend_assets/images/testimonials/member1.png') }}" 
+                        src="{{ url('/assets/frontend/images/testimonials/member1.png') }}" 
                         width="200px" 
                         height="100%" 
                         style="border-radius: 50%; margin-top: 15px"  

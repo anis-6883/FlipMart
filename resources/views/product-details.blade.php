@@ -33,13 +33,9 @@
   
             @include('include.sidebarProductTags')
   
-            @include('include.sidebarSpecialDelas')
-  
-            @include('include.sidebarNewsLetter')
-  
             @include('include.sidebarTestimonials')
   
-            <div class="home-banner"> <img src="{{ asset("frontend_assets/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
+            <div class="home-banner"> <img src="{{ asset("assets/frontend/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
   
           </div>
             <!-- /.sidemenu-holder --> 
@@ -199,7 +195,7 @@
                                     $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
                                     $product_amount = $product->product_regular_price - $discount_price;
                                   @endphp
-                                  <span class="price">&#2547;{{ $product_amount }}</span>
+                                  <span class="price">&#2547;{{ round($product_amount) }}</span>
                                   <span class="price-strike">&#2547;{{ $product->product_regular_price }}</span>
                               @endif
 
@@ -282,13 +278,13 @@
                           <span class="label">Qty :</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        {{-- <div class="col-sm-2">
                           <div class="form-group">
                             <input style="padding: 6px 6px;" type="number" class="form-control" id="m-product-qty" min="1" max="10" value="1">
                           </div>
-                        </div>
+                        </div> --}}
         
-                        {{-- <div class="col-sm-2">
+                        <div class="col-sm-2">
                           <div class="cart-quantity">
                             <div class="quant-input">
                               <div class="arrows">
@@ -306,7 +302,7 @@
                               <input type="text" value="1" />
                             </div>
                           </div>
-                        </div> --}}
+                        </div>
         
                         <div class="col-sm-7">
                           <input type="hidden" id="m-product-id" value="{{ $product->id }}">
@@ -738,6 +734,11 @@
             </section>
             <!-- /.section -->
             <!-- ============================================== RELATED PRODUCTS : END ============================================== -->
+
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+    @include('include._brand-slider')
+    <!-- /.brand-slider --> 
+    <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
         </div>
           <!-- /.col -->
 

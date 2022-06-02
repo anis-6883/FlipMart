@@ -57,6 +57,9 @@ Route::post('/fetchProductData', [AjaxController::class, 'fetchProductData'])->n
 Route::post('/cart/addToCart/{product_id}', [CartController::class, 'addToCart'])->name('cart.addToCart');
 Route::get('/cart/getFromCart', [CartController::class, 'getFromCart'])->name('cart.getFromCart');
 Route::post('/cart/removeFromCart/{rowId}', [CartController::class, 'removeFromCart'])->name('cart.removeFromCart');
+Route::post('/cart/cartIncrement/{rowId}', [CartController::class, 'cartIncrement'])->name('cart.cartIncrement');
+Route::post('/cart/cartDecrement/{rowId}', [CartController::class, 'cartDecrement'])->name('cart.cartDecrement');
+Route::get('/cart/myCart', [CartController::class, 'index'])->name('cart.index');
 
 // Wishlist Route
 Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');

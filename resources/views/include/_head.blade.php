@@ -6,6 +6,7 @@
     <meta name="description" content="">
     <meta name="developer" content="Muhammad Anisuzzaman">
     <meta name="keywords" content="eCommerce">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/frontend/images/app-logo.png') }}">
     <title>Flipmart | @yield('title')</title>
 
     <!-- Bootstrap Core CSS -->

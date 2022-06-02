@@ -40,7 +40,15 @@
                         $('#m-product-discount').text(0);
                       }
 
-                      $('#m-product-code').text(result.product.product_code);
+                      if(result.product.product_quantity > 0)
+                      {
+                        $('#m-product-stock-avail').text("Available");
+                        $('#m-product-stock-out').text("");
+                      }else{
+                        $('#m-product-stock-out').text("Stock Out");
+                        $('#m-product-stock-avail').text("");
+                      }
+
                       $('#m-product-price').text(result.product_price);
 
                       // push image src
@@ -158,7 +166,7 @@
               {
                 var miniCart = "";
                 $('#c-cartQty').text(res.cartQty);
-                $('span[ id="c-cartTotal" ]').text(res.cartTotal);
+                // $('span[ id="c-cartTotal" ]').text(res.cartTotal);
                 $('span[ id="c-cartSubTotal" ]').text(res.cartTotal);
 
                 $.each(res.carts, function(key, value){
@@ -174,8 +182,10 @@
                             </div>
                         </div>
                         <div class="col-xs-7">
-                            <h3 class="name"><a href="#">${value.name}</a></h3>
-                            <div class="price">$${value.price} * ${value.qty}</div>
+                            <h3 class="name"><a href="#">${value.name.slice(0, 30) + "..."}</a></h3>
+
+                            <div class="price">&#2547;${value.price} * ${value.qty}</div>
+                            
                         </div>
                               <div class="col-xs-1 action"> 
                                 <button type="submit" id="${value.rowId}" onclick="removeFromCart(this.id)">
@@ -221,6 +231,7 @@
           success: function(res){
 
             miniCart();
+            loadMyCart();
             $('#closeModel').click();
 
             // start sweet alert

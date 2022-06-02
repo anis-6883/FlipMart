@@ -177,7 +177,7 @@
                                             src="{{ asset('uploads/products/' . $product->product_master_image) }}" 
                                             alt="No Image" width="100px" height="100px">
                                         @else
-                                            <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" 
+                                            <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" 
                                             alt="No Image" width="100px" height="100px">
                                         @endif
                                         </td>
