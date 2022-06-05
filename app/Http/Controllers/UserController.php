@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -177,5 +179,20 @@ class UserController extends Controller
         $arr['gender'] = $user->gender ?: "";
         return view('auth.update-profile', compact('arr'));
     }
+
+    public function userOrders()
+    {
+        $orders = Order::where('user_id', Auth::id())->with('order_items')->latest()->get();
+        return view('list-order', compact('orders'));
+    }
+
+    public function userOrderDetails($order_id)
+    {
+        $order = Order::where([ ['id', $order_id], ['user_id', Auth::id()] ])->with('order_items')->first();
+        $order_items = OrderItem::with('product')->where('order_id', $order_id)->get();
+        return view('show-order', compact('order', 'order_items'));
+    }
+
+    
     
 }

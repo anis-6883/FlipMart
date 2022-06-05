@@ -12,4 +12,13 @@ class OrderItem extends Model
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
     protected $guarded = ['id'];
+
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+    
 }

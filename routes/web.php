@@ -67,6 +67,11 @@ Route::post('/coupon/remove', [CouponController::class, 'couponRemove'])->name('
 Route::get('/cart/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkoutPage')->middleware('auth');
 Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store')->middleware('auth');
 Route::post('/checkout/stripe/order', [CheckoutController::class, 'stripeOrder'])->name('checkout.stripeOrder')->middleware('auth');
+Route::post('/checkout/cod/order', [CheckoutController::class, 'codOrder'])->name('checkout.codOrder')->middleware('auth');
+
+// User Orders
+Route::get('/user/orders', [UserController::class, 'userOrders'])->name('user.orders')->middleware('auth');
+Route::get('/user/orders/{order_id}', [UserController::class, 'userOrderDetails'])->name('user.orderDetails')->middleware('auth');
 
 // Wishlist Route
 Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');

@@ -50,6 +50,7 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ route('user.profile') }}">Profile</a></li>
                 <li><a href="{{ route('user.changePassword') }}">Change Password</a></li>
+                <li><a href="{{ route('user.orders') }}">My Orders</a></li>
                 <li><a href="#" 
                   onclick="event.preventDefault(); 
                   document.querySelector('#logout-form').submit();">
