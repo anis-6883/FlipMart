@@ -82,7 +82,7 @@
 
                             </div><!-- /.estimate-ship-tax -->
             
-                            <div class="col-md-6 col-sm-12 cart-shopping-total" id="couponCalculateAreaDiv">
+                            <div class="col-md-6 col-sm-12 cart-shopping-total">
 
                                 <table class="table">
                                     <thead id="couponCalculateArea">
@@ -93,15 +93,16 @@
                                             <tr>
                                                 <td>
                                                     <div class="cart-checkout-btn pull-right">
-                                                        <button type="submit" class="btn btn-primary checkout-btn">PROCCED TO CHEKOUT</button>
+                                                        <a href="{{ route('checkoutPage') }}" class="btn btn-primary checkout-btn">PROCEED TO CHEKOUT</a>
                                                     </div>
                                                 </td>
                                             </tr>
                                     </tbody><!-- /tbody -->
                                 </table><!-- /table -->
                             </div><!-- /.cart-shopping-total -->
-
                         </div>
+
+                        <div id="no-cart-alert"></div>
                     @else
                         <div class="col-md-12">
                             <div class="jumbotron jumbotron-fluid">
@@ -114,12 +115,9 @@
                         </div>
                     @endif
 
-                    
-                    
-
                 @else
 
-                    <div class="col-md-12" id="no-cart-alert">
+                    <div class="col-md-12">
                         <div class="jumbotron jumbotron-fluid">
                         <div class="container">
                             <h1 class="display-4">No Cart Added Yet!</h1>
@@ -362,13 +360,10 @@
                                 })
                             }
 
-                            
                         }
                 });
                 
             });
-
-            
         }
 
     </script>

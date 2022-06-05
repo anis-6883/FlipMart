@@ -64,7 +64,9 @@
                 <div class="clearfix cart-total">
                     <div class="pull-right"> <span class="text">Sub Total : &#2547;</span><span class='price' id="c-cartSubTotal"></span> </div>
                     <div class="clearfix"></div>
-                    <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
+                    <a href="{{ route('cart.index') }}" class="btn btn-upper btn-primary btn-block m-t-20">My Cart</a>
+                    <a href="{{ route('checkoutPage') }}" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> 
+                </div>
                 <!-- /.cart-total--> 
                 
                 </li>

@@ -6,6 +6,7 @@
         <div class="cnt-account">
           <ul class="list-unstyled">
             
+            <li><a href="{{ route('cart.index') }}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
             @auth
               <li>
                 <a href="{{ route('wishlist.index') }}">
@@ -18,9 +19,8 @@
                   </span>
                 </a>
               </li> 
+              <li><a href="{{ route('checkoutPage') }}"><i class="icon fa fa-check"></i>Checkout</a></li>
             @endauth
-            <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
-            <li><a href="{{ route('cart.index') }}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
             @guest
               <li><a href="{{ route('user.login') }}"><i class="icon fa fa-lock"></i>Login</a></li>
             @endguest

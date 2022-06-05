@@ -252,7 +252,18 @@
               })
             }
             else{
-                $('#couponCalculateAreaDiv').hide();
+                $(".shopping-cart").hide();
+                $('#no-cart-alert').html(`
+                <div class="col-md-12">
+                        <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-4">No Cart Added Yet!</h1>
+                            <p class="lead">There are no cart yet. Add your products to cart and they will show here.</p>
+                            <p><a href="{{ route('home') }}">Go TO Home</a></p>
+                        </div>
+                        </div>
+                </div>`
+                );
                 Toast.fire({
                   title: res.error,
                   icon: 'error',
@@ -338,5 +349,37 @@
 </script>
 
 <!-- End Add TO Wishlist -->
+
+<!-- Sweet Alert For All -->
+<script>
+  const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 4500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+  })
+
+  @error('error')
+      Toast.fire({
+          icon: 'error',
+          title: '{{ $message }}'
+      })
+  @enderror
+
+  @if (session()->has('success'))
+      Toast.fire({
+          icon: 'success',
+          title: '{{ session('success') }}'
+      })
+  @endif
+  
+</script>
+
+<!-- End Sweet Alert For All -->
 
 @yield('javascript')

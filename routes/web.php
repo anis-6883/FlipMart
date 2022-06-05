@@ -6,6 +6,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubcategoryController;
@@ -53,7 +54,7 @@ Route::get('/subCategoryWiseProducts/{subCat_id}/{subCat_name}', [HomeController
 Route::get('/sub-subCategoryWiseProducts/{sub_subCat_id}/{sub_subCat_name}', [HomeController::class, 'sub_subCategoryWiseProducts'])->name('sub_subCategoryWiseProducts');
 Route::post('/fetchProductData', [AjaxController::class, 'fetchProductData'])->name('fetchProductData');
 
-// Cart Route
+// Cart, Coupon, Checkout Route
 Route::post('/cart/addToCart/{product_id}', [CartController::class, 'addToCart'])->name('cart.addToCart');
 Route::get('/cart/getFromCart', [CartController::class, 'getFromCart'])->name('cart.getFromCart');
 Route::post('/cart/removeFromCart/{rowId}', [CartController::class, 'removeFromCart'])->name('cart.removeFromCart');
@@ -63,6 +64,9 @@ Route::get('/cart/myCart', [CartController::class, 'index'])->name('cart.index')
 Route::post('/coupon/applyCoupon', [CouponController::class, 'applyCoupon'])->name('coupon.applyCoupon')->middleware('auth');
 Route::get('/coupon/calculate', [CouponController::class, 'couponCalculate'])->name('coupon.calculate')->middleware('auth');
 Route::post('/coupon/remove', [CouponController::class, 'couponRemove'])->name('coupon.remove')->middleware('auth');
+Route::get('/cart/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkoutPage')->middleware('auth');
+Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store')->middleware('auth');
+Route::post('/checkout/stripe/order', [CheckoutController::class, 'stripeOrder'])->name('checkout.stripeOrder')->middleware('auth');
 
 // Wishlist Route
 Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');
