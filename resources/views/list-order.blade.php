@@ -47,6 +47,7 @@
                                         <th>Order No.</th>
                                         <th>Total Item</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -58,8 +59,13 @@
                                             <td class="col-md-2">{{ $order->order_number }}</td>
                                             <td class="col-md-2">{{ count($order->order_items) }}</td>
                                             <td class="col-md-2"><b>&#2547; {{ $order->amount }}</b></td>
+                                            <td class="col-md-2"><b>{{ $order->payment_method }}</b></td>
                                             <td class="col-md-2">
-                                                <span class="badge badge-pill badge-secondary">{{ $order->order_status }}</span>
+                                                @if ($order->order_status != "Delivered")
+                                                    <span class="badge badge-pill" style="background-color: #0dcaf0; color: #000">{{ $order->order_status }}</span></td>
+                                                @else
+                                                    <span class="badge badge-pill" style="background-color: #198754; color: #fff">{{ $order->order_status }}</span></td>
+                                                @endif
                                             </td>
                                             <td class="col-md-1 close-btn">
                                                 <div style="display: flex; justify-content: center;">

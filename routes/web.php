@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -97,6 +98,10 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::resource('/admin/product-images', ProductImageController::class);
     Route::resource('/admin/coupon', CouponController::class);
     Route::resource('/admin/slider', SliderController::class);
+    Route::get('/admin/order/{order_id}/show', [OrderController::class, 'show'])->name('admin.orderShow');
+    Route::get('/admin/order/index', [OrderController::class, 'index'])->name('admin.orderIndex');
+    Route::get('/admin/order/{order_id}/edit', [OrderController::class, 'edit'])->name('admin.orderEdit');
+    Route::put('/admin/order/{order_id}/update', [OrderController::class, 'update'])->name('admin.orderUpdate');
 
     // Ajax Controller Route
     Route::post('/categoryUpdateStatus', [AjaxController::class, 'categoryUpdateStatus'])->name('category.updateStatus');

@@ -97,8 +97,8 @@
                                 </tr>
 
                                 <tr>
-                                    <th>Payment Type</th>
-                                    <td>{{ $order->payment_type }}</td>
+                                    <th>Payment Method</th>
+                                    <td>{{ $order->payment_method }}</td>
                                 </tr>
 
                                 <tr>
@@ -108,7 +108,13 @@
 
                                 <tr>
                                     <th>Status</th>
-                                    <td><span class="badge badge-pill badge-secondary">{{ $order->order_status }}</span></td>
+                                    <td>
+                                        @if ($order->order_status != "Delivered")
+                                            <span class="badge badge-pill" style="background-color: #0dcaf0; color: #000">{{ $order->order_status }}</span>
+                                        @else
+                                            <span class="badge badge-pill" style="background-color: #198754; color: #fff">{{ $order->order_status }}</span>
+                                        @endif
+                                    </td>
                                 </tr>
 
                                 <tr>
@@ -169,9 +175,20 @@
                 </div>
             </div>
 
-
-
-
+            @if ($order->order_status == 'Delivered')
+                <div class="col-md-12">
+                    <div class="card">
+                        <form action="">
+                            <div class="form-group">
+                                <label for="return_order" class="form-label">Order Return Reason:</label>
+                                <textarea class="form-control" name="return_order" id="return_order" cols="30" rows="10" placeholder="Write your complain..."></textarea>
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="submit">Sent</button>
+                        </form>
+                    </div>
+                </div>
+            @endif
+            
 
         </div>
 

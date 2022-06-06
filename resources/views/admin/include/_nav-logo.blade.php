@@ -4,10 +4,10 @@
 <div class="nav-header">
     <div class="brand-logo">
         <a href="{{ route('admin.dashboard') }}">
-            <b class="logo-abbr"><img src="{{ asset('assets/backend//images/logo.png') }}" alt=""> </b>
-            <span class="logo-compact"><img src="{{ asset('assets/backend//images/logo-compact.png') }}" alt=""></span>
+            <b class="logo-abbr"><img src="{{ asset('assets/frontend/images/logo2.png') }}" alt="" width="140px"> </b>
+            <span class="logo-compact"><img src="{{ asset('assets/frontend/images/logo2.png') }}" alt="" width="140px"></span>
             <span class="brand-title">
-                <img src="{{ asset('assets/backend//images/logo-text.png') }}" alt="">
+                <img src="{{ asset('assets/frontend/images/logo2.png') }}" alt="" width="140px">
             </span>
         </a>
     </div>

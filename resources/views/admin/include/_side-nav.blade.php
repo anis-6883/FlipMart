@@ -5,21 +5,21 @@
     <div class="nk-nav-scroll">
         <ul class="metismenu" id="menu">
 
-            <li class="nav-label">Dashboard</li>
+            {{-- <li class="nav-label">Dashboard</li> --}}
             <li>
                 <a href="{{ route('admin.dashboard') }}" aria-expanded="false">
                     <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                 </a>
             </li>
 
-            <li class="nav-label">Manage Customers</li>
-            <li>
+            {{-- <li class="nav-label">Manage Customers</li> --}}
+            {{-- <li>
                 <a href="#" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf500;</i></i><span class="nav-text">List Customers</span>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="nav-label">Manage Category</li>
+            {{-- <li class="nav-label">Manage Category</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf46d;</i> <span class="nav-text">Categories</span>
@@ -30,7 +30,7 @@
                 </ul>
             </li>
 
-            <li class="nav-label">Manage Subcategory</li>
+            {{-- <li class="nav-label">Manage Subcategory</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf0cb;</i> <span class="nav-text">Subcategories</span>
@@ -41,7 +41,7 @@
                 </ul>
             </li>
 
-            <li class="nav-label">Manage Sub-Subcategory</li>
+            {{-- <li class="nav-label">Manage Sub-Subcategory</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf0ca;</i> <span class="nav-text">Sub-Subcategories</span>
@@ -52,7 +52,7 @@
                 </ul>
             </li>
 
-            <li class="nav-label">Manage Brand</li>
+            {{-- <li class="nav-label">Manage Brand</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf57d;</i> <span class="nav-text">Brands</span>
@@ -63,7 +63,7 @@
                 </ul>
             </li>
 
-            <li class="nav-label">Manage Product</li>
+            {{-- <li class="nav-label">Manage Product</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf54e;</i> <span class="nav-text">Products</span>
@@ -74,7 +74,7 @@
                 </ul>
             </li>
             
-            <li class="nav-label">Manage Product Image</li>
+            {{-- <li class="nav-label">Manage Product Image</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf302;</i> <span class="nav-text">Product Images</span>
@@ -85,7 +85,7 @@
                 </ul>
             </li>
 
-            <li class="nav-label">Manage Coupon</li>
+            {{-- <li class="nav-label">Manage Coupon</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf3ff;</i> <span class="nav-text">Coupons</span>
@@ -96,7 +96,7 @@
                 </ul>
             </li>
 
-            <li class="nav-label">Manage Slider</li>
+            {{-- <li class="nav-label">Manage Slider</li> --}}
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class='fas menu-icon'>&#xf1de;</i> <span class="nav-text">Sliders</span>
@@ -107,7 +107,23 @@
                 </ul>
             </li>
 
-            <li class="nav-label">End Nav</li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class='fas menu-icon'>&#xf291;</i> <span class="nav-text">Orders</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('admin.orderIndex') }}">All Order</a></li>
+                    <li><a href="#">Pending Orders</a></li>
+                    <li><a href="#">Processing Orders</a></li>
+                    <li><a href="#">Halt Orders</a></li>
+                    <li><a href="#">Shipping Orders</a></li>
+                    <li><a href="#">Delivered Orders</a></li>
+                    <li><a href="#">Completed Orders</a></li>
+                    <li><a href="#">Cancelled Orders</a></li>
+                </ul>
+            </li>
+
+            {{-- <li class="nav-label">End Nav</li> --}}
 
             </li>
         </ul>

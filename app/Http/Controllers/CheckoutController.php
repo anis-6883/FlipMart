@@ -76,7 +76,7 @@ class CheckoutController extends Controller
             'phone' => $req->phone,
             'address' => $req->address,
             'payment_type' => $charge->payment_method_details->type,
-            'payment_method' => $charge->payment_method,
+            'payment_method' => 'Stripe',
             'transaction_id' => $charge->balance_transaction,
             'currency' => $charge->currency,
             'order_number' => $charge->metadata->order_id,
