@@ -114,9 +114,9 @@
                                 <tr>
                                     <th>Action</th>
                                     <td> 
-                                        <button id="" onclick="" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('user.invoiceDownload', $order->id) }}" target="_blank" class="btn btn-warning btn-sm">
                                             <i class="icon fa fa-download"></i> Invoice
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
 

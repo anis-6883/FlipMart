@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class UserController extends Controller
 {
@@ -193,6 +194,17 @@ class UserController extends Controller
         return view('show-order', compact('order', 'order_items'));
     }
 
-    
-    
+    public function invoiceDownload($order_id)
+    {
+        $order = Order::where([ ['id', $order_id], ['user_id', Auth::id()] ])->with('order_items')->first();
+        $order_items = OrderItem::with('product')->where('order_id', $order_id)->get();
+        $pdf = PDF::loadView('order-invoice', compact('order', 'order_items'))
+                ->setPaper('a4')
+                ->setOptions([
+                    'tempDir' => public_path(),
+                    'chroot' => public_path()
+                ]);
+        return $pdf->download('INVOICE_'. uniqid() .'.pdf');
+    }
+
 }

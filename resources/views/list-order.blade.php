@@ -65,7 +65,7 @@
                                                 <div style="display: flex; justify-content: center;">
                                                     <a href="{{ route('user.orderDetails', $order->id) }}" class="btn btn-primary btn-sm" style="margin-right: 5px">
                                                         <i class="icon fa fa-eye"></i> Details </a>
-                                                    <a href="" class="btn btn-warning btn-sm">
+                                                    <a target="_blank" href="{{ route('user.invoiceDownload', $order->id) }}" class="btn btn-warning btn-sm">
                                                         <i class="icon fa fa-download"></i> Invoice
                                                     </a>
                                                 </div>

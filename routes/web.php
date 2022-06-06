@@ -72,6 +72,7 @@ Route::post('/checkout/cod/order', [CheckoutController::class, 'codOrder'])->nam
 // User Orders
 Route::get('/user/orders', [UserController::class, 'userOrders'])->name('user.orders')->middleware('auth');
 Route::get('/user/orders/{order_id}', [UserController::class, 'userOrderDetails'])->name('user.orderDetails')->middleware('auth');
+Route::get('/user/invoice/download/{order_id}', [UserController::class, 'invoiceDownload'])->name('user.invoiceDownload')->middleware('auth');
 
 // Wishlist Route
 Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');
