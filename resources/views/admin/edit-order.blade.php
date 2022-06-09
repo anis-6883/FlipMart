@@ -39,7 +39,7 @@
                                     </div>
                                     <label class="col-sm-2 col-form-label">Order Amount</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="text" class="form-control" value="&#2547;{{ $order->amount }}" disabled>
+                                        <input type="text" class="form-control" value="&#2547;{{ $order->grand_total }}" disabled>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Order Status</label>

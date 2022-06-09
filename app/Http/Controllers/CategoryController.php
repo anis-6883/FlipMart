@@ -20,12 +20,11 @@ class CategoryController extends Controller
 
     public function store(Request $req)
     {
-        $cat_obj = new Category;
-
         $req->validate([
             'category_name' => 'required|unique:categories|max:50'
         ]);
         
+        $cat_obj = new Category;
         $cat_obj->category_name = $req->post('category_name');
         $cat_obj->category_order = $req->post('category_order');
         $cat_obj->save();

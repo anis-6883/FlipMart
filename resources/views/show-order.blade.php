@@ -101,9 +101,20 @@
                                     <td>{{ $order->payment_method }}</td>
                                 </tr>
 
+                                @if ($order->discount_coupon != NULL)
+                                    <tr>
+                                        <th>Coupon Name</th>
+                                        <td>{{ $order->discount_coupon }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Coupon Amount</th>
+                                        <td>&#2547; {{ $order->discount_amount }}</td>
+                                    </tr>
+                                @endif
+                                
                                 <tr>
                                     <th>Total Amount</th>
-                                    <td><b>&#2547; {{ $order->amount }}</b></td>
+                                    <td><b>&#2547; {{ $order->grand_total }}</b></td>
                                 </tr>
 
                                 <tr>

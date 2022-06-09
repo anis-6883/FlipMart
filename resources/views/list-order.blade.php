@@ -58,7 +58,7 @@
                                         <tr>
                                             <td class="col-md-2">{{ $order->order_number }}</td>
                                             <td class="col-md-2">{{ count($order->order_items) }}</td>
-                                            <td class="col-md-2"><b>&#2547; {{ $order->amount }}</b></td>
+                                            <td class="col-md-2"><b>&#2547; {{ $order->grand_total }}</b></td>
                                             <td class="col-md-2"><b>{{ $order->payment_method }}</b></td>
                                             <td class="col-md-2">
                                                 @if ($order->order_status != "Delivered")

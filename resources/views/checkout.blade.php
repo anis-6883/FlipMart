@@ -111,25 +111,6 @@
                     <div class="panel-group">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="unicase-checkout-title">Billing Information</h4>
-                            </div>
-                            <div class="">
-                                <ul class="nav nav-checkout-progress list-unstyled">
-                                    @if (Session::has('coupon'))
-                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
-                                        <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_amount'] }}%)</a></li>
-                                        <li><a>Shipping Fee: &nbsp&nbsp &#2547;50</a></li>
-                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ session()->get('coupon')['total_price'] + 50 }}</b></a></li>
-                                    @else
-                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
-                                        <li><a>Shipping Fee: &nbsp&nbsp &#2547;50</a></li>
-                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ $cartTotal + 50 }}</b></a></li>
-                                    @endif
-                                    
-                                </ul>		
-                            </div>
-                            <hr>
-                            <div class="panel-heading">
                                 <h4 class="unicase-checkout-title">Billing Address</h4>
                             </div>
 
@@ -140,18 +121,31 @@
                                     <label class="info-title" for="username">Shipping Name <span>*</span></label>
                                     <input name="username" type="text" value="{{ Auth::user()->username }}" class="form-control unicase-form-control text-input" id="username" required>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="info-title" for="email">Email Address <span>*</span></label>
                                     <input name="email" type="email" value="{{ Auth::user()->email }}" class="form-control unicase-form-control text-input" id="email" required>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="info-title" for="phone">Phone <span>*</span></label>
                                     <input name="phone" type="text" class="form-control unicase-form-control text-input" id="phone" required>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="info-title" for="phone">District <span>*</span></label>
+                                    <select id="select_district" class="form-control" aria-label="Default select example" required>
+                                        <option selected value="">Select District</option>
+                                        <option value="1">In Dhaka (Charge: &#2547;50)</option>
+                                        <option value="2">Others (Charge: &#2547;70)</option>
+                                    </select>
+                                </div>
+                        
                                 <div class="form-group">
                                     <label class="info-title" for="address">Address <span>*</span></label>
                                     <textarea name="address" type="" class="form-control unicase-form-control text-input" id="address" required></textarea>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -172,8 +166,32 @@
                                     </div>     
                                 </div>
                               
-                              <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Proceed To Pay</button>
+                            <hr>
+
+                            <div class="panel-heading">
+                                <h4 class="unicase-checkout-title">Billing Information</h4>
+                            </div>
+                            <div class="">
+                                <ul class="nav nav-checkout-progress list-unstyled">
+                                    @if (Session::has('coupon'))
+                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
+                                        <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_amount'] }}%)</a></li>
+                                        {{-- <li><a>Shipping Fee: &nbsp&nbsp &#2547;50</a></li> --}}
+                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ session()->get('coupon')['total_price'] + 50 }}</b></a></li>
+                                    @else
+                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
+                                        {{-- <li><a>Shipping Fee: &nbsp&nbsp &#2547;<span id="shipping_fee">50</span></a></li> --}}
+                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ $cartTotal + 50 }}</b></a></li>
+                                    @endif
+                                    
+                                </ul>	
+                                
+                                <button type="submit" class="btn-upper btn btn-primary checkout-page-button" style="margin-top: 15px;">
+                                    Proceed To Pay
+                                </button>
                             </form>
+                            </div>
+
                         </div>
                     </div>
                 </div> 
@@ -187,4 +205,28 @@
     </div><!-- /.container -->
 </div><!-- /.body-content -->
 
+@endsection
+
+@section('javascript')
+    <script>
+        $(function(){
+
+            $('#select_district').change(function(){
+
+                let value = $(this).val();
+
+                if(value){
+                    if(value == 1){
+                        {{ session()->forget('shipping_charge') }}
+                        {{ session()->put('shipping_charge', 50) }}
+                    }
+                    if(value == 2){
+                        {{ session()->forget('shipping_charge') }}
+                        {{ session()->put('shipping_charge', 70) }}
+                    }
+                }
+            });
+
+        });
+    </script>
 @endsection

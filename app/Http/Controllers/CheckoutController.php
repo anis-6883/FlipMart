@@ -50,9 +50,9 @@ class CheckoutController extends Controller
     public function stripeOrder(Request $req)
     {
         if(Session::has('coupon'))
-            $total_amount = session()->get('coupon')['total_price'] + 50;
+            $total_amount = session()->get('coupon')['total_price'] + session()->get('shipping_charge');
         else
-            $total_amount = Cart::total() + 50;
+            $total_amount = Cart::total() + session()->get('shipping_charge');
 
         \Stripe\Stripe::setApiKey('sk_test_51It11HBUiGp7cYCIKvsdX1U79hEPlV8pJNIKlSXovRGnQguAQKXnWG3KWGF51lirwfWayyueMovNcUcLob82PBmp00i73daEOl');
 
@@ -80,11 +80,15 @@ class CheckoutController extends Controller
             'transaction_id' => $charge->balance_transaction,
             'currency' => $charge->currency,
             'order_number' => $charge->metadata->order_id,
-            'amount' => $total_amount,
-            'invoice_no' => 'FOS_' . date('YmdHis') . '_' . mt_rand(10000000, 99999999),
+            'invoice_no' => 'FOS_' . uniqid() . '_' . mt_rand(100000, 999999),
             'order_date' => Carbon::now()->format('Y-m-d H:i:s'), 
             'order_month' => Carbon::now()->format('F'), 
             'order_year' => Carbon::now()->format('Y'),
+            'delivery_charge' => session()->get('shipping_charge'),
+            'discount_coupon' => isset(session()->get('coupon')['coupon_title']) ? session()->get('coupon')['coupon_title'] : NULL,
+            'discount_amount' => isset(session()->get('coupon')['discount_price']) ? session()->get('coupon')['discount_price'] : NULL,
+            'total_before_discount' => Cart::total(),
+            'grand_total' => $total_amount,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
         ]);
@@ -133,9 +137,9 @@ class CheckoutController extends Controller
     public function codOrder(Request $req)
     {
         if(Session::has('coupon'))
-            $total_amount = session()->get('coupon')['total_price'] + 50;
+            $total_amount = session()->get('coupon')['total_price'] + session()->get('shipping_charge');
         else
-            $total_amount = Cart::total() + 50;
+            $total_amount = Cart::total() + session()->get('shipping_charge');
 
         // Insert Data Into Order Table
         $order_id = Order::insertGetId([
@@ -149,11 +153,15 @@ class CheckoutController extends Controller
             'transaction_id' => 'txn_' . uniqid() . mt_rand(10000000, 99999999),
             'currency' => 'Taka',
             'order_number' => uniqid() . mt_rand(10000000, 99999999),
-            'amount' => $total_amount,
             'invoice_no' => 'FOS_' . uniqid() . mt_rand(10000000, 99999999),
             'order_date' => Carbon::now()->format('Y-m-d H:i:s'), 
             'order_month' => Carbon::now()->format('F'), 
             'order_year' => Carbon::now()->format('Y'),
+            'delivery_charge' => session()->get('shipping_charge'),
+            'discount_coupon' => isset(session()->get('coupon')['coupon_title']) ? session()->get('coupon')['coupon_title'] : NULL,
+            'discount_amount' => isset(session()->get('coupon')['discount_price']) ? session()->get('coupon')['discount_price'] : NULL,
+            'total_before_discount' => Cart::total(),
+            'grand_total' => $total_amount,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
         ]);
@@ -194,7 +202,6 @@ class CheckoutController extends Controller
 
         // Delete the Cart Item after Purchased
         Cart::destroy();
-
         return redirect('/')->with('success', 'Your Order Placed Successfully...');
     }
 }

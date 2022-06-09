@@ -31,7 +31,7 @@
             
             @include('include.sidebarSpecialOffer')
   
-            @include('include.sidebarProductTags')
+            {{-- @include('include.sidebarProductTags') --}}
   
             @include('include.sidebarTestimonials')
   
@@ -284,32 +284,45 @@
                           </div>
                         </div> --}}
         
-                        <div class="col-sm-2">
-                          <div class="cart-quantity">
-                            <div class="quant-input">
-                              <div class="arrows">
-                                <div class="arrow plus gradient">
-                                  <span class="ir"
-                                    ><i class="icon fa fa-sort-asc"></i
-                                  ></span>
-                                </div>
-                                <div class="arrow minus gradient">
-                                  <span class="ir"
-                                    ><i class="icon fa fa-sort-desc"></i
-                                  ></span>
-                                </div>
-                              </div>
-                              <input type="text" value="1" />
-                            </div>
+                        <div class="col-sm-3">
+
+                          <div style="display: flex; justify-content: center;">
+
+                              <button id="qtyButton" onclick="qtyDecrement()" class="btn btn-danger btn-sm" type="submit">-</button>
+                                    
+                              <input type="number" id="m-product-qty" value="1" min="1" max="10" disabled style="width: 45px; padding: 4px;">
+
+                              <button onclick="qtyIncrement()" class="btn btn-success btn-sm" type="submit">+</button>
+
                           </div>
+
+                            {{-- <div class="cart-quantity">
+                              <div class="quant-input">
+                                <div class="arrows">
+                                  <div class="arrow plus gradient">
+                                    <span class="ir"
+                                      ><i class="icon fa fa-sort-asc"></i
+                                    ></span>
+                                  </div>
+                                  <div class="arrow minus gradient">
+                                    <span class="ir"
+                                      ><i class="icon fa fa-sort-desc"></i
+                                    ></span>
+                                  </div>
+                                </div>
+                                <input type="text" value="1" />
+                              </div>
+                            </div> --}}
                         </div>
         
                         <div class="col-sm-7">
-                          <input type="hidden" id="m-product-id" value="{{ $product->id }}">
-                          <button class="btn btn-primary" type="submit" onclick="addToCart()">
-                            <i class="fa fa-shopping-cart inner-right-vs"></i>
-                            ADD TO CART
-                          </button>
+                          <div style="display: flex; justify-content: center;">
+                            <input type="hidden" id="m-product-id" value="{{ $product->id }}">
+                            <button class="btn btn-primary" type="submit" onclick="addToCart()">
+                              <i class="fa fa-shopping-cart inner-right-vs"></i>
+                              ADD TO CART
+                            </button>
+                          </div>
                         </div>
 
 
@@ -747,9 +760,29 @@
     </div>
   </div>
 
+@endsection
 
+@section('javascript')
+    <script>
 
+      function qtyIncrement(){
+        var value = parseInt(document.querySelector('#m-product-qty').value, 10);
+        document.querySelector('#qtyButton').disabled = false;
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.querySelector('#m-product-qty').value = value;
+      }
 
+      function qtyDecrement(){
+        var value = parseInt(document.querySelector('#m-product-qty').value, 10);
+        value = isNaN(value) ? 0 : value;
+        if(value <= 1){
+          document.querySelector('#qtyButton').disabled = true
+        }else{
+          value--;
+        }
+        document.querySelector('#m-product-qty').value = value;
+      }
 
-
+    </script>
 @endsection

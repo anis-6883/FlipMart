@@ -54,7 +54,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ date('d M, Y', strtotime($order->order_date)) }}</td>
                                         <td>{{ $order->invoice_no }}</td>
-                                        <td>&#2547;{{ $order->amount }}</td>
+                                        <td>&#2547;{{ $order->grand_total }}</td>
                                         <td>{{ $order->payment_method }}</td>
                                         <td>
                                             @if ($order->order_status != "Delivered")

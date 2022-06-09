@@ -20,7 +20,12 @@ class HomeController extends Controller
             ['featured', '1']
         ])->limit(6)->get();
 
-        return view('index', compact('sliders', 'categories', 'products', 'featured'));
+        $hot_deals = Product::where([
+            ['product_status', 'Active'],
+            ['hot_deals', '1']
+        ])->limit(6)->get();
+
+        return view('index', compact('sliders', 'categories', 'products', 'featured', 'hot_deals'));
     }
 
     public function productDetails($id, $slug)

@@ -15,19 +15,9 @@ class OrderController extends Controller
         return view('admin.list-order', compact('orders'));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($order_id)
     {
-        $order = Order::where([ ['id', $order_id], ['user_id', Auth::id()] ])->with('order_items')->first();
+        $order = Order::where('id', $order_id)->with('order_items')->first();
         $order_items = OrderItem::with('product')->where('order_id', $order_id)->get();
         return view('admin.show-order', compact('order', 'order_items'));
     }
@@ -42,12 +32,10 @@ class OrderController extends Controller
     {
         $order = Order::find($order_id);
         $order->order_status = $req->order_status;
+        if($req->order_status == "Delivered")
+            $order->delivered_date = date('Y-m-d H:i:s');
         $order->save();
         return redirect()->route('admin.orderIndex')->with('success', 'Order Status Updated Successfully!');
     }
-
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

@@ -51,7 +51,7 @@
                                     <tr>
                                         <th>1</th>
                                         <td>Order No.</td>
-                                        <td><span>{{ $order->order_number }}</span>
+                                        <td><span>{{ $order->order_number }}</span></td>
                                     </tr>
                                     <tr>
                                         <th>6</th>
@@ -124,7 +124,7 @@
                                     <tr>
                                         <th>5</th>
                                         <td>Total Amount</td>
-                                        <td><b>&#2547; {{ $order->amount }}</b></td>
+                                        <td><b>&#2547; {{ $order->grand_total }}</b></td>
                                     </tr>
                                     <tr>
                                         <th>6</th>
@@ -132,8 +132,10 @@
                                         <td>
                                             @if ($order->order_status != "Delivered")
                                                 <span class="label gradient-9 btn-rounded">{{ $order->order_status }}</span>
+                                                <a class="btn btn-info btn-xs mr-2" href="{{ route('admin.orderEdit', $order->id) }}">Edit</a>
                                             @else
                                                 <span class="label gradient-2 btn-rounded">{{ $order->order_status }}</span>
+                                                <a class="btn btn-info btn-xs mr-2" href="{{ route('admin.orderEdit', $order->id) }}">Edit</a>
                                             @endif
                                         </td>
                                     </tr>

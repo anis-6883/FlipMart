@@ -91,13 +91,13 @@
                 </div>
 
 
-                @include('include.sidebarProductTags')
+                {{-- @include('include.sidebarProductTags') --}}
 
                 @include('include.sidebarNewsLetter')
 
                 @include('include.sidebarTestimonials')
 
-                <div class="home-banner"> <img src="{{ asset("frontend_assets/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
+                <div class="home-banner"> <img src="{{ asset("assets/frontend/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
 
             </div>
                 <!-- /.sidemenu-holder --> 
@@ -109,7 +109,7 @@
 
                 <div id="category" class="category-carousel hidden-xs">
                     <div class="item">
-                    <div class="image"> <img src="{{ asset('frontend_assets/images/banners/cat-banner-1.jpg') }}" alt="" class="img-responsive"> </div>
+                    <div class="image"> <img src="{{ asset('assets/frontend/images/banners/cat-banner-1.jpg') }}" alt="" class="img-responsive"> </div>
                     <div class="container-fluid">
                         <div class="caption vertical-top text-left">
                         <div class="big-text"> Big Sale </div>
@@ -248,12 +248,18 @@
                                         <div class="cart clearfix animate-effect">
                                             <div class="action">
                                             <ul class="list-unstyled">
-                                                <li class="add-cart-button btn-group">
-                                                <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
-                                                <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                                                </li>
-                                                <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
-                                                <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
+                                              <li class="add-cart-button btn-group">
+                                                <button onclick="fetchProductData(this.id)" id="{{ $product->id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
+                                                  <i class="fa fa-shopping-cart"></i> 
+                                                </button>
+                                              </li>
+                                              
+                                              <li class="wishlist btn-group"> 
+                                                <button onclick="addToWishList(this.id)" id="{{ $product->id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
+                                                  <i class="icon fa fa-heart"></i> 
+                                                </button> 
+                                              </li>
+                                              <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
                                             </ul>
                                             </div>
                                             <!-- /.action --> 
