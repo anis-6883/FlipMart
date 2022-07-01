@@ -28,8 +28,12 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function product_image(){
+    public function product_images(){
         return $this->hasMany(Product_Image::class);
+    }
+
+    public function product_detail(){
+        return $this->hasOne(Product_Detail::class);
     }
 
     public function order_items(){

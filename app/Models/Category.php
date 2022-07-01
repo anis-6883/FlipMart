@@ -12,7 +12,6 @@ class Category extends Model
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
     protected $guarded = ['id'];
-    // protected $dates = ['created_at', 'updated_at'];
 
     public function subcategories(){
         return $this->hasMany(Subcategory::class);

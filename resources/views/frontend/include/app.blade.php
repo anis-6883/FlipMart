@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-  @include('include._head')
+  @include('frontend.include._head')
 
 <body class="cnt-home">
   
@@ -9,15 +9,15 @@
 <header class="header-style-1"> 
 
   <!-- ============================================== TOP MENU ============================================== -->
-  @include('include._top-menu')
+  @include('frontend.include._top-menu')
   <!-- ============================================== TOP MENU : END ============================================== -->
 
   <!-- ============================================== TOP HEADER ============================================== -->
-  @include('include._top-header')
+  @include('frontend.include._top-header')
   <!-- ============================================== TOP HEADER : END ============================================== -->
   
   <!-- ============================================== NAVBAR ============================================== -->
-  @include('include._top-nav')
+  @include('frontend.include._top-nav')
   <!-- ============================================== NAVBAR : END ============================================== --> 
   
 </header>
@@ -32,7 +32,7 @@
 
 
 <!-- ============================================================= FOOTER ============================================================= -->
-@include('include._footer')
+@include('frontend.include._footer')
 <!-- ============================================================= FOOTER : END============================================================= --> 
 
 <!--  Start Add to Cart Product Modal -->
@@ -99,7 +99,7 @@
 </div>
 <!--  End Add to Cart Product Modal --> 
   
-  @include('include._scripts')
+  @include('frontend.include._scripts')
 
 </body>
 </html>

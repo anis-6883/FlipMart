@@ -11,11 +11,7 @@ class Product_Image extends Model
     protected $table = 'product_images';
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = [
-        'product_id',
-        'product_image_filename',
-        'image_status',
-    ];
+    protected $guarded = ['id'];
 
     public function product(){
         return $this->belongsTo(Product::class);

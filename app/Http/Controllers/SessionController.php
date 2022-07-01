@@ -53,7 +53,7 @@ class SessionController extends Controller
             $arr['user_login_pass'] = '';
             $arr['is_remember'] = '';
         }
-        return view('auth.login', compact('arr'));
+        return view('frontend.auth.login', compact('arr'));
     }
 
 }

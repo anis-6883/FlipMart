@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.include.app')
 
 @section('title', 'Login')
 
@@ -30,8 +30,8 @@
                         </div>
                     @endif
 
-                    <h4 class="">Sign in</h4>
-                    <p class="">Hello, Welcome To Your Account...❤️</p>
+                    <h4 class="">Sign in Now</h4>
+                    {{-- <p class="">Hello, Welcome To Your Account...❤️</p> --}}
 
                     <div class="social-sign-in outer-top-xs">
                         <a href="#" class="facebook-sign-in"><i class="fa fa-facebook"></i> Sign In with Facebook</a>

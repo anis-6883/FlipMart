@@ -22,7 +22,7 @@ class User extends Authenticatable
     //     'email',
     //     'password',
     // ];
-    protected $guarded = [];
+    protected $guarded = ['id'];
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
 
@@ -38,6 +38,10 @@ class User extends Authenticatable
 
     public function orders(){
         return $this->hasMany(Order::class);
+    }
+
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class);
     }
 
 

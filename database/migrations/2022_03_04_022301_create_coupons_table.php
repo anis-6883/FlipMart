@@ -17,12 +17,11 @@ class CreateCouponsTable extends Migration
             $table->id();
             $table->string('coupon_title', 127);
             $table->string('coupon_code', 127)->unique();
-            $table->enum('discount_type', ['Fixed', 'Percentage'])->default('Percentage');
-            $table->double('discount_amount', 8, 2);
-            $table->integer('usable_per_person')->nullable();
-            $table->integer('usable_in_total')->nullable();
-            $table->dateTimeTz('coupon_start_date')->nullable();
-            $table->dateTimeTz('coupon_end_date')->nullable();
+            $table->integer('discount_pct');
+            $table->integer('usable_per_person');
+            $table->integer('usable_in_total');
+            $table->dateTimeTz('coupon_start_date');
+            $table->dateTimeTz('coupon_end_date');
             $table->enum('coupon_status', ['Active', 'Inactive'])->default('Inactive');
             $table->dateTimeTz('created_at');
             $table->dateTimeTz('updated_at');

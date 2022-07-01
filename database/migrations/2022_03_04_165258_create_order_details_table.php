@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class CreateOrderDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->restrictOnDelete()->restrictOnUpdate();
+            $table->unsignedBigInteger('order_id')->unique();
             $table->string('username');
             $table->string('email');
             $table->string('phone');
@@ -37,9 +37,9 @@ class CreateOrdersTable extends Migration
             $table->dateTimeTz('delivered_date')->nullable();
             $table->string('return_date')->nullable();
             $table->string('return_reason')->nullable();
-            $table->enum('order_status', ['Pending', 'Halt', 'Processing', 'Shipping', 'Delivered', 'Completed', 'Cancelled', 'Refunded'])->default('Pending');
             $table->dateTimeTz('created_at');
             $table->dateTimeTz('updated_at');
+            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -50,6 +50,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('order__details');
     }
 }

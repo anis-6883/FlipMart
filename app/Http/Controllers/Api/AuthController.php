@@ -7,6 +7,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+/**
+* @group Auth Management
+*
+* APIs to manage the Authentication Routes
+**/
+
 class AuthController extends Controller
 {
     public function register(Request $req)

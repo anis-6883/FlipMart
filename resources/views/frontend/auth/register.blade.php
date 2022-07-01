@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.include.app')
 
 @section('title', 'Register')
 
@@ -29,12 +29,12 @@
                         </div>
                     @endif
 
-                    <h4 class="checkout-subtitle">Sign Up</h4>
-                    <p class="text title-tag-line">Create your new account.</p>
+                    <h4 class="checkout-subtitle">Sign Up Here</h4>
+                    {{-- <p class="text title-tag-line">Create your new account.</p> --}}
 
                     <form action="{{ route('user.register') }}" method="POST" class="register-form outer-top-xs" role="form">
                         @csrf
-
+                        @method('POST')
                         <div class="form-group">
                             <label class="info-title" for="email"><b>Email Address </b><span>*</span></label>
                             <input 
@@ -65,11 +65,6 @@
                                 autocomplete="off"
                                 value="{{ old('username') }}"
                             />
-                            @error('username')
-                                <div class="invalid-feedback" style="color: red">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
 
                         <div class="form-group">

@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.include.app')
 
 @section('title', 'Home Page')
 
@@ -12,19 +12,19 @@
 
         <div class="col-xs-12 col-sm-12 col-md-3 sidebar"> 
 
-          @include('include.sidebarNavigation') 
+          @include('frontend.include.sidebarNavigation') 
           
-          @include('include.sidebarHotDeals')
+          {{-- @include('frontend.include.sidebarHotDeals') --}}
           
-          @include('include.sidebarSpecialOffer')
+          {{-- @include('frontend.include.sidebarSpecialOffer') --}}
 
-          {{-- @include('include.sidebarProductTags') --}}
+          {{-- @include('frontend.include.sidebarProductTags') --}}
 
-          @include('include.sidebarSpecialDelas')
+          {{-- @include('frontend.include.sidebarSpecialDelas') --}}
 
-          @include('include.sidebarNewsLetter')
+          @include('frontend.include.sidebarNewsLetter')
 
-          @include('include.sidebarTestimonials')
+          @include('frontend.include.sidebarTestimonials')
 
           <div class="home-banner"> <img src="{{ asset("assets/frontend/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
 
@@ -37,39 +37,39 @@
       <div class="col-xs-12 col-sm-12 col-md-9 homebanner-holder"> 
 
         <!-- ========================================== SECTION – HERO (SLIDER) ========================================= -->
-        @include('include._slider')
+        @include('frontend.include._slider')
         <!-- ========================================= SECTION – HERO (SLIDER) : END ========================================= --> 
         
         <!-- ============================================== INFO BOXES ============================================== -->
-        @include('include._info-box')
+        @include('frontend.include._info-box')
         <!-- ============================================== INFO BOXES : END ============================================== --> 
 
         <!-- ============================================== SCROLL TABS [ NEW PRODUCTS ] ============================================== -->
-        @include('include._scroll-tabs')
+        {{-- @include('frontend.include._scroll-tabs') --}}
         <!-- ============================================== SCROLL TABS : END [ NEW PRODUCTS ] ============================================== -->
 
         <!-- ============================================== WIDE BANNERS ============================================== -->
-        @include('include._wide-banner')
+        @include('frontend.include._wide-banner')
         <!-- ============================================== WIDE BANNERS : END ============================================== -->
 
         <!-- ============================================== FEATURED PRODUCTS ============================================== -->
-        @include('include._featured-products')
+        {{-- @include('frontend.include._featured-products') --}}
         <!-- ============================================== FEATURED PRODUCTS : END ============================================== --> 
 
         <!-- ============================================== WIDE PRODUCTS ============================================== -->
-        @include('include._fullwide-banner')
+        @include('frontend.include._fullwide-banner')
         <!-- ============================================== WIDE PRODUCTS : END ============================================== -->
 
         <!-- ============================================== Hot Deals PRODUCTS ============================================== -->
-        @include('include._hotDeals-slider')
+        {{-- @include('frontend.include._hotDeals-slider') --}}
         <!-- ============================================== Hot Deals PRODUCTS : END ============================================== --> 
 
         <!-- ============================================== BEST SELLER ============================================== -->
-        @include('include._best-selling')
+        @include('frontend.include._best-selling')
         <!-- ============================================== BEST SELLER : END ============================================== --> 
         
         <!-- ============================================== BLOG SLIDER ============================================== -->
-        @include('include._blog-slider')
+        @include('frontend.include._blog-slider')
         <!-- ============================================== BLOG SLIDER : END ============================================== --> 
         
         
@@ -81,7 +81,7 @@
     <!-- /.row --> 
 
     <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-    @include('include._brand-slider')
+    @include('frontend.include._brand-slider')
     <!-- /.brand-slider --> 
     <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
 

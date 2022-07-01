@@ -16,31 +16,15 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('subcategory_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('sub_subcategory_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('brand_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('product_order')->nullable();
-            $table->string('product_name', 255);
-            $table->string('product_slug', 255);
-            $table->string('product_code', 255)->nullable();
-            $table->string('product_tags', 255)->nullable();
-            $table->string('product_size', 255)->nullable();
-            $table->string('product_color', 255)->nullable();
-            $table->text('product_summary')->nullable();
-            $table->longText('product_description')->nullable();
-            $table->text('product_master_image')->nullable();
-            $table->double('product_regular_price', 8, 2);
-            $table->integer('product_discounted_price')->nullable();
-            $table->dateTimeTz('discount_start_date')->nullable();
-            $table->dateTimeTz('discount_end_date')->nullable();
-            $table->integer('product_quantity');
-            $table->boolean('featured')->default(0);
-            $table->boolean('hot_deals')->default(0);
-            $table->boolean('special_offer')->default(0);
+            $table->unsignedBigInteger('subcategory_id')->nullable();
+            $table->unsignedBigInteger('sub_subcategory_id')->nullable();
+            $table->unsignedBigInteger('brand_id')->nullable();
+            $table->foreign('subcategory_id')->references('id')->on('subcategories')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreign('sub_subcategory_id')->references('id')->on('sub_subcategories')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreign('brand_id')->references('id')->on('brands')->nullOnDelete()->cascadeOnUpdate();
             $table->enum('product_status', ['Active', 'Inactive'])->default('Inactive');
             $table->dateTimeTz('created_at');
             $table->dateTimeTz('updated_at');
-            $table->index('product_name');
         });
     }
 

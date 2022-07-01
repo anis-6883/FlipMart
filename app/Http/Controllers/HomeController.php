@@ -11,21 +11,21 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::where('product_status', 'Active')->orderBy('product_name')->get();
+        // $products = Product::where('product_status', 'Active')->orderBy('product_name')->get();
         $sliders = Slider::where('slider_status', 'Active')->orderBy('slider_order', 'ASC')->limit(6)->get();
         $categories = Category::where('category_status', 'Active')->get();
 
-        $featured = Product::where([
-            ['product_status', 'Active'],
-            ['featured', '1']
-        ])->limit(6)->get();
+        // $featured = Product::where([
+        //     ['product_status', 'Active'],
+        //     ['featured', '1']
+        // ])->limit(6)->get();
 
-        $hot_deals = Product::where([
-            ['product_status', 'Active'],
-            ['hot_deals', '1']
-        ])->limit(6)->get();
+        // $hot_deals = Product::where([
+        //     ['product_status', 'Active'],
+        //     ['hot_deals', '1']
+        // ])->limit(6)->get();
 
-        return view('index', compact('sliders', 'categories', 'products', 'featured', 'hot_deals'));
+        return view('index', compact('sliders', 'categories'));
     }
 
     public function productDetails($id, $slug)

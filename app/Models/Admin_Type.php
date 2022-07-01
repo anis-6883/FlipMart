@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model
+class Admin_Type extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,7 @@ class Coupon extends Model
     protected $dateFormat = 'Y-m-d H:i:s';
     protected $guarded = ['id'];
 
-    public function order(){
-        return $this->hasMany(Order::class);
+    public function admins(){
+        return $this->hasMany(Admin::class);
     }
-
 }

@@ -10,7 +10,7 @@ class Subcategory extends Model
     use HasFactory;
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = ['category_id', 'subcategory_name'];
+    protected $guarded = ['id'];
 
     public function category(){
         return $this->belongsTo(Category::class);

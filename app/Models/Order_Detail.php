@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model
+class Order_Detail extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Coupon extends Model
     protected $guarded = ['id'];
 
     public function order(){
-        return $this->hasMany(Order::class);
+        return $this->hasOne(Order::class);
     }
 
 }

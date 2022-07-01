@@ -1,4 +1,3 @@
-
 @extends('admin.include.app')
 
 @section('title', 'Show Product')

@@ -11,7 +11,7 @@ class Sub_Subcategory extends Model
     protected $table = 'sub_subcategories';
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = ['category_id', 'subcategory_id', 'sub_subcategory_name'];
+    protected $guarded = ['id'];
 
     public function category(){
         return $this->belongsTo(Category::class);

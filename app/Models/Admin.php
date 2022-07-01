@@ -11,4 +11,9 @@ class Admin extends Model
 
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
+    protected $guarded = ['id'];
+
+    public function admin_type(){
+        return $this->belongsTo(Admin_Type::class);
+    }
 }

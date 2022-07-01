@@ -16,36 +16,33 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
-        if($request->isMethod('POST'))
-        {
-            $attributes = $request->validate([
-                'username' => ['required', 'unique:users,username', 'min:8', 'max:255'],
-                'email' => ['required', 'unique:users,email', 'email', 'max:255'],
-                'password' => ['required', 'confirmed', 'min:8', 'max:255']
-            ]);
-    
-            $random_token = "RANDOM_" .  date('YmdHis') . rand(100000, 999999). "_TOKEN";
-            $attributes['password'] = bcrypt($attributes['password']); # -> Also Handle By Model
-            $attributes['remember_token'] = $random_token;
-            User::create($attributes);
-    
-            $data = [
-                'username' => $request->post('username'),
-                'random_token' => $random_token
-            ];
-            $user['to'] = $request->post('email');
-    
-            Mail::send('auth.email-varification', $data, function ($message) use ($user) {
-                $message->to($user['to']);
-                $message->subject('Email Verification');
-            });
-    
-            return redirect()
-                ->route('user.register')
-                ->with('success', 'Check Your Email for Verification...');
-        }
-        
-        return view('auth.register');
+        if(!$request->isMethod('POST'))
+            return view('frontend.auth.register');
+
+        $attributes = $request->validate([
+            'username' => ['required', 'unique:users,username', 'min:8', 'max:255'],
+            'email' => ['required', 'unique:users,email', 'email', 'max:255'],
+            'password' => ['required', 'confirmed', 'min:8', 'max:255']
+        ]);
+
+        $random_token = "RANDOM_" .  date('YmdHis') . rand(100000, 999999). "_TOKEN";
+        $attributes['password'] = bcrypt($attributes['password']); # -> Also Handle By Model
+        $attributes['remember_token'] = $random_token;
+        User::create($attributes);
+
+        $data = [
+            'username' => $request->username,
+            'random_token' => $random_token
+        ];
+        $user['to'] = $request->email;
+
+        Mail::send('frontend.auth.email-varification', $data, function ($message) use ($user) {
+            $message->to($user['to']);
+            $message->subject('Email Verification');
+        });
+
+        session()->flash('success', 'Check Your Email for Verification...');
+        return redirect()->route('user.register');
     }
 
     public function emailVerify($token)

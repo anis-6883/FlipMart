@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+/**
+* @group Category Management
+*
+* APIs to manage the category resource
+**/
+
 class CategoryController extends Controller
 {
     public function index()
