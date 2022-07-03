@@ -1,13 +1,8 @@
-
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Add New Subcategory')
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -25,8 +20,10 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Add New Sucategory</h4>
                         <div class="basic-form">
-                            <form action="{{ route('subcategory.store') }}" method="post">
+                            <form action="{{ route('subcategory.store') }}" method="POST">
                                 @csrf
+                                @method('POST')
+                                
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Category</label>
                                     <div class="col-sm-10 mb-4">
@@ -75,8 +72,5 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection

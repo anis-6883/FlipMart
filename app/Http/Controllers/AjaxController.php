@@ -153,7 +153,8 @@ class AjaxController extends Controller
                 }
             }
             else
-                echo "<option value=''>No Subcategory Found</option>";
+                return ['option' => "<option value=''>No Subcategory Found</option>"];
+                // echo ;
         }
         catch(Exception $e)
         {

@@ -1,12 +1,8 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Edit New Sub-Subcategory')
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -24,16 +20,17 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Edit Sub-Sucategory</h4>
                         <div class="basic-form">
-                            <form action="{{ route('subSubcategory.update', $sub_subCat->id) }}" method="POST">
+                            <form action="{{ route('subSubcategory.update', $subcategory->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
+                                
                                 <div class="form-group row">
 
                                     <label class="col-sm-2 col-form-label">Category</label>
                                     <div class="col-sm-10 mb-4">
                                         <select name="category_id" class="custom-select mr-sm-2" id="select_category">
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @if ($category->id == $sub_subCat->category_id) {{ "selected" }} @endif>
+                                                <option value="{{ $category->id }}" @if ($category->id == $subcategory->category_id) {{ "selected" }} @endif>
                                                     {{ $category->category_name }}
                                                 </option>
                                             @endforeach
@@ -53,7 +50,7 @@
                                             class="form-control @error('isExist') is-invalid @enderror" 
                                             placeholder="Enter Sub-Subategory Name..." 
                                             required autofocus autocomplete="off"
-                                            value="{{ $sub_subCat->sub_subcategory_name }}">
+                                            value="{{ $subcategory->sub_subcategory_name }}">
 
                                         <div class="invalid-feedback">
                                             @error('isExist')
@@ -68,7 +65,7 @@
                                             type="number" 
                                             name="sub_subcategory_order" 
                                             class="form-control"
-                                            value="{{ $sub_subCat->sub_subcategory_order }}">
+                                            value="{{ $subcategory->sub_subcategory_order }}">
                                     </div>
 
                                 </div>
@@ -84,13 +81,10 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
     <script>
         $(function() {
             // ------------ ON PAGE LOAD GET CATEGORY ID AND LOAD SELETED SUBCATEGORY ------------ //
@@ -99,10 +93,10 @@
             if (cat_id != "") {
                 $.ajax({
                     url: "{{ route('product.loadSeletedSubcategory') }}",
-                    type: "post",
+                    type: "POST",
                     data: {
                         category_id: cat_id,
-                        subcategory_id: "{{ $sub_subCat->subcategory_id }}",
+                        subcategory_id: "{{ $subcategory->subcategory_id }}",
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
@@ -122,7 +116,7 @@
                 if (cat_id != "") {
                     $.ajax({
                         url: "{{ route('product.loadSubcategory') }}",
-                        type: "post",
+                        type: "POST",
                         data: {
                             category_id: cat_id,
                             _token: "{{ csrf_token() }}"

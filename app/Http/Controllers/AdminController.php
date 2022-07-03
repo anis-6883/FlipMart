@@ -5,53 +5,71 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index(Request $req)
+    // Admin Login Page
+    public function index()
     {
-        if($req->session()->has('ECOM_login_time')){
+        if(session()->has('flipmart_admin_login')){
             return redirect()->route('admin.dashboard');
         }
-        return view('admin.login');
+        return view('backend.login');
     }
 
     // Admin Login
     public function auth(Request $req)
     {
-        $email = $req->post('admin_email');
-        $password = $req->post('admin_password');
-        $result = Admin::where(['admin_username' => $email, 'admin_password' => sha1($password)])->get();
+        $req->validate([
+            'admin_email' => 'required',
+            'admin_password' => 'required',
+        ]);
 
-        if(isset($result[0]->id)){
-            
-            $req->session()->put('ECOM_login_time', date("Y-m-d H:i:s"));
-            $req->session()->put('ECOM_admin_id', $result[0]->id);
-            $req->session()->put('ECOM_admin_name', $result[0]->admin_fullname);
-            $req->session()->put('ECOM_admin_email', $result[0]->admin_username);
-            $req->session()->put('ECOM_admin_type', $result[0]->admin_type);
-            return redirect()->route('admin.dashboard');
-        }
-        else{
-            $req->session()->flash('error', 'Please, Enter Valid Email and Password!');
+        $email = $req->admin_email;
+        $password = $req->admin_password;
+
+        $admin = Admin::with('admin_type')->where('admin_username', $email)->first();
+
+        if(!empty($admin))
+        {
+            if(Hash::check($password, $admin->admin_password))
+            {
+                session()->put('flipmart_admin_login', [
+                    'admin_id' => $admin->id,
+                    'admin_fullname' => $admin->admin_fullname,
+                    'admin_username' => $admin->admin_username,
+                    'admin_typename' => $admin->admin_type->admin_typename,
+                    'admin_status' => $admin->admin_status,
+                    'admin_login_time' => date('Y-m-d H:i:s')
+                ]);
+                session()->flash('success', 'Admin Login Successfully!');
+                return redirect()->route('admin.dashboard');
+            }
+            session()->flash('error', 'Your Provided Credential Could Not Be Varified!');
             return redirect()->route('admin.index');
         }
+
+        session()->flash('error', 'Your Provided Credential Could Not Be Varified!');
+        return redirect()->route('admin.index');
     }
 
-    public function logout(Request $req)
+    // Admin Logout
+    public function logout()
     {
-        if($req->session()->has('ECOM_login_time')){
+        if(session()->has('flipmart_admin_login')){
 
-            $req->session()->flush();
-            $req->session()->flash('logout', 'You are Successfully Logged Out!');
+            session()->forget('flipmart_admin_login');
+            session()->flash('logout', 'Admin LogOut Succesfully!');
             return redirect()->route('admin.index');
         }
     }
 
+    // Admin Dashboard Page
     public function dashboard()
     {
         $total_order = Order::count();
-        return view('admin.dashboard', compact('total_order'));
+        return view('backend.dashboard', compact('total_order'));
     }
 
 }

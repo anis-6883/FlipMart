@@ -9,17 +9,20 @@ use Illuminate\Support\Facades\File;
 
 class BrandController extends Controller
 {
+    // Brand List
     public function index()
     {
-        $brands = Brand::all();
-        return view('admin.list-brand', compact('brands'));
+        $brands = Brand::orderBy('brand_name')->get();
+        return view('backend.list-brand', compact('brands'));
     }
 
+    // Create Brand Page
     public function create()
     {
-        return view('admin.add-brand');
+        return view('backend.add-brand');
     }
 
+    // Store Bnard
     public function store(Request $req)
     {
         $req->validate([
@@ -33,7 +36,7 @@ class BrandController extends Controller
         if($req->hasFile('brand_image') and $req->file('brand_image')->isValid())
         {
             $originalImageName = $req->file('brand_image')->getClientOriginalName();
-            $masterImageName = "BRAND_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
+            $masterImageName = "BRAND_" . uniqid() . rand(100000, 999999) . "_" . $originalImageName;
             $obj->brand_image = $masterImageName;
         }
 
@@ -47,15 +50,18 @@ class BrandController extends Controller
             // $req->brand_image->move(public_path('/uploads/brands'), $masterImageName);
         }
 
-        return redirect()->route('brand.index')->with('success', 'Brand is Created Successfully!');
+        session()->flash('success', 'Brand is Created Successfully!');
+        return redirect()->route('brand.index');
     }
 
+    // Edit Brand Page
     public function edit($id)
     {
-        $brand = Brand::find($id);
-        return view('admin.edit-brand', compact('brand'));
+        $brand = Brand::findOrFail($id);
+        return view('backend.edit-brand', compact('brand'));
     }
 
+    // Update Brand
     public function update(Request $req, $id)
     {
         $req->validate([
@@ -63,14 +69,14 @@ class BrandController extends Controller
             'brand_image' => 'mimes:png,jpg,jpeg|max:5048'
         ]);
         
-        $obj = Brand::find($id);
+        $obj = Brand::findOrFail($id);
         $obj->brand_name = $req->brand_name;
         $prevImageName = $obj->brand_image;
 
         if($req->hasFile('brand_image') and $req->file('brand_image')->isValid())
         {
             $originalImageName = $req->file('brand_image')->getClientOriginalName();
-            $masterImageName = "BRAND_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
+            $masterImageName = "BRAND_" . uniqid() . rand(100000, 999999) . "_" . $originalImageName;
             $obj->brand_image = $masterImageName;
         }
 
@@ -87,18 +93,21 @@ class BrandController extends Controller
                 File::delete($img_path);
         }
 
-        return redirect()->route('brand.index')->with('success', 'Brand is Updated Successfully!');
+        session()->flash('success', 'Brand is Updated Successfully!');
+        return redirect()->route('brand.index');
     }
 
+    // Delete Brand
     public function destroy($id)
     {
-        $brand = Brand::find($id);
+        $brand = Brand::findOrFail($id);
         $brand_name = $brand->brand_name;
         $brand_img_path = public_path('/uploads/brands/' . $brand->brand_image);
         $brand->delete();
         if(File::exists($brand_img_path))
             File::delete($brand_img_path);
             
-        return redirect()->back()->with('success', "Brand \"$brand_name\" has Deleted Successfully...");
+        session()->flash('success', "Brand \"$brand_name\" has Deleted Successfully...");
+        return redirect()->back();
     }
 }

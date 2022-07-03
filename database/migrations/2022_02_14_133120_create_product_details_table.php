@@ -31,7 +31,7 @@ class CreateProductDetailsTable extends Migration
             $table->dateTimeTz('discount_start_date')->nullable();
             $table->dateTimeTz('discount_end_date')->nullable();
             $table->integer('product_quantity');
-            $table->bigInteger('total_sold')->nullable();
+            $table->bigInteger('total_sold')->default(0)->unsigned()->nullable();
             $table->boolean('featured')->default(0);
             $table->boolean('hot_deals')->default(0);
             $table->boolean('best_selling')->default(0);

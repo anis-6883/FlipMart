@@ -1,8 +1,8 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Show Product')
 
-@section('css')
+@section('custom_css')
 <style>
     .table td,
     .table th {
@@ -13,11 +13,6 @@
 @endsection
 
 @section('content')
-
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -54,57 +49,57 @@
                                     </tr>
                                     <tr>
                                         <th>Subcategory</th>
-                                        <td>{{ $product->subcategory->subcategory_name }}</td>
+                                        <td>{{ $product->subcategory ? $product->subcategory->subcategory_name : "NULL" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Sub-Subcategory</th>
-                                        <td>{{ $product->sub_subcategory->sub_subcategory_name }}</td>
+                                        <td>{{ $product->sub_subcategory ? $product->sub_subcategory->sub_subcategory_name : "NULL" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Brand</th>
-                                        <td>{{ $product->brand->brand_name }}</td>
+                                        <td>{{ $product->brand ? $product->brand->brand_name : "NULL" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Name</th>
-                                        <td>{{ $product->product_name }}</td>
+                                        <td>{{ $product->product_detail->product_name }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Slug</th>
-                                        <td>{{ $product->product_slug }}</td>
+                                        <td>{{ $product->product_detail->product_slug }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Code</th>
-                                        <td>{{ $product->product_code ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_code ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Tags</th>
-                                        <td>{{ $product->product_tags ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_tags ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Size</th>
-                                        <td>{{ $product->product_size ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_size ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Color</th>
-                                        <td>{{ $product->product_color ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_color ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Order</th>
-                                        <td>{{ $product->product_order ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_order ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Summary</th>
-                                        <td>{!! $product->product_summary ?: 'NULL' !!}</td>
+                                        <td>{!! $product->product_detail->product_summary ?: 'NULL' !!}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Description</th>
-                                        <td>{!! $product->product_description ?: 'NULL' !!}</td>
+                                        <td>{!! $product->product_detail->product_description ?: 'NULL' !!}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Master Image</th>
                                         <td>
-                                            @if ($product->product_master_image != null)
-                                                <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="No Image" width="80px" height="80px">  
+                                            @if ($product->product_detail->product_master_image != null)
+                                                <img id="master_img" src="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}" alt="No Image" width="80px" height="80px">  
                                             @else
                                                 <img id="master_img" src="{{ asset('backend_assets/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                             @endif
@@ -112,35 +107,35 @@
                                     </tr>
                                     <tr>
                                         <th>Product Regular Price</th>
-                                        <td>{{ $product->product_regular_price }}</td>
+                                        <td>{{ $product->product_detail->product_regular_price }}&#2547;</td>
                                     </tr>
                                     <tr>
                                         <th>Product Discount Price</th>
-                                        <td>{{ $product->product_discounted_price ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_discounted_price ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Discount Start Date</th>
-                                        <td>{{ $product->discount_start_date ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->discount_start_date ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Discount End Date</th>
-                                        <td>{{ $product->discount_end_date ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->discount_end_date ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Quantity</th>
-                                        <td>{{ $product->product_quantity }}</td>
+                                        <td>{{ $product->product_detail->product_quantity }}</td>
                                     </tr>
                                     <tr>
                                         <th>Featured</th>
-                                        <td>{{ $product->featured == 1 ? "YES" : "NO" }}</td>
+                                        <td>{{ $product->product_detail->featured == 1 ? "YES" : "NO" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Hot Deals</th>
-                                        <td>{{ $product->hot_deals == 1 ? "YES" : "NO" }}</td>
+                                        <td>{{ $product->product_detail->hot_deals == 1 ? "YES" : "NO" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Special Offer</th>
-                                        <td>{{ $product->special_offer == 1 ? "YES" : "NO" }}</td>
+                                        <td>{{ $product->product_detail->best_selling == 1 ? "YES" : "NO" }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Status</th>
@@ -165,35 +160,5 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
-@endsection
-
-@section('javascript')
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-
-    @if (session()->has('success'))
-        Toast.fire({
-        icon: 'success',
-        title: '{{ session('success') }}'
-        })
-    @endif
-    
-</script>
 
 @endsection

@@ -46,8 +46,10 @@
                                 @endif
 
                                 <h4>Admin Login</h4>
-                                <form action="{{ route('admin.auth') }}" method="post" class="mt-5 mb-5 login-input">
+                                <form action="{{ route('admin.auth') }}" method="POST" class="mt-5 mb-5 login-input">
                                     @csrf
+                                    @method('POST')
+                                    
                                     <div class="form-group">
                                         <input name="admin_email" type="email" class="form-control" placeholder="Email" autofocus autocomplete="off" required>
                                     </div>

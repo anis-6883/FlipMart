@@ -1,12 +1,8 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Admin Dashboard')
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="container-fluid mt-3">
 
@@ -560,8 +556,5 @@
     </div>
 
     <!-- #/ container -->
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection

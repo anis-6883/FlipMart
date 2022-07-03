@@ -1,13 +1,8 @@
-
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Add New Sub-Subcategory')
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -40,7 +35,7 @@
 
                                     <label class="col-sm-2 col-form-label">Subcategory</label>
                                     <div class="col-sm-10 mb-4">
-                                        <select name="subcategory_id" class="custom-select mr-sm-2" id="select_subcategory"></select>
+                                        <select name="subcategory_id" class="custom-select mr-sm-2" id="select_subcategory" required></select>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Sub-Subcategory</label>
@@ -83,13 +78,10 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
     <script>
         $(function() {
             // ------------ ON PAGE LOAD GET CATEGORY ID AND LOAD SUBCATEGORY ------------ //
@@ -120,7 +112,7 @@
                 if (cat_id != "") {
                     $.ajax({
                         url: "{{ route('product.loadSubcategory') }}",
-                        type: "post",
+                        type: "POST",
                         data: {
                             category_id: cat_id,
                             _token: "{{ csrf_token() }}"

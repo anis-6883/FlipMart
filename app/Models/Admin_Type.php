@@ -9,6 +9,7 @@ class Admin_Type extends Model
 {
     use HasFactory;
 
+    protected $table = 'admin_types';
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
     protected $guarded = ['id'];

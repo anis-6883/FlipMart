@@ -1,9 +1,12 @@
-
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'List Product')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -14,11 +17,6 @@
 @endsection
 
 @section('content')
-
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -61,18 +59,18 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $product->category->category_name }}</td>
-                                            <td>{{ $product->subcategory->subcategory_name }}</td>
-                                            <td>{{ $product->sub_subcategory->sub_subcategory_name }}</td>
-                                            <td>{{ $product->brand->brand_name }}</td>
-                                            <td><a href="{{ route('product.show', $product->id) }}" style="color: blue">{{ Str::of($product->product_name)->limit(50)  }}</a></td>
+                                            <td>{{ $product->subcategory ? $product->subcategory->subcategory_name : "NULL" }}</td>
+                                            <td>{{ $product->sub_subcategory ? $product->sub_subcategory->sub_subcategory_name : "NULL" }}</td>
+                                            <td>{{ $product->brand ? $product->brand->brand_name : "NULL" }}</td>
+                                            <td><a href="{{ route('product.show', $product->id) }}" style="color: blue">{{ Str::of($product->product_detail->product_name)->limit(50)  }}</a></td>
                                             <td>
-                                                @if ($product->product_master_image != null)
-                                                    <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="No Image" width="80px" height="80px">  
+                                                @if ($product->product_detail->product_master_image != null)
+                                                    <img id="master_img" src="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}" alt="No Image" width="80px" height="80px">  
                                                 @else
                                                     <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
-                                            <td>{{ number_format($product->product_regular_price, 2, '.', ',')  }}</td>
+                                            <td>{{ number_format($product->product_detail->product_regular_price, 2, '.', ',')  }}&#2547;</td>
                                             <td>
                                                 @if ($product->product_status == "Active")
                                                     <button id="status{{ $product->id }}" onclick="changeStatus({{ $product->id }})" class="badge badge-success px-2">
@@ -84,9 +82,9 @@
                                                     </button>
                                                 @endif
                                             </td>
-                                            <td>{{ $product->product_quantity }}</td>
+                                            <td>{{ $product->product_detail->product_quantity }}</td>
                                             
-                                            <td>{{ $product->product_discounted_price ?? 0 }}%</td>
+                                            <td>{{ $product->product_detail->product_discounted_price ?? 0 }}%</td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
 
@@ -101,7 +99,7 @@
                                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">Are you sure to delete <b>"{{ Str::of($product->product_name)->limit(20) }}"</b> Product? </div>
+                                                                <div class="modal-body">Are you sure to delete <b>"{{ Str::of($product->product_detail->product_name)->limit(20) }}"</b> Product? </div>
                                                                 <div class="modal-footer">
                                                                     <form action="{{ route('product.destroy', $product->id) }}" method="POST">
                                                                         @csrf
@@ -144,13 +142,15 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
+
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 
 <script>
     function changeStatus(product_id) {
@@ -159,7 +159,7 @@
             var statusText = statusBtn.text();
             $.ajax({
                 url: "{{ route('product.updateStatus') }}",
-                type: "post",
+                type: "POST",
                 data: {
                     product_id,
                     statusText: statusText === "Active" ? "Inactive" : "Active",
@@ -181,29 +181,6 @@
             });
         });
     }
-</script>
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-
-    @if (session()->has('success'))
-        Toast.fire({
-        icon: 'success',
-        title: '{{ session('success') }}'
-        })
-    @endif
-    
 </script>
 
 @endsection

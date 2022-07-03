@@ -26,12 +26,6 @@ Scripts
 <!-- ChartistJS -->
 <script src="{{ asset('assets/backend/plugins/chartist/js/chartist.min.js') }}"></script>
 <script src="{{ asset('assets/backend/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js') }}"></script>
-<!-- DataTable -->
-<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
-<!-- TagsInput -->
-<script src="{{ asset('assets/backend/js/tagsinput.js') }}"></script>
 
 <script src="{{ asset('assets/backend/js/dashboard/dashboard-1.js') }}"></script>
 
@@ -65,4 +59,34 @@ $( ".jqdatepicker" ).datepicker({
     });
 </script>
 
-@yield('javascript')
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+    @if (session()->has('success'))
+        Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+        })
+    @endif
+
+    @if (session()->has('error'))
+        Toast.fire({
+        icon: 'error',
+        title: '{{ session('error') }}'
+        })
+    @endif
+    
+</script>
+
+@yield('custom_js')

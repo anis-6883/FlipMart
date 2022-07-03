@@ -88,7 +88,7 @@ Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth')
 Route::group(['middleware' => 'admin_auth'], function()
 {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::delete('/product-images/{id}/destoryAll', [ProductImageController::class, 'destoryAll'])->name('product-images.destroyAll');
     Route::resource('/admin/category', CategoryController::class);
     Route::resource('/admin/subcategory', SubcategoryController::class);

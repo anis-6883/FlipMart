@@ -16,8 +16,8 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!$request->session()->has('ECOM_login_time')){
-            $request->session()->flash('error', 'Sorry! You are not Authorized.');
+        if(!session()->has('flipmart_admin_login')){
+            session()->flash('error', 'Sorry! You are not Authorized to Access.');
             return redirect()->route('admin.index');
         }
         return $next($request);

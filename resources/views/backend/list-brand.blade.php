@@ -1,8 +1,12 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'List Brand')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -13,11 +17,6 @@
 @endsection
 
 @section('content')
-
-<!--**********************************
-        Content body start
-    ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -57,11 +56,11 @@
                                             <td>{{ $brand->brand_name }}</td>
                                             <td>
                                                 @if ($brand->brand_status == "Active")
-                                                    <button id="status{{ $brand->id }}" onclick="chnageStatus({{ $brand->id }})" class="badge badge-success px-2">
+                                                    <button id="status{{ $brand->id }}" onclick="changeStatus({{ $brand->id }})" class="badge badge-success px-2">
                                                         Active
                                                     </button>
                                                 @else
-                                                    <button id="status{{ $brand->id }}" onclick="chnageStatus({{ $brand->id }})" class="badge badge-danger px-2">
+                                                    <button id="status{{ $brand->id }}" onclick="changeStatus({{ $brand->id }})" class="badge badge-danger px-2">
                                                         Inactive
                                                     </button>
                                                 @endif
@@ -74,11 +73,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{-- @php
-                                                    $date = date_parse($brand->created_at);
-                                                    echo $date['day'] . " - " . $date['month'] . " - " . $date['year'];
-                                                @endphp --}}
-                                                {{ $brand->created_at->diffForHumans() }}
+                                                {{ date('d-m-Y', strtotime($brand->created_at)) }}
+                                                {{-- {{ $brand->created_at->diffForHumans() }} --}}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -138,10 +134,15 @@
         ***********************************-->
 @endsection
 
-@section('javascript')
+@section('custom_js')
+
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 
 <script>
-    function chnageStatus(brand_id) {
+    function changeStatus(brand_id) {
         $(function() {
             var statusBtn = $(`#status${brand_id}`);
             var statusText = statusBtn.text();
@@ -169,29 +170,6 @@
             });
         });
     }
-</script>
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-
-    @if (session()->has('success'))
-        Toast.fire({
-        icon: 'success',
-        title: '{{ session('success') }}'
-        })
-    @endif
-    
 </script>
 
 @endsection
