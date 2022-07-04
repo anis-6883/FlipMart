@@ -1,12 +1,8 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Edit A Slider')
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -98,13 +94,10 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
 
 <script>
     var loadFile = function(event) {

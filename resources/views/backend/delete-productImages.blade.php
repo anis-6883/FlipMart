@@ -1,4 +1,4 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Delete Product Images')
 
@@ -13,10 +13,6 @@
 @endsection --}}
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -47,7 +43,7 @@
                                         <th>Product Images</th>
                                         <td>
                                             <div class="row">
-                                                @foreach ($product->product_image as $image)
+                                                @foreach ($product->product_images as $image)
                                                 <div class="col-md-3">
                                                     <div class="card" style="width: 200px">
                                                         <img width="100%" src="{{ asset('uploads/product-images/' . $image->product_image_filename) }}" class="card-img-top" alt="product_image">
@@ -119,13 +115,10 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
 
 <script>
     function changeStatus(image_id) {
@@ -156,29 +149,6 @@
             });
         });
     }
-</script>
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-
-    @if (session()->has('success'))
-        Toast.fire({
-        icon: 'success',
-        title: '{{ session('success') }}'
-        })
-    @endif
-    
 </script>
 
 @endsection

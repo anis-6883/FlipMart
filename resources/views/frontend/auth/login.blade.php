@@ -1,6 +1,6 @@
-@extends('frontend.include.app')
+@extends('frontend.app')
 
-@section('title', 'Login')
+@section('title', 'User Login')
 
 @section('content')
 
@@ -23,13 +23,6 @@
 
                 <div class="col-md-6 col-sm-6 sign-in">
 
-                    @if (session()->has('success'))
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
                     <h4 class="">Sign in Now</h4>
                     {{-- <p class="">Hello, Welcome To Your Account...❤️</p> --}}
 
@@ -40,6 +33,8 @@
 
                     <form action="{{ route('user.authenticate') }}" method="POST" class="register-form outer-top-xs">
                         @csrf
+                        @method('POST')
+
                         <div class="form-group">
                             <label class="info-title" for="login_email"><b>Email Address </b><span>*</span></label>
                             <input 
@@ -57,6 +52,7 @@
                                 </div>
                             @enderror
                         </div> 
+
                         <div class="form-group">
                             <label class="info-title" for="login_pass"><b>Password </b><span>*</span></label>
                             <input 
@@ -72,6 +68,7 @@
                                 </div>
                             @enderror
                         </div>
+
                         <div class="radio outer-xs">
                             <label>
                                 <input 
@@ -83,9 +80,11 @@
                             </label>
                             <a href="{{ route('user.forgetPassword') }}" class="forgot-password pull-right">Forgot your Password?</a>
                         </div>
+
                         <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
                     </form>	
-                    <p style="margin-top: 15px">Need an Account? <a href="{{ route('user.register') }}" class="text-primary text-decoration-none">Sign Up </a> now</p>				
+
+                    <p style="margin-top: 15px">Need an Account? <a href="{{ route('user.register') }}" class="text-primary text-decoration-none">Sign Up </a> Now!</p>				
                 </div>
             </div>
 		</div>

@@ -12,12 +12,26 @@
                 </a>
             </li>
 
-            {{-- <li class="nav-label">Manage Customers</li> --}}
-            {{-- <li>
-                <a href="#" aria-expanded="false">
-                    <i class='fas menu-icon'>&#xf500;</i></i><span class="nav-text">List Customers</span>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class='fas menu-icon'>&#xf500;</i> <span class="nav-text">Admins</span>
                 </a>
-            </li> --}}
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('category.create') }}">Add Admin</a></li>
+                    <li><a href="{{ route('category.index') }}">List Admins</a></li>
+                </ul>
+            </li>
+
+            {{-- <li class="nav-label">Manage Customers</li> --}}
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class='fas menu-icon'>&#xf500;</i> <span class="nav-text">Customers</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('category.create') }}">Add Customer</a></li>
+                    <li><a href="{{ route('category.index') }}">List Customers</a></li>
+                </ul>
+            </li>
 
             {{-- <li class="nav-label">Manage Category</li> --}}
             <li>
@@ -112,7 +126,7 @@
                     <i class='fas menu-icon'>&#xf291;</i> <span class="nav-text">Orders</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.orderIndex') }}">All Order</a></li>
+                    <li><a href="{{ route('admin.orderIndex') }}">All Orders</a></li>
                     <li><a href="#">Pending Orders</a></li>
                     <li><a href="#">Processing Orders</a></li>
                     <li><a href="#">Halt Orders</a></li>

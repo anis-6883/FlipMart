@@ -1,8 +1,12 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'List Product Images')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -10,13 +14,10 @@
         text-align: center;
     }
 </style>
+
 @endsection
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -53,10 +54,10 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $product->category->category_name }}</td>
-                                            <td>{{ $product->subcategory->subcategory_name }}</td>
-                                            <td>{{ Str::of($product->product_name)->limit(50)  }}</td>
+                                            <td>{{ $product->subcategory ? $product->subcategory->subcategory_name : "NULL" }}</td>
+                                            <td>{{ Str::of($product->product_detail->product_name)->limit(50)  }}</td>
                                             <td>
-                                                @forelse ($product->product_image as $image)
+                                                @forelse ($product->product_images as $image)
                                                     <img id="master_img" src="{{ asset('uploads/product-images/' . $image->product_image_filename) }}" alt="Product Image" width="80px" height="80px">              
                                                 @empty
                                                     <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
@@ -86,41 +87,14 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-    @error('error')
-        Toast.fire({
-            icon: 'error',
-            title: '{{ $message }}'
-        })
-    @enderror
-
-    @if (session()->has('success'))
-        Toast.fire({
-            icon: 'success',
-            title: '{{ session('success') }}'
-        })
-    @endif
+@section('custom_js')
     
-</script>
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 
 @endsection

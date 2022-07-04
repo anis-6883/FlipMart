@@ -1,8 +1,12 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'List Coupon')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -13,11 +17,6 @@
 @endsection
 
 @section('content')
-
-<!--**********************************
-        Content body start
-    ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -43,8 +42,7 @@
                                         <th>Serial No</th>
                                         <th>Coupon Title</th>
                                         <th>Coupon Code</th>
-                                        <th>Dis. Type</th>
-                                        <th>Dis. Amount</th>
+                                        <th>Discount Pct</th>
                                         <th>Status</th>
                                         <th>Usable Per Person</th>
                                         <th>Usable In Total</th>
@@ -61,26 +59,24 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $coupon->coupon_title }}</td>
                                             <td>{{ $coupon->coupon_code }}</td>
-                                            <td>{{ $coupon->discount_type }}</td>
-                                            <td>{{ $coupon->discount_amount }}</td>
+                                            <td>{{ $coupon->discount_pct }}%</td>
                                             <td>
                                                 @if ($coupon->coupon_status == "Active")
-                                                    <button id="status{{ $coupon->id }}" onclick="chnageStatus({{ $coupon->id }})" class="badge badge-success px-2">
+                                                    <button id="status{{ $coupon->id }}" onclick="changeStatus({{ $coupon->id }})" class="badge badge-success px-2">
                                                         Active
                                                     </button>
                                                 @else
-                                                    <button id="status{{ $coupon->id }}" onclick="chnageStatus({{ $coupon->id }})" class="badge badge-danger px-2">
+                                                    <button id="status{{ $coupon->id }}" onclick="changeStatus({{ $coupon->id }})" class="badge badge-danger px-2">
                                                         Inactive
                                                     </button>
                                                 @endif
                                             </td>
                                             <td>{{ $coupon->usable_per_person ?: "0" }}</td>
                                             <td>{{ $coupon->usable_in_total ?: "0" }}</td>
-                                            <td>{{ $coupon->coupon_start_date ? date('d-m-Y', strtotime($coupon->coupon_start_date)) : "NULL" }}</td>
-                                            <td>{{ $coupon->coupon_end_date ? date('d-m-Y', strtotime($coupon->coupon_end_date)) : "NULL" }}</td>
+                                            <td>{{ $coupon->coupon_start_date ? date('D, d F Y', strtotime($coupon->coupon_start_date)) : "NULL" }}</td>
+                                            <td>{{ $coupon->coupon_end_date ? date('D, d F Y', strtotime($coupon->coupon_end_date)) : "NULL" }}</td>
                                             <td>
-                                                {{-- {{ date('d-m-Y', strtotime($coupon->created_at)) }} --}}
-                                                {{ Carbon\Carbon::parse($coupon->created_at)->format('D, d F Y') }}
+                                                {{ date('d-m-Y', strtotime($coupon->created_at)) }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -121,8 +117,7 @@
                                         <th>Serial No</th>
                                         <th>Coupon Title</th>
                                         <th>Coupon Code</th>
-                                        <th>Dis. Type</th>
-                                        <th>Dis. Amount</th>
+                                        <th>Discount Pct</th>
                                         <th>Status</th>
                                         <th>Usable Per Person</th>
                                         <th>Usable In Total</th>
@@ -139,22 +134,24 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
+
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 
 <script>
-    function chnageStatus(coupon_id) {
+    function changeStatus(coupon_id) {
         $(function() {
             var statusBtn = $(`#status${coupon_id}`);
             var statusText = statusBtn.text();
             $.ajax({
                 url: "{{ route('coupon.updateStatus') }}",
-                type: "post",
+                type: "POST",
                 data: {
                     coupon_id,
                     statusText: statusText === "Active" ? "Inactive" : "Active",
@@ -176,29 +173,6 @@
             });
         });
     }
-</script>
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-
-    @if (session()->has('success'))
-        Toast.fire({
-        icon: 'success',
-        title: '{{ session('success') }}'
-        })
-    @endif
-    
 </script>
 
 @endsection

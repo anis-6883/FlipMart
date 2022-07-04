@@ -11,70 +11,77 @@ use Illuminate\Support\Facades\Session;
 
 class CouponController extends Controller
 {
+    // Coupon List
     public function index()
     {
         $coupons = Coupon::latest()->get();
-        return view('admin.list-coupon', compact('coupons'));
+        return view('backend.list-coupon', compact('coupons'));
     }
 
+    // Create Coupon Page
     public function create()
     {
-        return view('admin.add-coupon');
+        return view('backend.add-coupon');
     }
 
+    // Store Coupon
     public function store(Request $req)
     {
         $valid_data = $req->validate([
             'coupon_title' => 'required',
             'coupon_code' => 'required|unique:coupons',
-            'discount_type' => 'required',
-            'discount_amount' => 'required',
+            'discount_pct' => 'required',
+            'usable_per_person' => 'required',
+            'usable_in_total' => 'required',
+            'coupon_start_date' => 'required',
+            'coupon_end_date' => 'required',
             'coupon_status' => 'required',
         ]);
-        
-        $valid_data['usable_per_person'] = $req->usable_per_person;
-        $valid_data['usable_in_total'] = $req->usable_in_total;
-        $valid_data['coupon_start_date'] = $req->coupon_start_date;
-        $valid_data['coupon_end_date'] = $req->coupon_end_date;
 
         Coupon::create($valid_data);
-        return redirect()->route('coupon.index')->with('success', 'Coupon is Created Successfully!');
+
+        session()->flash('success', 'Coupon is Created Successfully!');
+        return redirect()->route('coupon.index');
     }
 
-    public function edit($coupon_id)
+    // Edit Coupon Page
+    public function edit($id)
     {
-        $coupon = Coupon::find($coupon_id);
-        return view('admin.edit-coupon', compact('coupon'));
+        $coupon = Coupon::findOrFail($id);
+        return view('backend.edit-coupon', compact('coupon'));
     }
 
-    public function update(Request $req, $coupon_id)
+    // Update Coupon
+    public function update(Request $req, $id)
     {
         $valid_data = $req->validate([
             'coupon_title' => 'required',
             'coupon_code' => 'required',
-            'discount_type' => 'required',
-            'discount_amount' => 'required',
+            'discount_pct' => 'required',
+            'usable_per_person' => 'required',
+            'usable_in_total' => 'required',
+            'coupon_start_date' => 'required',
+            'coupon_end_date' => 'required',
             'coupon_status' => 'required',
         ]);
 
-        $valid_data['usable_per_person'] = $req->usable_per_person;
-        $valid_data['usable_in_total'] = $req->usable_in_total;
-        $valid_data['coupon_start_date'] = $req->coupon_start_date;
-        $valid_data['coupon_end_date'] = $req->coupon_end_date;
+        Coupon::findOrFail($id)->update($valid_data);
 
-        Coupon::find($coupon_id)->update($valid_data);
-        return redirect()->route('coupon.index')->with('success', 'Coupon is Updated Successfully!');
+        session()->flash('success', 'Coupon is Updated Successfully!');
+        return redirect()->route('coupon.index');
     }
 
-    public function destroy(Request $req, $coupon_id)
+    // Delete Coupon
+    public function destroy(Request $req, $id)
     {
-        $coupon = Coupon::find($coupon_id);
+        $coupon = Coupon::findOrFail($id);
         $coupon_title = $coupon->coupon_title;
         $coupon->delete();
         $req->session()->flash('success', "Coupon \"$coupon_title\" has Deleted Successfully...");
         return redirect()->route('coupon.index');
     }
 
+    // Apply Coupon
     public function applyCoupon(Request $req)
     {
         $coupon = Coupon::where(DB::raw('BINARY `coupon_code`'), $req->coupon_code)
@@ -97,6 +104,7 @@ class CouponController extends Controller
         }
     }
 
+    // Calculate Coupon
     public function couponCalculate()
     {
         if(Session::has('coupon'))
@@ -113,6 +121,7 @@ class CouponController extends Controller
             return response()->json(['total' => Cart::total()]);
     }
 
+    // Remove Coupon
     public function couponRemove(){
         Session::forget('coupon');
         return response()->json(['success' => "Your Coupon is Removed!"]);

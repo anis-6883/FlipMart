@@ -377,9 +377,23 @@
           title: '{{ session('success') }}'
       })
   @endif
-  
+
+  @if (session()->has('warning'))
+      Toast.fire({
+          icon: 'warning',
+          title: '{{ session('warning') }}'
+      })
+  @endif
+
+  @if (session()->has('error'))
+      Toast.fire({
+          icon: 'error',
+          title: '{{ session('error') }}'
+      })
+  @endif
+
 </script>
 
 <!-- End Sweet Alert For All -->
 
-@yield('javascript')
+@yield('custom_js')

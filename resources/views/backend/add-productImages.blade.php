@@ -1,8 +1,12 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Add New Product Images')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -13,10 +17,6 @@
 @endsection
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -36,17 +36,6 @@
                 @foreach ($errors->all() as $error)
                     <strong>{{ $error }}</strong> 
                 @endforeach
-            </div>
-        </div>
-    @endif
-
-    @if (session()->has('success'))
-        <div class="container-fluid mt-3">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
             </div>
         </div>
     @endif
@@ -78,8 +67,8 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $product->category->category_name }}</td>
-                                            <td>{{ $product->subcategory->subcategory_name }}</td>
-                                            <td>{{ Str::of($product->product_name)->limit(50)  }}</td>
+                                            <td>{{ $product->subcategory ? $product->subcategory->subcategory_name : "NULL" }}</td>
+                                            <td>{{ Str::of($product->product_detail->product_name)->limit(50)  }}</td>
                                             <td>
                                                 @if ($product->product_master_image != null)
                                                     <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="Product Image" width="80px" height="80px">              
@@ -89,6 +78,7 @@
                                             </td>
                                             <form action="{{ route('product-images.store') }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
+                                                @method('POST')
                                                 <td>
                                                     <input 
                                                         style="padding:20px 0 0 0" 
@@ -124,8 +114,14 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
+@endsection
+
+@section('custom_js')
+    
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
+
 @endsection

@@ -9,17 +9,20 @@ use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
 {
+    // Slider List
     public function index()
     {
         $sliders = Slider::latest()->get();
-        return view('admin.list-slider', compact('sliders'));
+        return view('backend.list-slider', compact('sliders'));
     }
 
+    // Create Slider Page
     public function create()
     {
-        return view('admin.add-slider');
+        return view('backend.add-slider');
     }
 
+    // Store Slider
     public function store(Request $request)
     {
         $valid_data = $request->validate([
@@ -33,7 +36,7 @@ class SliderController extends Controller
         if($request->hasFile('slider_image_filename') and $request->file('slider_image_filename')->isValid())
         {
             $originalImageName = $request->file('slider_image_filename')->getClientOriginalName();
-            $masterImageName = "SLIDER_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
+            $masterImageName = "SLIDER_" . uniqid() . rand(100000, 999999) . "_" . $originalImageName;
             $valid_data['slider_image_filename'] = $masterImageName;
         }
 
@@ -46,15 +49,18 @@ class SliderController extends Controller
                 ->save(public_path('/uploads/sliders/' . $masterImageName));
         }
 
-        return redirect()->route('slider.index')->with('success', 'Slider is Created Successfully!');
+        session()->flash('success', 'Slider is Created Successfully!');
+        return redirect()->route('slider.index');
     }
 
+    // Edit Slider Page
     public function edit($id)
     {
-        $slider = Slider::find($id);
-        return view('admin.edit-slider', compact('slider'));
+        $slider = Slider::findOrFail($id);
+        return view('backend.edit-slider', compact('slider'));
     }
 
+    // Update Slider
     public function update(Request $request, $id)
     {
         $valid_data = $request->validate([
@@ -68,11 +74,11 @@ class SliderController extends Controller
         if($request->hasFile('slider_image_filename') and $request->file('slider_image_filename')->isValid())
         {
             $originalImageName = $request->file('slider_image_filename')->getClientOriginalName();
-            $masterImageName = "SLIDER_" . date('YmdHis') . rand(100000, 999999) . "_" . $originalImageName;
+            $masterImageName = "SLIDER_" . uniqid() . rand(100000, 999999) . "_" . $originalImageName;
             $valid_data['slider_image_filename'] = $masterImageName;
         }
 
-        $slider_obj = Slider::find($id);
+        $slider_obj = Slider::findOrFail($id);
         $prevImageName = $slider_obj->slider_image_filename;
 
         $slider_obj->update($valid_data);
@@ -88,14 +94,17 @@ class SliderController extends Controller
                 File::delete($img_path);
         }
 
-        return redirect()->route('slider.index')->with('success', 'Slider is Updated Successfully!');
+        session()->flash('success', 'Slider is Updated Successfully!');
+        return redirect()->route('slider.index');
     }
 
+    // Delete Slider
     public function destroy($id)
     {
-        $slider = Slider::find($id);
+        $slider = Slider::findOrFail($id);
         $slider_name = $slider->slider_name;
         $slider->delete();
-        return redirect()->back()->with('success', "Slider \"$slider_name\" has Deleted Successfully...");
+        session()->flash('success', "Slider \"$slider_name\" has Deleted Successfully...");
+        return redirect()->back();
     }
 }

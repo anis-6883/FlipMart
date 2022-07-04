@@ -1,8 +1,8 @@
-@extends('frontend.include.app')
+@extends('frontend.app')
 
 @section('title', 'Home Page')
 
-@section('content')
+@section('content') 
 
 <div class="body-content outer-top-xs" id="top-banner-and-menu">
   <div class="container">

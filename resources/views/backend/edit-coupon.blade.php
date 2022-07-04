@@ -1,12 +1,13 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Edit A Coupon')
 
+@section('custom_css')
+    <!-- jqueryui date picker -->
+    <link rel="stylesheet" href="{{asset('assets/backend/css/jquery-ui.css') }}">
+@endsection
+
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -27,6 +28,7 @@
                             <form action="{{ route('coupon.update', $coupon->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
+
                                 <div class="form-group row">
                 
                                     <label class="col-sm-2 col-form-label">Coupon Title</label>
@@ -63,25 +65,17 @@
                                         </div>
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Discount Type</label>
-                                    <div class="col-sm-10 mb-4">
-                                        <select name="discount_type" class="custom-select mr-sm-2" id="discount_type">
-                                            <option {{ $coupon->discount_type == 'Percentage' ? "selected" : "" }}>Percentage</option>
-                                            <option {{ $coupon->discount_type == 'Fixed' ? "selected" : "" }}>Fixed</option>
-                                        </select>
-                                    </div>
-
-                                    <label class="col-sm-2 col-form-label">Discount Amount</label>
+                                    <label class="col-sm-2 col-form-label">Discount Percentage</label>
                                     <div class="col-sm-10 mb-4">
                                         <input 
                                             type="number" 
-                                            name="discount_amount" 
-                                            class="form-control @error('discount_amount') is-invalid @enderror" 
+                                            name="discount_pct" 
+                                            class="form-control @error('discount_pct') is-invalid @enderror" 
                                             required autocomplete="off"
-                                            value="{{ $coupon->discount_amount }}">
+                                            value="{{ $coupon->discount_pct }}">
 
                                         <div class="invalid-feedback">
-                                            @error('discount_amount')
+                                            @error('discount_pct')
                                                 {{ $message }}
                                             @enderror
                                         </div>
@@ -94,7 +88,7 @@
                                             name="usable_per_person" 
                                             class="form-control" 
                                             autocomplete="off"
-                                            value="{{ $coupon->usable_per_person ?: "0" }}">
+                                            value="{{ $coupon->usable_per_person ?: "0" }}" required>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Usable In Total</label>
@@ -104,22 +98,22 @@
                                             name="usable_in_total" 
                                             class="form-control" 
                                             autocomplete="off"
-                                            value="{{ $coupon->usable_in_total ?: "0" }}">
+                                            value="{{ $coupon->usable_in_total ?: "0" }}" required>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Coupon Start On</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input class="form-control input-default jqdatepicker" id="coupon_start_date" name="coupon_start_date" type="text" autocomplete="off" value="{{ $coupon->coupon_start_date }}"/>
+                                        <input class="form-control input-default jqdatepicker" id="coupon_start_date" name="coupon_start_date" type="text" autocomplete="off" value="{{ $coupon->coupon_start_date }}" required/>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Coupon Ends On</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input class="form-control input-default jqdatepicker" id="coupon_end_date" name="coupon_end_date" type="text" autocomplete="off" value="{{ $coupon->coupon_end_date }}"/>
+                                        <input class="form-control input-default jqdatepicker" id="coupon_end_date" name="coupon_end_date" type="text" autocomplete="off" value="{{ $coupon->coupon_end_date }}" required/>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10 mb-4">
-                                        <select name="coupon_status" class="custom-select mr-sm-2" id="coupon_status">
+                                        <select name="coupon_status" class="custom-select mr-sm-2" id="coupon_status" required>
                                             <option {{ $coupon->coupon_status == 'Active' ? "selected" : "" }}>Active</option>
                                             <option {{ $coupon->coupon_status == 'Inactive' ? "selected" : "" }}>Inactive</option>
                                         </select>
@@ -139,8 +133,22 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
+@endsection
+
+@section('custom_js')
+    <!-- jqueryui date picker -->
+    <script src="{{ asset('assets/backend/js/jQuery/jquery-ui.js') }}"></script>
+
+    <!-- jqueryui date picker -->
+    <script>
+    $( function() {
+    $( ".jqdatepicker" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'yy-mm-dd',
+        yearRange: '2000:2025'
+    });
+    });
+    </script>
 @endsection

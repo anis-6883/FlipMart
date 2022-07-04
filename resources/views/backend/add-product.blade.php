@@ -6,6 +6,8 @@
 
     <!-- TagsInput -->
     <link rel="stylesheet" href="{{ asset('assets/backend/css/tagsinput.css') }}">
+    <!-- jqueryui date picker -->
+    <link rel="stylesheet" href="{{asset('assets/backend/css/jquery-ui.css') }}">
 
 @endsection
 
@@ -251,6 +253,20 @@
 
     <!-- TagsInput -->
     <script src="{{ asset('assets/backend/js/tagsinput.js') }}"></script>
+    <!-- jqueryui date picker -->
+    <script src="{{ asset('assets/backend/js/jQuery/jquery-ui.js') }}"></script>
+
+    <!-- jqueryui date picker -->
+    <script>
+    $( function() {
+    $( ".jqdatepicker" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'yy-mm-dd',
+        yearRange: '2000:2025'
+    });
+    });
+    </script>
 
     <script>
         $(function() {

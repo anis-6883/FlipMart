@@ -1,8 +1,12 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'List Slider')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -10,14 +14,10 @@
         text-align: center;
     }
 </style>
+
 @endsection
 
 @section('content')
-
-<!--**********************************
-        Content body start
-    ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -124,13 +124,15 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
+    
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 
 <script>
     function changeStatus(slider_id) {
@@ -161,35 +163,6 @@
             });
         });
     }
-</script>
-
-<script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-    @error('error')
-        Toast.fire({
-            icon: 'error',
-            title: '{{ $message }}'
-        })
-    @enderror
-
-    @if (session()->has('success'))
-        Toast.fire({
-            icon: 'success',
-            title: '{{ session('success') }}'
-        })
-    @endif
-    
 </script>
 
 @endsection

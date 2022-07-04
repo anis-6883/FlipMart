@@ -1,12 +1,8 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Add New Slider')
 
 @section('content')
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -26,6 +22,7 @@
                         <div class="basic-form">
                             <form action="{{ route('slider.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                @method('POST')
                                 <div class="form-group row">
                 
                                     <label class="col-sm-2 col-form-label">Slider Name</label>
@@ -99,13 +96,10 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
-@section('javascript')
+@section('custom_js')
 
 <script>
     var loadFile = function(event) {

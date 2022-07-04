@@ -25,7 +25,7 @@ class HomeController extends Controller
         //     ['hot_deals', '1']
         // ])->limit(6)->get();
 
-        return view('index', compact('sliders', 'categories'));
+        return view('frontend.index', compact('sliders', 'categories'));
     }
 
     public function productDetails($id, $slug)
@@ -35,17 +35,17 @@ class HomeController extends Controller
             ['category_id', $product->category_id],
             ['id', '!=', $id]
             ])->get();
-        return view('product-details', compact('product', 'related_product'));
+        return view('frontend.product-details', compact('product', 'related_product'));
     }
 
-    public function tagWiseProducts($tag)
-    {
-        $tagwiseProducts = Product::where([
-            ['product_tags', 'LIKE', '%'. $tag .'%'],
-            ['product_status', 'Active'],
-            ])->paginate(3);
-        return view('tagWise-products', compact('tagwiseProducts'));
-    }
+    // public function tagWiseProducts($tag)
+    // {
+    //     $tagwiseProducts = Product::where([
+    //         ['product_tags', 'LIKE', '%'. $tag .'%'],
+    //         ['product_status', 'Active'],
+    //         ])->paginate(3);
+    //     return view('frontend.tagWise-products', compact('tagwiseProducts'));
+    // }
 
     public function subCategoryWiseProducts($subCat_id, $subCat_name)
     {
@@ -53,7 +53,7 @@ class HomeController extends Controller
             ['subcategory_id', $subCat_id],
             ['product_status', 'Active'],
             ])->paginate(3);
-        return view('subCategoryWise-products', compact('subCategoryWiseProducts'));
+        return view('frontend.subCategoryWise-products', compact('subCategoryWiseProducts'));
     }
 
     public function sub_subCategoryWiseProducts($sub_subCat_id, $sub_subCat_name)
@@ -62,6 +62,6 @@ class HomeController extends Controller
             ['sub_subcategory_id', $sub_subCat_id],
             ['product_status', 'Active'],
             ])->paginate(3);
-        return view('subSubCategoryWise-products', compact('sub_subCategoryWiseProducts'));
+        return view('frontend.subSubCategoryWise-products', compact('sub_subCategoryWiseProducts'));
     }
 }

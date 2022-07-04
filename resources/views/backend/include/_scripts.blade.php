@@ -86,6 +86,13 @@ $( ".jqdatepicker" ).datepicker({
         title: '{{ session('error') }}'
         })
     @endif
+
+    @if (session()->has('warning'))
+        Toast.fire({
+        icon: 'warning',
+        title: '{{ session('warning') }}'
+        })
+    @endif
     
 </script>
 
