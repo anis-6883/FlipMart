@@ -1,7 +1,7 @@
 <!-- ![FlipMart](public/assets/frontend/images/logo2.png) -->
 
 <p align="center">
-<img src="public/assets/frontend/images/logo2.png" width="400">
+<img src="images/FlipMart.png" width="400">
 </p>
 
 ## About FlipMart
