@@ -14,9 +14,9 @@
       </tr>
       <tr>
         <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
-          <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Order status</span><b style="color:green;font-weight:normal;margin:0">Success</b></p>
+          <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Order Status</span><b style="color:green;font-weight:normal;margin:0">Success</b></p>
           <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Transaction ID</span> {{ $invoice_data['transaction_id'] }}</p>
-          <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order amount(Tk.)</span> &#2547; {{$invoice_data['order_amount'] }}</p>
+          <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order Amount(Tk.)</span> &#2547; {{$invoice_data['order_amount'] }}</p>
         </td>
       </tr>
       <tr>

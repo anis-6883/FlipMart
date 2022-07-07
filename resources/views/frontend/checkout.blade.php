@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Checkout Page')
 
@@ -57,7 +57,7 @@
                         <td><img width="100px" height="100px" src="{{ asset('uploads/products/' . $item->options->image) }}" alt="Product Image"></td>
                         <td>
                             <div class="product-name">
-                                <a href="#">
+                                <a href="{{ route('productDetails', $item->id) }}">
                                     {{ Str::of($item->name)->limit(40) }}
                                 </a>
                             </div>
@@ -116,6 +116,7 @@
 
                             <form class="register-form" action="{{ route('checkout.store') }}" method="POST">
                                 @csrf
+                                @method('POST')
 
                                 <div class="form-group">
                                     <label class="info-title" for="username">Shipping Name <span>*</span></label>
@@ -133,8 +134,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="info-title" for="phone">District <span>*</span></label>
-                                    <select id="select_district" class="form-control" aria-label="Default select example" required>
+                                    <label class="info-title" for="select_district">District <span>*</span></label>
+                                    <select name="district" id="select_district" class="form-control" aria-label="Default select example" required>
                                         <option selected value="">Select District</option>
                                         <option value="1">In Dhaka (Charge: &#2547;50)</option>
                                         <option value="2">Others (Charge: &#2547;70)</option>
@@ -174,14 +175,15 @@
                             <div class="">
                                 <ul class="nav nav-checkout-progress list-unstyled">
                                     @if (Session::has('coupon'))
-                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
-                                        <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_amount'] }}%)</a></li>
+                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ number_format((float)$cartTotal, 2, '.', ',')  }}</a></li>
+                                        <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_pct'] }}%)</a></li>
+                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ number_format((float)session()->get('coupon')['total_price'], 2, '.', ',')  }}</b></a></li>
                                         {{-- <li><a>Shipping Fee: &nbsp&nbsp &#2547;50</a></li> --}}
-                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ session()->get('coupon')['total_price'] + 50 }}</b></a></li>
+                                        
                                     @else
-                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
+                                        <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ number_format((float)$cartTotal, 2, '.', ',')  }}</a></li>
+                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ number_format((float)$cartTotal, 2, '.', ',')  }}</b></a></li>
                                         {{-- <li><a>Shipping Fee: &nbsp&nbsp &#2547;<span id="shipping_fee">50</span></a></li> --}}
-                                        <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ $cartTotal + 50 }}</b></a></li>
                                     @endif
                                     
                                 </ul>	
@@ -200,33 +202,9 @@
 			</div><!-- /.row -->
 		</div><!-- /.checkout-box -->
 <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-        @include('include._brand-slider')
+        @include('frontend.include._brand-slider')
 <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->	
     </div><!-- /.container -->
 </div><!-- /.body-content -->
 
-@endsection
-
-@section('javascript')
-    <script>
-        $(function(){
-
-            $('#select_district').change(function(){
-
-                let value = $(this).val();
-
-                if(value){
-                    if(value == 1){
-                        {{ session()->forget('shipping_charge') }}
-                        {{ session()->put('shipping_charge', 50) }}
-                    }
-                    if(value == 2){
-                        {{ session()->forget('shipping_charge') }}
-                        {{ session()->put('shipping_charge', 70) }}
-                    }
-                }
-            });
-
-        });
-    </script>
 @endsection

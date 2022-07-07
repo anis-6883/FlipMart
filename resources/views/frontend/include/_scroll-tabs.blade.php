@@ -28,9 +28,17 @@
                     <div class="product">
                         <div class="product-image">
                         <div class="image"> 
-                            <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                            <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
-                            </a> 
+                            
+                            @if ($product->product_master_image != null)
+                                <a href="{{ route('productDetails', $product->product_id) }}">
+                                    <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
+                                </a> 
+                            @else
+                                <a href="{{ route('productDetails', $product->product_id) }}">
+                                    <img  src="{{ asset('assets/backend/images/no-image.png') }}" alt="product_image">
+                                </a>
+                            @endif
+                            
                         </div>
                         <!-- /.image -->
 
@@ -46,7 +54,7 @@
                         
                         <div class="product-info text-left">
                         <h3 class="name">
-                            <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                            <a href="{{ route('productDetails', $product->product_id) }}">
                             {{ Str::of($product->product_name)->limit(40)  }}
                             </a>
                         </h3>
@@ -77,13 +85,13 @@
                         <div class="action">
                             <ul class="list-unstyled">
                                 <li class="add-cart-button btn-group">
-                                    <button onclick="fetchProductData(this.id)" id="{{ $product->id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
+                                    <button onclick="fetchProductData(this.id)" id="{{ $product->product_id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
                                     <i class="fa fa-shopping-cart"></i> 
                                     </button>
                                 </li>
                                 
                                 <li class="wishlist btn-group"> 
-                                    <button onclick="addToWishList(this.id)" id="{{ $product->id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
+                                    <button onclick="addToWishList(this.id)" id="{{ $product->product_id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
                                     <i class="icon fa fa-heart"></i> 
                                     </button> 
                                 </li>
@@ -118,10 +126,12 @@
 
             @php
 
-                $cat_products = App\Models\Product::where([
-                ['category_id', $category->id], 
-                ['product_status', 'Active']
-                ])->get();
+                $cat_products = Illuminate\Support\Facades\DB::table('products as p')
+                ->join('product_details as pd', 'pd.product_id', '=', 'p.id')
+                ->select('p.*', 'pd.*')
+                ->orderByDesc('p.created_at')
+                ->where([['category_id', $category->id], ['product_status', 'Active']])
+                ->get();
 
             @endphp
             
@@ -132,7 +142,7 @@
                     <div class="product">
                         <div class="product-image">
                         <div class="image"> 
-                            <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                            <a href="{{ route('productDetails', $product->product_id) }}">
                             <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
                             </a> 
                         </div>
@@ -149,7 +159,7 @@
                         
                         <div class="product-info text-left">
                         <h3 class="name">
-                            <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                            <a href="#">
                             {{ Str::of($product->product_name)->limit(40) }}
                             </a>
                         </h3>
@@ -180,13 +190,13 @@
                         <div class="action">
                             <ul class="list-unstyled">
                                 <li class="add-cart-button btn-group">
-                                    <button onclick="fetchProductData(this.id)" id="{{ $product->id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
+                                    <button onclick="fetchProductData(this.id)" id="{{ $product->product_id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
                                        <i class="fa fa-shopping-cart"></i> 
                                     </button>
                                 </li>
                                   
                                 <li class="wishlist btn-group"> 
-                                    <button onclick="addToWishList(this.id)" id="{{ $product->id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
+                                    <button onclick="addToWishList(this.id)" id="{{ $product->product_id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
                                       <i class="icon fa fa-heart"></i> 
                                     </button> 
                                 </li>

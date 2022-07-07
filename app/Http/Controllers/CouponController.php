@@ -91,11 +91,12 @@ class CouponController extends Controller
         if($coupon)
         {
             Session::put('coupon', [
+                'coupon_id' => $coupon->id,
                 'coupon_title' => $coupon->coupon_title,
                 'coupon_code' => $coupon->coupon_code,
-                'discount_amount' => $coupon->discount_amount,
-                'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
-                'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100),
+                'discount_pct' => $coupon->discount_pct,
+                'discount_price' => round((Cart::total() * $coupon->discount_pct) / 100),
+                'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_pct) / 100),
             ]);
             return response()->json(['success' => "Your Coupon is Implemented!"]);
         }
@@ -112,9 +113,9 @@ class CouponController extends Controller
             return response()->json([
                 'subtotal' => Cart::total(),
                 'coupon_title' => session()->get('coupon')['coupon_title'],
-                'discount_amount' => session()->get('coupon')['discount_amount'],
+                'discount_pct' => session()->get('coupon')['discount_pct'],
                 'discount_price' => session()->get('coupon')['discount_price'],
-                'total_price' => session()->get('coupon')['total_price']
+                'total_price' => session()->get('coupon')['total_price'],
             ]);
         }
         else

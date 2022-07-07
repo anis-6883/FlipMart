@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Sub-Category Wise Products')
 
@@ -27,13 +27,13 @@
 
             <div class="col-xs-12 col-sm-12 col-md-3 sidebar"> 
 
-                @include('include.sidebarNavigation') 
+                @include('frontend.include.sidebarNavigation') 
 
                 <div class="sidebar-module-container">
                     <div class="sidebar-filter">
 
                         <!-- ============================================== DROPDOWN SIDEBAR CATEGORY ============================================== -->
-                        @include('include.sidebarDropdown')
+                        @include('frontend.include.sidebarDropdown')
 
                         <!-- ============================================== PRICE SILDER============================================== -->
                         <div class="sidebar-widget wow fadeInUp outer-bottom-small">
@@ -51,7 +51,7 @@
                         </div>
 
                         <!-- ============================================== MANUFACTURES============================================== -->
-                        <div class="sidebar-widget wow fadeInUp outer-bottom-small">
+                        {{-- <div class="sidebar-widget wow fadeInUp outer-bottom-small">
                             <div class="widget-header">
                               <h4 class="widget-title">Manufactures</h4>
                             </div>
@@ -67,7 +67,7 @@
                               <!--<a href="#" class="lnk btn btn-primary">Show Now</a>--> 
                             </div>
                             <!-- /.sidebar-widget-body --> 
-                        </div>    
+                        </div>     --}}
 
                         <!-- ============================================== COLOR============================================== -->
                         <div class="sidebar-widget wow fadeInUp outer-bottom-small">
@@ -93,9 +93,9 @@
 
                 {{-- @include('include.sidebarProductTags') --}}
 
-                @include('include.sidebarNewsLetter')
+                @include('frontend.include.sidebarNewsLetter')
 
-                @include('include.sidebarTestimonials')
+                @include('frontend.include.sidebarTestimonials')
 
                 <div class="home-banner"> <img src="{{ asset("assets/frontend/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
 
@@ -200,16 +200,16 @@
                                         <div class="product">
                                         <div class="product-image">
                                             <div class="image"> 
-                                                <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                                                    <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
+                                                <a href="{{ route('productDetails', $product->id) }}">
+                                                    <img  src="{{ asset("uploads/products/" . $product->product_detail->product_master_image) }}" alt="product_image">
                                                 </a> 
                                             </div>
                                             <!-- /.image -->
                                             
-                                            @if ($product->product_discounted_price == NULL)
+                                            @if ($product->product_detail->product_discounted_price == NULL)
                                                 <div class="tag new"><span>new</span></div>                                
                                             @else
-                                                <div class="tag hot"><span>{{ $product->product_discounted_price }}%</span></div>
+                                                <div class="tag hot"><span>{{ $product->product_detail->product_discounted_price }}%</span></div>
                                             @endif
                                           
                                         </div>
@@ -217,27 +217,27 @@
                                         
                                         <div class="product-info text-left">
                                             <h3 class="name">
-                                              <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                                                {{ Str::of($product->product_name)->limit(40)  }}
+                                              <a href="{{ route('productDetails', $product->id) }}">
+                                                {{ Str::of($product->product_detail->product_name)->limit(40)  }}
                                               </a>
                                             </h3>
                                             <div class="rating rateit-small"></div>
                                             <div class="description"></div>
                         
-                                            @if ($product->product_discounted_price == NULL)
+                                            @if ($product->product_detail->product_discounted_price == NULL)
                                                 <div class="product-price"> 
-                                                  <span class="price"> &#2547;{{ $product->product_regular_price }} </span> 
+                                                  <span class="price"> &#2547;{{ $product->product_detail->product_regular_price }} </span> 
                                                 </div>                              
                                             @else
                         
                                                 @php
-                                                  $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
-                                                  $product_amount = $product->product_regular_price - $discount_price;
+                                                  $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+                                                  $product_amount = $product->product_detail->product_regular_price - $discount_price;
                                                 @endphp
                         
                                                 <div class="product-price"> 
-                                                  <span class="price"> &#2547;{{ $product_amount }} </span> 
-                                                  <span class="price-before-discount">&#2547;{{ $product->product_regular_price }}</span> 
+                                                  <span class="price"> &#2547;{{ round($product_amount) }} </span> 
+                                                  <span class="price-before-discount">&#2547;{{ $product->product_detail->product_regular_price }}</span> 
                                                 </div>
                                             @endif
                                             <!-- /.product-price --> 
@@ -295,8 +295,8 @@
                                         <div class="col col-sm-4 col-lg-4">
                                             <div class="product-image">
                                                 <div class="image"> 
-                                                    <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                                                        <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
+                                                    <a href="{{ route('productDetails', $product->id) }}">
+                                                        <img  src="{{ asset("uploads/products/" . $product->product_detail->product_master_image) }}" alt="product_image">
                                                     </a> 
                                                 </div>
                                             </div>
@@ -306,30 +306,30 @@
                                         <div class="col col-sm-8 col-lg-8">
                                             <div class="product-info">
                                                 <h3 class="name">
-                                                    <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                                                      {{ Str::of($product->product_name)->limit(40)  }}
+                                                    <a href="{{ route('productDetails', $product->id) }}">
+                                                      {{ Str::of($product->product_detail->product_name)->limit(40)  }}
                                                     </a>
                                                 </h3>
                                             <div class="rating rateit-small"></div>
-                                            @if ($product->product_discounted_price == NULL)
+                                            @if ($product->product_detail->product_discounted_price == NULL)
                                                 <div class="product-price"> 
-                                                  <span class="price"> &#2547;{{ $product->product_regular_price }} </span> 
+                                                  <span class="price"> &#2547;{{ $product->product_detail->product_regular_price }} </span> 
                                                 </div>                              
                                             @else
                         
                                                 @php
-                                                  $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
-                                                  $product_amount = $product->product_regular_price - $discount_price;
+                                                  $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+                                                  $product_amount = $product->product_detail->product_regular_price - $discount_price;
                                                 @endphp
                         
                                                 <div class="product-price"> 
-                                                  <span class="price"> &#2547;{{ $product_amount }} </span> 
-                                                  <span class="price-before-discount">&#2547;{{ $product->product_regular_price }}</span> 
+                                                  <span class="price"> &#2547;{{ round($product_amount) }} </span> 
+                                                  <span class="price-before-discount">&#2547;{{ $product->product_detail->product_regular_price }}</span> 
                                                 </div>
                                             @endif
                                             <!-- /.product-price --> 
 
-                                            <div class="description m-t-10">{!! Str::of($product->product_summary)->limit(100) !!}</div>
+                                            <div class="description m-t-10">{!! Str::of($product->product_detail->product_summary)->limit(100) !!}</div>
                                             <div class="cart clearfix animate-effect">
                                                 <div class="action">
                                                 <ul class="list-unstyled">
@@ -351,10 +351,10 @@
                                         <!-- /.col --> 
                                         </div>
                                         <!-- /.product-list-row -->
-                                        @if ($product->product_discounted_price == NULL)
+                                        @if ($product->product_detail->product_discounted_price == NULL)
                                                 <div class="tag new"><span>new</span></div>                                
                                         @else
-                                            <div class="tag hot"><span>{{ $product->product_discounted_price }}%</span></div>
+                                            <div class="tag hot"><span>{{ $product->product_detail->product_discounted_price }}%</span></div>
                                         @endif
                                     </div>
                                     <!-- /.product-list --> 

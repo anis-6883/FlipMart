@@ -14,13 +14,9 @@
 
           @include('frontend.include.sidebarNavigation') 
           
-          {{-- @include('frontend.include.sidebarHotDeals') --}}
-          
-          {{-- @include('frontend.include.sidebarSpecialOffer') --}}
+          @include('frontend.include.sidebarHotDeals')
 
           {{-- @include('frontend.include.sidebarProductTags') --}}
-
-          {{-- @include('frontend.include.sidebarSpecialDelas') --}}
 
           @include('frontend.include.sidebarNewsLetter')
 
@@ -45,7 +41,7 @@
         <!-- ============================================== INFO BOXES : END ============================================== --> 
 
         <!-- ============================================== SCROLL TABS [ NEW PRODUCTS ] ============================================== -->
-        {{-- @include('frontend.include._scroll-tabs') --}}
+        @include('frontend.include._scroll-tabs')
         <!-- ============================================== SCROLL TABS : END [ NEW PRODUCTS ] ============================================== -->
 
         <!-- ============================================== WIDE BANNERS ============================================== -->
@@ -53,7 +49,7 @@
         <!-- ============================================== WIDE BANNERS : END ============================================== -->
 
         <!-- ============================================== FEATURED PRODUCTS ============================================== -->
-        {{-- @include('frontend.include._featured-products') --}}
+        @include('frontend.include._featured-products')
         <!-- ============================================== FEATURED PRODUCTS : END ============================================== --> 
 
         <!-- ============================================== WIDE PRODUCTS ============================================== -->
@@ -61,7 +57,7 @@
         <!-- ============================================== WIDE PRODUCTS : END ============================================== -->
 
         <!-- ============================================== Hot Deals PRODUCTS ============================================== -->
-        {{-- @include('frontend.include._hotDeals-slider') --}}
+        @include('frontend.include._hotDeals-slider')
         <!-- ============================================== Hot Deals PRODUCTS : END ============================================== --> 
 
         <!-- ============================================== BEST SELLER ============================================== -->
@@ -89,6 +85,5 @@
   <!-- /.container --> 
 </div>
 <!-- /#top-banner-and-menu --> 
+
 @endsection
-
-

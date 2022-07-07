@@ -211,17 +211,17 @@ class AjaxController extends Controller
     //fetch product data
     public function fetchProductData(Request $request)
     {
-        $product = Product::with('category', 'subcategory')->findOrFail($request->post('product_id'));
-        $product_colors = explode(',', $product->product_color);
-        $product_sizes = explode(',', $product->product_size);
+        $product = Product::with('product_detail', 'category', 'subcategory')->findOrFail($request->post('product_id'));
+        $product_colors = explode(',', $product->product_detail->product_colors);
+        $product_sizes = explode(',', $product->product_detail->product_sizes);
 
-        if($product->product_discounted_price != NULL)
+        if($product->product_detail->product_discounted_price != NULL)
         {
-            $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
-            $product_price = $product->product_regular_price - $discount_price;
+            $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+            $product_price = $product->product_detail->product_regular_price - $discount_price;
         }
         else{
-            $product_price = $product->product_regular_price;
+            $product_price = $product->product_detail->product_regular_price;
         }
 
         return response()->json(array(

@@ -16,31 +16,31 @@ class CartController extends Controller
     public function index()
     {
         $cartQty = Cart::count();
-        return view('list-cart', compact('cartQty'));
+        return view('frontend.list-cart', compact('cartQty'));
     }
 
     // addToCart
     public function addToCart(Request $request, $product_id)
     {
-        $product = Product::findOrFail($product_id);
+        $product = Product::with('product_detail')->findOrFail($product_id);
 
-        if($product->product_discounted_price != NULL){
+        if($product->product_detail->product_discounted_price != NULL){
 
-            $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
-            $product_price = $product->product_regular_price - $discount_price;
+            $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+            $product_price = $product->product_detail->product_regular_price - $discount_price;
 
             Cart::add([
                 'id' => $product_id, 
-                'name' => $product->product_name, 
-                'slug' => $product->product_slug, 
+                'name' => $product->product_detail->product_name, 
+                'slug' => $product->product_detail->product_slug, 
                 'qty' => $request->product_qty, 
                 'price' => round($product_price),
                 'weight' => 1, 
                 'options' => [
                     'size' => $request->product_size,
                     'color' => $request->product_color,
-                    'image' => $product->product_master_image,
-                    'discounted_price' => $product->product_regular_price
+                    'image' => $product->product_detail->product_master_image,
+                    'discounted_price' => $product->product_detail->product_regular_price
                     ]
             ]);
 
@@ -50,15 +50,15 @@ class CartController extends Controller
 
             Cart::add([
                 'id' => $product_id, 
-                'name' => $product->product_name,
-                'slug' => $product->product_slug,
+                'name' => $product->product_detail->product_name,
+                'slug' => $product->product_detail->product_slug,
                 'qty' => $request->product_qty, 
-                'price' => $product->product_regular_price,
+                'price' => $product->product_detail->product_regular_price,
                 'weight' => 1, 
                 'options' => [
                     'size' => $request->product_size,
                     'color' => $request->product_color,
-                    'image' => $product->product_master_image,
+                    'image' => $product->product_detail->product_master_image,
                     'discounted_price' => 0
                     ]
             ]);
@@ -101,9 +101,9 @@ class CartController extends Controller
                     Session::put('coupon', [
                         'coupon_title' => $coupon->coupon_title,
                         'coupon_code' => $coupon->coupon_code,
-                        'discount_amount' => $coupon->discount_amount,
-                        'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
-                        'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100),
+                        'discount_pct' => $coupon->discount_pct,
+                        'discount_price' => round((Cart::total() * $coupon->discount_pct) / 100),
+                        'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_pct) / 100),
                     ]);
                 }
             }
@@ -135,9 +135,9 @@ class CartController extends Controller
                 Session::put('coupon', [
                     'coupon_title' => $coupon->coupon_title,
                     'coupon_code' => $coupon->coupon_code,
-                    'discount_amount' => $coupon->discount_amount,
-                    'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
-                    'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100),
+                    'discount_pct' => $coupon->discount_pct,
+                    'discount_price' => round((Cart::total() * $coupon->discount_pct) / 100),
+                    'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_pct) / 100),
                 ]);
             }
         }
@@ -164,9 +164,9 @@ class CartController extends Controller
                 Session::put('coupon', [
                     'coupon_title' => $coupon->coupon_title,
                     'coupon_code' => $coupon->coupon_code,
-                    'discount_amount' => $coupon->discount_amount,
-                    'discount_price' => round((Cart::total() * $coupon->discount_amount) / 100),
-                    'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_amount) / 100)
+                    'discount_pct' => $coupon->discount_pct,
+                    'discount_price' => round((Cart::total() * $coupon->discount_pct) / 100),
+                    'total_price' => round(Cart::total() - (Cart::total() * $coupon->discount_pct) / 100)
                 ]);
             }
         }

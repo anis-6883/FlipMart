@@ -24,19 +24,33 @@
                             <div class="row">
 
                             @php
-                                $subcategories = App\Models\Subcategory::where('category_id', $category->id)->orderBy('subcategory_name')->get();
+                                $subcategories = App\Models\Subcategory::where([
+                                    ['category_id', $category->id], 
+                                    ['subcategory_status', 'Active']
+                                    ])->orderBy('subcategory_name')->get();
                             @endphp
 
                             @foreach ($subcategories as $subcategory)
                                 <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-                                <h2 class="title">{{ $subcategory->subcategory_name }}</h2>
+                                <h2 class="title">
+                                    <a href="{{ route('subCategoryWiseProducts', [$subcategory->id, $subcategory->subcategory_name]) }}" style="color: #0f6cb2 !important">
+                                        {{ $subcategory->subcategory_name }}
+                                    </a>
+                                </h2>
                                 <ul class="links">
                                     @php
-                                    $sub_subcategories = App\Models\Sub_Subcategory::where('subcategory_id', $subcategory->id)->get();
+                                        $sub_subcategories = App\Models\Sub_Subcategory::where([
+                                            ['subcategory_id', $subcategory->id], 
+                                            ['sub_subcategory_status', 'Active']
+                                        ])->get();
                                     @endphp
 
                                     @foreach ($sub_subcategories as $sub_subcategory)
-                                    <li><a href="#">{{ $sub_subcategory->sub_subcategory_name }}</a></li>
+                                        <li>
+                                            <a href="{{ route('sub_subCategoryWiseProducts', [$sub_subcategory->id, $sub_subcategory->sub_subcategory_name]) }}">
+                                            {{ $sub_subcategory->sub_subcategory_name }}
+                                            </a>
+                                        </li>
                                     @endforeach
 
                                 </ul>

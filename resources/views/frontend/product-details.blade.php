@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Product Details')
 
@@ -10,7 +10,7 @@
         <ul class="list-inline list-unstyled">
           <li><a href="{{ route('home') }}">Home</a></li>
           <li><a href="#">Clothing</a></li>
-          <li class="active">{{ $product->product_name }}</li>
+          <li class="active">{{ $product->product_detail->product_name }}</li>
         </ul>
       </div>
       <!-- /.breadcrumb-inner -->
@@ -27,13 +27,13 @@
 
         <div class="col-xs-12 col-sm-12 col-md-3 sidebar">  
             
-            @include('include.sidebarHotDeals')
+            @include('frontend.include.sidebarHotDeals')
             
-            @include('include.sidebarSpecialOffer')
+            {{-- @include('include.sidebarSpecialOffer') --}}
   
             {{-- @include('include.sidebarProductTags') --}}
   
-            @include('include.sidebarTestimonials')
+            @include('frontend.include.sidebarTestimonials')
   
             <div class="home-banner"> <img src="{{ asset("assets/frontend/images/banners/LHS-banner.jpg") }}" alt="Image"> </div>
   
@@ -55,19 +55,19 @@
                             <a
                             data-lightbox="image-1"
                             data-title="Gallery"
-                            href="{{ asset('uploads/products/' . $product->product_master_image) }}"
+                            href="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}"
                             >
                             <img
                                 class="img-responsive"
                                 alt=""
                                 src="assets/images/blank.gif"
-                                data-echo="{{ asset('uploads/products/' . $product->product_master_image) }}"
+                                data-echo="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}"
                             />
                             </a>
                         </div>
                         <!-- /.single-product-gallery-item -->
 
-                        @foreach ($product->product_image as $img)
+                        @foreach ($product->product_images as $img)
                             <div class="single-product-gallery-item" id="slide{{ $img->id }}">
                                 <a
                                 data-lightbox="image-1"
@@ -104,13 +104,13 @@
                                     class="img-responsive"
                                     width="85"
                                     alt=""
-                                    src="{{ asset('uploads/products/' . $product->product_master_image) }}"
-                                    data-echo="{{ asset('uploads/products/' . $product->product_master_image) }}"
+                                    src="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}"
+                                    data-echo="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}"
                                     />
                                 </a>
                             </div>
 
-                                @foreach ($product->product_image as $img)
+                                @foreach ($product->product_images as $img)
                                     <div class="item">
                                     <a
                                         class="horizontal-thumb active"
@@ -141,7 +141,7 @@
                 
                 <div class="col-sm-6 col-md-7 product-info-block">
                   <div class="product-info">
-                    <h1 class="name" id="m-product-name">{{ $product->product_name }}</h1>
+                    <h1 class="name" id="m-product-name">{{ $product->product_detail->product_name }}</h1>
         
                     <div class="rating-reviews m-t-20">
                       <div class="row">
@@ -176,7 +176,7 @@
                     <!-- /.stock-container -->
         
                     <div class="description-container m-t-20">
-                      {!! $product->product_summary !!}
+                      {!! $product->product_detail->product_summary !!}
                     </div>
                     <!-- /.description-container -->
         
@@ -187,16 +187,16 @@
                         <div class="col-sm-6">
                           <div class="price-box">
 
-                            @if ($product->product_discounted_price == NULL)
-                                <span class="price">&#2547;{{ $product->product_regular_price }}</span>                          
+                            @if ($product->product_detail->product_discounted_price == NULL)
+                                <span class="price">&#2547;{{ $product->product_detail->product_regular_price }}</span>                          
                               @else
 
                                   @php
-                                    $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
-                                    $product_amount = $product->product_regular_price - $discount_price;
+                                    $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+                                    $product_amount = $product->product_detail->product_regular_price - $discount_price;
                                   @endphp
                                   <span class="price">&#2547;{{ round($product_amount) }}</span>
-                                  <span class="price-strike">&#2547;{{ $product->product_regular_price }}</span>
+                                  <span class="price-strike">&#2547;{{ $product->product_detail->product_regular_price }}</span>
                               @endif
 
                             
@@ -206,7 +206,7 @@
         
                         <div class="col-sm-6">
                           <div class="favorite-button m-t-10">
-                            <button class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" onclick="addToWishList(this.id)" id="{{ $product->id }}">
+                            <button class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" onclick="addToWishList(this.id)" id="{{ $product->product_detail->id }}">
                               <i class="fa fa-heart"></i>
                             </button>
                           </div>
@@ -217,10 +217,10 @@
 
                       <div class="row">
 
-                        @if ($product->product_size != NULL)
+                        @if ($product->product_detail->product_sizes != NULL)
 
                             @php
-                              $product_sizes = explode(',', $product->product_size);
+                              $product_sizes = explode(',', $product->product_detail->product_sizes);
                             @endphp
 
                             <div class="col-sm-6">
@@ -241,10 +241,10 @@
 
                         @endif
 
-                        @if ($product->product_color != NULL)
+                        @if ($product->product_detail->product_colors != NULL)
 
                             @php
-                              $product_colors = explode(',', $product->product_color);
+                              $product_colors = explode(',', $product->product_detail->product_colors);
                             @endphp
 
                           <div class="col-sm-6">
@@ -317,7 +317,7 @@
         
                         <div class="col-sm-7">
                           <div style="display: flex; justify-content: center;">
-                            <input type="hidden" id="m-product-id" value="{{ $product->id }}">
+                            <input type="hidden" id="m-product-id" value="{{ $product->product_detail->id }}">
                             <button class="btn btn-primary" type="submit" onclick="addToCart()">
                               <i class="fa fa-shopping-cart inner-right-vs"></i>
                               ADD TO CART
@@ -355,7 +355,7 @@
                     <div id="description" class="tab-pane in active">
                       <div class="product-tab">
                         <p class="text">
-                          {!! $product->product_description !!}
+                          {!! $product->product_detail->product_description !!}
                         </p>
                       </div>
                     </div>
@@ -663,23 +663,23 @@
               <h3 class="section-title">related products</h3>
               <div class="owl-carousel home-owl-carousel upsell-product custom-carousel owl-theme outer-top-xs">
 
-                @foreach ($related_product as $product)
+                @forelse ($related_product as $product)
 
                     <div class="item item-carousel">
                       <div class="products">
                         <div class="product">
                           <div class="product-image">
                             <div class="image"> 
-                              <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                                <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
+                              <a href="{{ route('productDetails', $product->id) }}">
+                                <img  src="{{ asset("uploads/products/" . $product->product_detail->product_master_image) }}" alt="product_image">
                               </a> 
                             </div>
                             <!-- /.image -->
         
-                            @if ($product->product_discounted_price == NULL)
+                            @if ($product->product_detail->product_discounted_price == NULL)
                               <div class="tag new"><span>new</span></div>                                
                             @else
-                              <div class="tag hot"><span>{{ $product->product_discounted_price }}%</span></div>
+                              <div class="tag hot"><span>{{ $product->product_detail->product_discounted_price }}%</span></div>
                             @endif
                             
         
@@ -688,27 +688,27 @@
                           
                           <div class="product-info text-left">
                             <h3 class="name">
-                              <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                                {{ Str::of($product->product_name)->limit(40)  }}
+                              <a href="{{ route('productDetails', $product->id) }}">
+                                {{ Str::of($product->product_detail->product_name)->limit(40)  }}
                               </a>
                             </h3>
                             <div class="rating rateit-small"></div>
                             <div class="description"></div>
         
-                            @if ($product->product_discounted_price == NULL)
+                            @if ($product->product_detail->product_discounted_price == NULL)
                                 <div class="product-price"> 
-                                  <span class="price"> &#2547;{{ $product->product_regular_price }} </span> 
+                                  <span class="price"> &#2547;{{ $product->product_detail->product_regular_price }} </span> 
                                 </div>                              
                             @else
         
                                 @php
-                                  $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
-                                  $product_amount = $product->product_regular_price - $discount_price;
+                                  $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+                                  $product_amount = $product->product_detail->product_regular_price - $discount_price;
                                 @endphp
         
                                 <div class="product-price"> 
                                   <span class="price"> &#2547;{{ $product_amount }} </span> 
-                                  <span class="price-before-discount">&#2547;{{ $product->product_regular_price }}</span> 
+                                  <span class="price-before-discount">&#2547;{{ $product->product_detail->product_regular_price }}</span> 
                                 </div>
                             @endif
                             <!-- /.product-price --> 
@@ -720,7 +720,9 @@
                             <div class="action">
                               <ul class="list-unstyled">
                                 <li class="add-cart-button btn-group">
-                                  <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                  <button onclick="fetchProductData(this.id)" id="{{ $product->id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart"> 
+                                    <i class="fa fa-shopping-cart"></i> 
+                                  </button>
                                   <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                 </li>
                                 <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -737,8 +739,9 @@
                       <!-- /.products --> 
                     </div>
                     <!-- /.item -->
-
-                @endforeach
+                @empty
+                    <h5 style="color: red">No Related Product Is Available...</h5>
+                @endforelse
                 
         
 
@@ -749,7 +752,7 @@
             <!-- ============================================== RELATED PRODUCTS : END ============================================== -->
 
             <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-    @include('include._brand-slider')
+            @include('frontend.include._brand-slider')
     <!-- /.brand-slider --> 
     <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
         </div>
@@ -762,7 +765,7 @@
 
 @endsection
 
-@section('javascript')
+@section('custom_js')
     <script>
 
       function qtyIncrement(){
@@ -785,4 +788,5 @@
       }
 
     </script>
+    
 @endsection

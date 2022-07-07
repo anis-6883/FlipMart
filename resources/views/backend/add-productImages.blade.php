@@ -70,8 +70,8 @@
                                             <td>{{ $product->subcategory ? $product->subcategory->subcategory_name : "NULL" }}</td>
                                             <td>{{ Str::of($product->product_detail->product_name)->limit(50)  }}</td>
                                             <td>
-                                                @if ($product->product_master_image != null)
-                                                    <img id="master_img" src="{{ asset('uploads/products/' . $product->product_master_image) }}" alt="Product Image" width="80px" height="80px">              
+                                                @if ($product->product_detail->product_master_image != null)
+                                                    <img id="master_img" src="{{ asset('uploads/products/' . $product->product_detail->product_master_image) }}" alt="Product Image" width="80px" height="80px">              
                                                 @else
                                                     <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif

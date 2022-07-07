@@ -1,10 +1,12 @@
 @php
-  $hot_deals = App\Models\Product::where([
-            ['product_status', 'Active'],
-            ['hot_deals', '1'],
-            ['product_discounted_price', '!=', NULL]
-        ])->limit(3)->get();
-@endphp 
+  $hot_deals = Illuminate\Support\Facades\DB::table('products as p')
+        ->join('product_details as pd', 'pd.product_id', '=', 'p.id')
+        ->select('p.*', 'pd.*')
+        ->orderByDesc('p.created_at')
+        ->where([ ['p.product_status', 'Active'], ['pd.hot_deals', '1'] ])
+        ->limit(6)
+        ->get();
+@endphp
     
     <!-- ============================================== HOT DEALS ============================================== -->
     <div class="sidebar-widget hot-deals wow fadeInUp outer-bottom-xs">
@@ -42,7 +44,7 @@
                   
                   <div class="product-info text-left m-t-20">
                     <h3 class="name">
-                      <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                      <a href="{{ route('productDetails', $product->product_id) }}">
                           {{ Str::of($product->product_name)->limit(40)  }}
                       </a>
                     </h3>

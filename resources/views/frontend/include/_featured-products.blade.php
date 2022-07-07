@@ -1,3 +1,13 @@
+@php
+  $featured = Illuminate\Support\Facades\DB::table('products as p')
+        ->join('product_details as pd', 'pd.product_id', '=', 'p.id')
+        ->select('p.*', 'pd.*')
+        ->orderByDesc('p.created_at')
+        ->where([ ['p.product_status', 'Active'], ['pd.featured', '1'] ])
+        ->limit(6)
+        ->get();
+@endphp
+
 <section class="section featured-product wow fadeInUp">
     <h3 class="section-title">Featured products</h3>
     <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
@@ -9,9 +19,15 @@
           <div class="product">
             <div class="product-image">
               <div class="image"> 
-                <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
-                  <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
-                </a> 
+                @if ($product->product_master_image != null)
+                    <a href="#">
+                        <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
+                    </a> 
+                @else
+                    <a href="#">
+                        <img  src="{{ asset('assets/backend/images/no-image.png') }}" alt="product_image">
+                    </a>
+                @endif
               </div>
               <!-- /.image -->
 
@@ -60,7 +76,7 @@
                 <ul class="list-unstyled">
 
                   <li class="add-cart-button btn-group">
-                    <button onclick="fetchProductData(this.id)" id="{{ $product->id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
+                    <button onclick="fetchProductData(this.id)" id="{{ $product->product_id }}" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary icon" type="button" title="Add Cart">
                        <i class="fa fa-shopping-cart"></i> 
                     </button>
                   </li>
@@ -71,7 +87,7 @@
                     </button> 
                   </li>
 
-                  <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                  <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="#" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
                 </ul>
               </div>
               <!-- /.action --> 

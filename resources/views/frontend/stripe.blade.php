@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Stripe Payment Page')
 
@@ -71,7 +71,7 @@
                                             <li><a>Phone: &nbsp&nbsp {{ $arr['phone'] }}</a></li>
                                             <li><a>Address: &nbsp&nbsp {{ $arr['address'] }}</a></li>
                                             <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
-                                            <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_amount'] }}%)</a></li>
+                                            <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_pct'] }}%)</a></li>
                                             <li><a>Shipping Charge: &nbsp&nbsp &#2547;{{ $shipping_charge }}</a></li>
                                             <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ session()->get('coupon')['total_price'] + $shipping_charge }}</b></a></li>
                                         @else
@@ -133,64 +133,65 @@
 			</div><!-- /.row -->
 		</div><!-- /.checkout-box -->
 <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-        @include('include._brand-slider')
+        @include('frontend.include._brand-slider')
 <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->	
     </div><!-- /.container -->
 </div><!-- /.body-content -->
 
 @endsection
 
-@section('javascript')
+@section('custom_js')
 
-<script>
+    <script>
 
-    var stripe = Stripe('pk_test_51It11HBUiGp7cYCILKuApsc9dWlX7AtayWFyxyZTNbTCpZZMHP7uZqBs9xXD06SQTaZvoqq7P8fMSEJgDOGj46nN00OSXOwD2o');
-    var elements = stripe.elements();
+        var stripe = Stripe('pk_test_51It11HBUiGp7cYCILKuApsc9dWlX7AtayWFyxyZTNbTCpZZMHP7uZqBs9xXD06SQTaZvoqq7P8fMSEJgDOGj46nN00OSXOwD2o');
+        var elements = stripe.elements();
 
-    // Custom styling can be passed to options when creating an Element.
-    var style = {
-    base: {
-        // Add your base input styles here. For example:
-        fontSize: '16px',
-        color: '#32325d',
-    },
-    };
+        // Custom styling can be passed to options when creating an Element.
+        var style = {
+        base: {
+            // Add your base input styles here. For example:
+            fontSize: '16px',
+            color: '#32325d',
+        },
+        };
 
-    // Create an instance of the card Element.
-    var card = elements.create('card', {style: style});
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
 
-    // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
 
-    // Create a token or display an error when the form is submitted.
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    stripe.createToken(card).then(function(result) {
-        if (result.error) {
-        // Inform the customer that there was an error.
-        var errorElement = document.getElementById('card-errors');
-        errorElement.textContent = result.error.message;
-        } else {
-        // Send the token to your server.
-        stripeTokenHandler(result.token);
-        }
-    });
-    });
-
-    function stripeTokenHandler(token) {
-        // Insert the token ID into the form so it gets submitted to the server
+        // Create a token or display an error when the form is submitted.
         var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
-        form.appendChild(hiddenInput);
+        form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        // Submit the form
-        form.submit();
-    }
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+            // Inform the customer that there was an error.
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+            }
+        });
+        });
 
-</script>
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+
+    </script>
+
 @endsection

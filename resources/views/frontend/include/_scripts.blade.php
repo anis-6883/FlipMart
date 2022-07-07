@@ -14,88 +14,92 @@
 <script src="{{ asset("assets/frontend/js/scripts.js") }}"></script>
 
 <!-- Start Add to Cart Model AJAX Script -->
-
 <script>
 
-      function fetchProductData(product_id) {
-          $(function() {
+  function fetchProductData(product_id) {
+      $(function() {
 
-              $.ajax({
-                  url: "{{ route('fetchProductData') }}",
-                  type: "POST",
-                  data: {
-                      product_id,
-                      _token: "{{ csrf_token() }}"
-                  },
-                  success: function(result) {
+          $.ajax({
+              url: "{{ route('fetchProductData') }}",
+              type: "POST",
+              data: {
+                  product_id,
+                  _token: "{{ csrf_token() }}"
+              },
+              success: function(result) {
 
-                      $('#m-product-name').text(result.product.product_name);
-                      $('#m-product-category').text(result.product.category.category_name);
-                      $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
+                  $('#m-product-name').text(result.product.product_name);
+                  $('#m-product-category').text(result.product.category.category_name);
 
-                      if(result.product.product_discounted_price)
-                      {
-                        $('#m-product-discount').text(result.product.product_discounted_price);
-                      }else{
-                        $('#m-product-discount').text(0);
-                      }
-
-                      if(result.product.product_quantity > 0)
-                      {
-                        $('#m-product-stock-avail').text("Available");
-                        $('#m-product-stock-out').text("");
-                      }else{
-                        $('#m-product-stock-out').text("Stock Out");
-                        $('#m-product-stock-avail').text("");
-                      }
-
-                      $('#m-product-price').text(result.product_price);
-
-                      // push image src
-                      var img_path = "{{ asset('uploads/products/:img_name') }}";
-                      img_path = img_path.replace(':img_name', result.product.product_master_image);
-                      $('#m-product-image').attr('src', img_path);
-
-                      // product color
-                      $('#m-product-color').empty();
-                      if(result.product_colors != "")
-                      {
-                        $.each(result.product_colors, function(key, value){
-                          $('#m-product-color').append(`<option value=${value}>${value}</option>`);
-                        });
-                        $('#m-product-color-div').show();
-                      }
-                      else{
-                        $('#m-product-color-div').hide();
-                      }
-                      
-                      // product size
-                      $('#m-product-size').empty();
-                      if(result.product_sizes != "")
-                      {
-                        $.each(result.product_sizes, function(key, value){
-                          $('#m-product-size').append(`<option value=${value}>${value}</option>`);
-                        });
-                        $('#m-product-size-div').show();
-                      }
-                      else{
-                        $('#m-product-size-div').hide();
-                      }
-
-                      // push product id for submit it
-                      $('#m-product-id').val(result.product.id); 
-                      $('#m-product-qty').val(1); // push quantity default 1
+                  if(result.product.subcategory){
+                    $('#m-product-subcategory').text(result.product.subcategory.subcategory_name);
                   }
-              });
+                  else{
+                    $('#m-product-subcategory').text("NULL");
+                  }
+                  
+
+                  if(result.product.product_detail.product_discounted_price)
+                  {
+                    $('#m-product-discount').text(result.product.product_detail.product_discounted_price);
+                  }else{
+                    $('#m-product-discount').text(0);
+                  }
+
+                  if(result.product.product_detail.product_quantity > 0)
+                  {
+                    $('#m-product-stock-avail').text("Available");
+                    $('#m-product-stock-out').text("");
+                  }else{
+                    $('#m-product-stock-out').text("Stock Out");
+                    $('#m-product-stock-avail').text("");
+                  }
+
+                  $('#m-product-price').text(result.product_price);
+
+                  // push image src
+                  var img_path = "{{ asset('uploads/products/:img_name') }}";
+                  img_path = img_path.replace(':img_name', result.product.product_detail.product_master_image);
+                  $('#m-product-image').attr('src', img_path);
+
+                  // product color
+                  $('#m-product-color').empty();
+                  if(result.product_colors != "")
+                  {
+                    $.each(result.product_colors, function(key, value){
+                      $('#m-product-color').append(`<option value=${value}>${value}</option>`);
+                    });
+                    $('#m-product-color-div').show();
+                  }
+                  else{
+                    $('#m-product-color-div').hide();
+                  }
+                  
+                  // product size
+                  $('#m-product-size').empty();
+                  if(result.product_sizes != "")
+                  {
+                    $.each(result.product_sizes, function(key, value){
+                      $('#m-product-size').append(`<option value=${value}>${value}</option>`);
+                    });
+                    $('#m-product-size-div').show();
+                  }
+                  else{
+                    $('#m-product-size-div').hide();
+                  }
+
+                  // push product id for submit it
+                  $('#m-product-id').val(result.product.id); 
+                  $('#m-product-qty').val(1); // push quantity default 1
+              }
           });
-      }
+      });
+  }
 
 </script>
-
 <!-- End Add to Cart Model AJAX Script -->
 
 <!-- Start Add to Cart Function -->
-
 <script>
 
       function addToCart(){
@@ -131,7 +135,7 @@
                     position: 'top-end',
                     icon: 'success',
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 4000
                   })
 
                   Toast.fire({
@@ -176,13 +180,17 @@
                       <div class="row">
                         <div class="col-xs-4">
                             <div class="image"> 
-                              <a href="#">
+                              <a href="{{ url('/productDetails/${value.id}') }}">
                                 <img src="{{ asset('uploads/products/${value.options.image}') }}" alt="product image">
                                 </a>
                             </div>
                         </div>
                         <div class="col-xs-7">
-                            <h3 class="name"><a href="#">${value.name.slice(0, 30) + "..."}</a></h3>
+                            <h3 class="name">
+                              <a href="{{ url('/productDetails/${value.id}') }}">
+                                ${value.name.slice(0, 30) + "..."}
+                              </a>
+                            </h3>
 
                             <div class="price">&#2547;${value.price} * ${value.qty}</div>
                             
@@ -235,6 +243,8 @@
             couponCalculation();
             $('#closeModel').click();
 
+            console.log(res);
+
             // start sweet alert
 
             const Toast = Swal.mixin({
@@ -266,7 +276,7 @@
                 );
                 Toast.fire({
                   title: res.error,
-                  icon: 'error',
+                  icon: 'warning',
                 })
               }
 

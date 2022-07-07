@@ -6,31 +6,29 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // $products = Product::where('product_status', 'Active')->orderBy('product_name')->get();
-        $sliders = Slider::where('slider_status', 'Active')->orderBy('slider_order', 'ASC')->limit(6)->get();
+        $products = DB::table('products as p')
+        ->join('product_details as pd', 'pd.product_id', '=', 'p.id')
+        ->select('p.*', 'pd.*')
+        ->orderByDesc('p.created_at')
+        ->where('p.product_status', 'Active')
+        ->limit(10)
+        ->get();
+
+        $sliders = Slider::where('slider_status', 'Active')->orderBy('slider_order', 'ASC')->get();
         $categories = Category::where('category_status', 'Active')->get();
 
-        // $featured = Product::where([
-        //     ['product_status', 'Active'],
-        //     ['featured', '1']
-        // ])->limit(6)->get();
-
-        // $hot_deals = Product::where([
-        //     ['product_status', 'Active'],
-        //     ['hot_deals', '1']
-        // ])->limit(6)->get();
-
-        return view('frontend.index', compact('sliders', 'categories'));
+        return view('frontend.index', compact('sliders', 'categories', 'products'));
     }
 
-    public function productDetails($id, $slug)
+    public function productDetails($id)
     {
-        $product = Product::where('product_slug', $slug)->with('product_image')->first();
+        $product = Product::with('product_detail', 'product_images')->findOrFail($id);
         $related_product = Product::where([
             ['category_id', $product->category_id],
             ['id', '!=', $id]
@@ -49,7 +47,7 @@ class HomeController extends Controller
 
     public function subCategoryWiseProducts($subCat_id, $subCat_name)
     {
-        $subCategoryWiseProducts = Product::where([
+        $subCategoryWiseProducts = Product::with('product_detail')->where([
             ['subcategory_id', $subCat_id],
             ['product_status', 'Active'],
             ])->paginate(3);
@@ -58,7 +56,7 @@ class HomeController extends Controller
 
     public function sub_subCategoryWiseProducts($sub_subCat_id, $sub_subCat_name)
     {
-        $sub_subCategoryWiseProducts = Product::where([
+        $sub_subCategoryWiseProducts = Product::with('product_detail')->where([
             ['sub_subcategory_id', $sub_subCat_id],
             ['product_status', 'Active'],
             ])->paginate(3);

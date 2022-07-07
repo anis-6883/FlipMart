@@ -1,3 +1,13 @@
+@php
+  $hot_deals = Illuminate\Support\Facades\DB::table('products as p')
+        ->join('product_details as pd', 'pd.product_id', '=', 'p.id')
+        ->select('p.*', 'pd.*')
+        ->orderByDesc('p.created_at')
+        ->where([ ['p.product_status', 'Active'], ['pd.hot_deals', '1'] ])
+        ->limit(6)
+        ->get();
+@endphp
+
 <section class="section wow fadeInUp new-arriavls">
     <h3 class="section-title">Hot Deals</h3>
     <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
@@ -9,7 +19,7 @@
             <div class="product">
               <div class="product-image">
                 <div class="image"> 
-                  <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                  <a href="{{ route('productDetails', $product->product_id) }}">
                     <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
                   </a> 
                 </div>
@@ -27,7 +37,7 @@
               
               <div class="product-info text-left">
                 <h3 class="name">
-                  <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                  <a href="{{ route('productDetails', $product->product_id) }}">
                     {{ Str::of($product->product_name)->limit(40)  }}
                   </a>
                 </h3>

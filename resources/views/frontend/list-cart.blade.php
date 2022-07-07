@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Product Cart')
 
@@ -53,9 +53,7 @@
 
                             <div class="col-md-6 col-sm-12 estimate-ship-tax">
 
-                                @if (!Session::has('coupon'))
-
-                                    <table class="table" id="coupon_input">
+                                    <table class="table" id="coupon_input" @if(Session::has('coupon')) style="display: none" @endif>
                                         <thead>
                                             <tr>
                                                 <th>
@@ -68,7 +66,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input id="apply-coupon-code" type="text" class="form-control unicase-form-control text-input" placeholder="You Coupon..">
+                                                            <input id="apply-coupon-code" type="text" class="form-control unicase-form-control text-input" placeholder="Write Coupon Code...">
                                                         </div>
                                                         <div class="clearfix pull-right">
                                                             <button onclick="applyCoupon()" type="submit" class="btn-upper btn btn-primary">APPLY COUPON</button>
@@ -77,8 +75,6 @@
                                                 </tr>
                                         </tbody><!-- /tbody -->
                                     </table><!-- /table -->
-
-                                @endif
 
                             </div><!-- /.estimate-ship-tax -->
             
@@ -133,7 +129,7 @@
 		</div><!-- /.my-wishlist-page-->
 
         <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-        @include('include._brand-slider')
+        @include('frontend.include._brand-slider')
         <!-- /.brand-slider --> 
         <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
 
@@ -144,7 +140,7 @@
 
 @endsection
 
-@section('javascript')
+@section('custom_js')
     <script>
 
         function loadMyCart(){
@@ -165,7 +161,7 @@
                             <td class="col-md-2"><img width="190px" height="140px" src="{{ asset('uploads/products/${value.options.image}') }}" alt="Product Image"></td>
                             <td class="col-md-2">
                                 <div class="product-name">
-                                    <a href="#">
+                                    <a href="{{ url('/productDetails/${value.id}') }}">
                                         ${value.name.slice(0, 30) + "..."}
                                     </a>
                                 </div>
@@ -185,10 +181,10 @@
                                 <!-- /.product-price --> 
                             </td>
                             <td class="col-md-2">
-                                ${value.options.color == null ? "---" : value.options.color}
+                                ${value.options.color == null ? "NULL" : value.options.color}
                             </td>
                             <td class="col-md-2">
-                                ${value.options.size == null ? "---" : value.options.size}
+                                ${value.options.size == null ? "NULL" : value.options.size}
                             </td>
 
                             <td class="col-md-2">
@@ -292,9 +288,9 @@
                     },
                     success: function(res)
                     {
-                        couponCalculation();
                         miniCart();
                         loadMyCart();
+                        couponCalculation();
 
                         // start sweet alert
 
@@ -377,8 +373,10 @@
                 $.ajax({
                     type: "GET",
                     url: "{{ route('coupon.calculate') }}",
-                    dataType: "json",
+                    // dataType: "json",
                     success: function(res){
+
+                        console.log(res);
 
                         if(res.total){
                             $('#couponCalculateArea').html(`
@@ -402,13 +400,13 @@
                                     </div>
                                     <div class="cart-sub-total">
                                         <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i></button>
-                                        Coupon<span class="inner-left-md">${res.coupon_title}</span>
+                                        Coupon<span class="inner-left-md" style="color: #0f6cb2 !important">${res.coupon_title}</span>
                                     </div>
                                     <div class="cart-sub-total">
-                                        Dis. Amount<span class="inner-left-md">${res.discount_amount}%</span>
+                                        Dis. Amount<span class="inner-left-md">${res.discount_pct}%</span>
                                     </div>
                                     <div class="cart-grand-total">
-                                        Grand Total<span class="inner-left-md">&#2547;${res.total_price}</span>
+                                        Grand Total<span class="inner-left-md">&#2547;${res.total_price.toFixed(2)}</span>
                                     </div>
                                 </th>
                             </tr>`);

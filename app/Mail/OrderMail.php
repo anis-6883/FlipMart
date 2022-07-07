@@ -31,6 +31,6 @@ class OrderMail extends Mailable
     public function build()
     {
         $invoice_data = $this->mail_data;
-        return $this->view('order-mail', compact('invoice_data'))->subject('Successful Transaction Notification');
+        return $this->view('frontend.order-mail', compact('invoice_data'))->subject('Successful Transaction Notification');
     }
 }

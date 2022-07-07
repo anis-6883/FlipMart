@@ -49,7 +49,7 @@ Route::get('/user/profile/manage', [UserController::class, 'manageProfile'])->na
 Route::post('/user/profile/manage', [UserController::class, 'manageProfile'])->name('user.manageProfile')->middleware('auth');
 
 // Product Route
-Route::get('/productDetails/{id}/{slug}', [HomeController::class, 'productDetails'])->name('productDetails');
+Route::get('/productDetails/{id}', [HomeController::class, 'productDetails'])->name('productDetails');
 Route::get('/tagWiseProducts/{tag}', [HomeController::class, 'tagWiseProducts'])->name('tagWiseProducts');
 Route::get('/subCategoryWiseProducts/{subCat_id}/{subCat_name}', [HomeController::class, 'subCategoryWiseProducts'])->name('subCategoryWiseProducts');
 Route::get('/sub-subCategoryWiseProducts/{sub_subCat_id}/{sub_subCat_name}', [HomeController::class, 'sub_subCategoryWiseProducts'])->name('sub_subCategoryWiseProducts');
