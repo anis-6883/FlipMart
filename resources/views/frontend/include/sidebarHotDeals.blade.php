@@ -22,7 +22,7 @@
                     <div class="image"> 
                       <img src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="hot_deals_image"> 
                     </div>
-                    <div class="sale-offer-tag"><span>{{ $product->product_discounted_price }}%<br>
+                    <div class="sale-offer-tag"><span>{{ $product->discounted_pct }}%<br>
                       off</span></div>
 
                     <div class="timing-wrapper">
@@ -50,14 +50,14 @@
                     </h3>
                     <div class="rating rateit-small"></div>
 
-                    @if ($product->product_discounted_price == NULL)
+                    @if ($product->discounted_pct == NULL)
                         <div class="product-price"> 
                           <span class="price"> &#2547;{{ $product->product_regular_price }} </span> 
                         </div>                              
                     @else
 
                         @php
-                          $discount_price = ($product->product_regular_price * $product->product_discounted_price) / 100;
+                          $discount_price = ($product->product_regular_price * $product->discounted_pct) / 100;
                           $product_amount = $product->product_regular_price - $discount_price;
                         @endphp
 

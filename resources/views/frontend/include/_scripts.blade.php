@@ -39,14 +39,14 @@
                   }
                   
 
-                  if(result.product.product_detail.product_discounted_price)
+                  if(result.product.product_detail.discounted_pct)
                   {
-                    $('#m-product-discount').text(result.product.product_detail.product_discounted_price);
+                    $('#m-product-discount').text(result.product.product_detail.discounted_pct);
                   }else{
                     $('#m-product-discount').text(0);
                   }
 
-                  if(result.product.product_detail.product_quantity > 0)
+                  if(result.product.product_detail.product_stock > 0)
                   {
                     $('#m-product-stock-avail').text("Available");
                     $('#m-product-stock-out').text("");

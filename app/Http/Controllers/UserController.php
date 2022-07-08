@@ -153,7 +153,7 @@ class UserController extends Controller
 
     public function userProfile()
     {
-        return view('auth.user-profile');
+        return view('frontend.auth.user-profile');
     }
 
     public function manageProfile(Request $request)

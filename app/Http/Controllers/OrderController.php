@@ -11,21 +11,21 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::latest()->get();
-        return view('admin.list-order', compact('orders'));
+        $orders = Order::with('order_detail')->latest()->get();
+        return view('backend.list-order', compact('orders'));
     }
 
     public function show($order_id)
     {
         $order = Order::where('id', $order_id)->with('order_items')->first();
         $order_items = OrderItem::with('product')->where('order_id', $order_id)->get();
-        return view('admin.show-order', compact('order', 'order_items'));
+        return view('backend.show-order', compact('order', 'order_items'));
     }
 
     public function edit($order_id)
     {
         $order = Order::findOrFail($order_id);
-        return view('admin.edit-order', compact('order'));
+        return view('backend.edit-order', compact('order'));
     }
 
     public function update(Request $req, $order_id)

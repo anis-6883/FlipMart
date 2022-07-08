@@ -3,6 +3,7 @@
 @section('title', 'Stripe Payment Page')
 
 @section('custom_css')
+
     <style>
         .StripeElement{
             box-sizing: border-box;
@@ -28,6 +29,7 @@
             background-color: #fefde5 !important;
         }
     </style>
+    
 @endsection
 
 @section('content')
@@ -61,9 +63,6 @@
                                 </div>
                                 <div class="">
                                     <ul class="nav nav-checkout-progress list-unstyled">
-                                        @php
-                                            $shipping_charge = session()->get('shipping_charge');
-                                        @endphp
 
                                         @if (Session::has('coupon'))
                                             <li><a>Customer: &nbsp&nbsp {{ $arr['username'] }}</a></li>
@@ -72,16 +71,16 @@
                                             <li><a>Address: &nbsp&nbsp {{ $arr['address'] }}</a></li>
                                             <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
                                             <li><a>Coupon Title: &nbsp&nbsp {{ session()->get('coupon')['coupon_title'] }} ({{ session()->get('coupon')['discount_pct'] }}%)</a></li>
-                                            <li><a>Shipping Charge: &nbsp&nbsp &#2547;{{ $shipping_charge }}</a></li>
-                                            <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ session()->get('coupon')['total_price'] + $shipping_charge }}</b></a></li>
+                                            <li><a>Shipping Charge: &nbsp&nbsp &#2547;{{ $arr['shipping_charge'] }}</a></li>
+                                            <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ session()->get('coupon')['total_price'] + $arr['shipping_charge'] }}</b></a></li>
                                         @else
                                             <li><a>Customer: &nbsp&nbsp {{ $arr['username'] }}</a></li>
                                             <li><a>Email: &nbsp&nbsp {{ $arr['email'] }}</a></li>
                                             <li><a>Phone: &nbsp&nbsp {{ $arr['phone'] }}</a></li>
                                             <li><a>Address: &nbsp&nbsp {{ $arr['address'] }}</a></li>
                                             <li><a>Subtotal({{ $cartQty }}): &nbsp&nbsp &#2547;{{ $cartTotal }}</a></li>
-                                            <li><a>Shipping Charge: &nbsp&nbsp &#2547;{{ $shipping_charge }}</a></li>
-                                            <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ $cartTotal + $shipping_charge }}</b></a></li>
+                                            <li><a>Shipping Charge: &nbsp&nbsp &#2547;{{ $arr['shipping_charge'] }}</a></li>
+                                            <li><a>Grand Total: &nbsp&nbsp <b>&#2547;{{ $cartTotal + $arr['shipping_charge'] }}</b></a></li>
                                         @endif
                                         
                                     </ul>		
@@ -111,6 +110,7 @@
                                         <input name="email" type="hidden" value="{{ $arr['email'] }}">
                                         <input name="phone" type="hidden" value="{{ $arr['phone'] }}">
                                         <input name="address" type="hidden" value="{{ $arr['address'] }}">
+                                        <input name="shipping_charge" type="hidden" value="{{ $arr['shipping_charge'] }}">
                                       </label>
                                       <div id="card-element">
                                         

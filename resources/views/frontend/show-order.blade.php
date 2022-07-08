@@ -176,7 +176,7 @@
                                         <td>{{ $item->product->product_size ?: 'NULL' }}</td>
                                         <td>{{ $item->qty }}</td>
                                         <td>&#2547; {{ $item->product->product_regular_price }}</td>
-                                        <td>{{ $item->product->product_discounted_price ?: '0' }}%</td>
+                                        <td>{{ $item->product->discounted_pct ?: '0' }}%</td>
                                     </tr>
                                 @endforeach
                                     

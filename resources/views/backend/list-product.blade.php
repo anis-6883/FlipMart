@@ -48,8 +48,8 @@
                                         <th>Image</th>
                                         <th>Reg. Price</th>
                                         <th>Status</th>
-                                        <th>Stock Qty</th> 
-                                        <th>Dis. Price</th>
+                                        <th>Stock</th> 
+                                        <th>Dis. Percentage</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -82,9 +82,9 @@
                                                     </button>
                                                 @endif
                                             </td>
-                                            <td>{{ $product->product_detail->product_quantity }}</td>
+                                            <td>{{ $product->product_detail->product_stock }}</td>
                                             
-                                            <td>{{ $product->product_detail->product_discounted_price ?? 0 }}%</td>
+                                            <td>{{ $product->product_detail->discounted_pct ?? 0 }}%</td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
 

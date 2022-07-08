@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'My Profile')
 
@@ -18,15 +18,6 @@
 <div class="body-content" style="margin-bottom: 30px">
 	<div class="container">
         <div class="row">
-
-            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                        @if(Session::has($msg))
-                        <div class="alert alert-{{ $msg }} alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            {{ session($msg) }}
-                        </div>
-                        @endif
-            @endforeach 
 
             <div class="col-md-4">
                 <h4>My Profile</h4>

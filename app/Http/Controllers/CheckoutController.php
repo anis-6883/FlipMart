@@ -6,10 +6,10 @@ use App\Mail\OrderMail;
 use App\Models\Order;
 use App\Models\Order_Detail;
 use App\Models\OrderItem;
-use Carbon\Carbon;
+use App\Models\Product_Detail;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;    
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -38,6 +38,7 @@ class CheckoutController extends Controller
         $arr['email'] = $req->email;
         $arr['phone'] = $req->phone;
         $arr['address'] = $req->address;
+
         if($req->district == 1)
             $arr['shipping_charge'] = 50;
         else if($req->district == 2)
@@ -56,10 +57,11 @@ class CheckoutController extends Controller
     // Order By Stripe Payment Gateway
     public function stripeOrder(Request $req)
     {
+        // Add Shipping Charge
         if(Session::has('coupon'))
-            $total_amount = session()->get('coupon')['total_price'] + session()->get('shipping_charge');
+            $total_amount = session()->get('coupon')['total_price'] + $req->shipping_charge;
         else
-            $total_amount = Cart::total() + session()->get('shipping_charge');
+            $total_amount = Cart::total() + $req->shipping_charge;
 
         \Stripe\Stripe::setApiKey('sk_test_51It11HBUiGp7cYCIKvsdX1U79hEPlV8pJNIKlSXovRGnQguAQKXnWG3KWGF51lirwfWayyueMovNcUcLob82PBmp00i73daEOl');
 
@@ -75,31 +77,38 @@ class CheckoutController extends Controller
 
         // dd($charge);
 
-        // Insert Data Into Order Table
+        // Insert Data Into Orders Table
         $order_id = Order::insertGetId([
             'user_id' => Auth::id(),
-            'username' => $req->username,
-            'email' => $req->email,
-            'phone' => $req->phone,
-            'address' => $req->address,
-            'payment_type' => $charge->payment_method_details->type,
-            'payment_method' => 'Stripe',
-            'transaction_id' => $charge->balance_transaction,
-            'currency' => $charge->currency,
-            'order_number' => $charge->metadata->order_id,
-            'invoice_no' => 'FOS_' . uniqid() . '_' . mt_rand(100000, 999999),
-            'order_date' => Carbon::now()->format('Y-m-d H:i:s'), 
-            'order_month' => Carbon::now()->format('F'), 
-            'order_year' => Carbon::now()->format('Y'),
-            'delivery_charge' => session()->get('shipping_charge'),
-            'discount_coupon' => isset(session()->get('coupon')['coupon_title']) ? session()->get('coupon')['coupon_title'] : NULL,
-            'discount_amount' => isset(session()->get('coupon')['discount_price']) ? session()->get('coupon')['discount_price'] : NULL,
-            'total_before_discount' => Cart::total(),
-            'grand_total' => $total_amount,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+            'coupon_id' => Session::has('coupon') ? session()->get('coupon')['coupon_id'] : NULL,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ]);
 
+        // Insert Data Into OrderDetails Table
+        $obj = new Order_Detail;
+        $obj->order_id = $order_id;
+        $obj->username = $req->username;
+        $obj->email = $req->email;
+        $obj->phone = $req->phone;
+        $obj->address = $req->address;
+        $obj->payment_type = $charge->payment_method_details->type;
+        $obj->payment_method = 'Stripe';
+        $obj->transaction_id = $charge->balance_transaction;
+        $obj->currency = $charge->currency;
+        $obj->order_number = $charge->metadata->order_id;
+        $obj->invoice_no = 'FOS_' . uniqid() . mt_rand(10000000, 99999999);
+        $obj->order_date = date('Y-m-d H:i:s');
+        $obj->order_month = date('F');
+        $obj->order_year = date('Y');
+        $obj->delivery_charge = $req->shipping_charge;
+        $obj->discount_coupon = Session::has('coupon') ? session()->get('coupon')['coupon_code'] : NULL;
+        $obj->discount_amount = Session::has('coupon') ? session()->get('coupon')['discount_price'] : NULL;
+        $obj->total_before_discount = Cart::total();
+        $obj->grand_total = $total_amount;
+        $obj->save();
+
+        // Insert Data Into OrderItems Table
         $invoice = Order::with('order_detail')->findOrFail($order_id);
         $mail_data = [
             'invoice_no' => $invoice->order_detail->invoice_no,
@@ -107,7 +116,7 @@ class CheckoutController extends Controller
             'email' => $invoice->order_detail->email,
             'phone' => $invoice->order_detail->phone,
             'address' => $invoice->order_detail->address,
-            'order_amount' => $invoice->order_detail->amount,
+            'order_amount' => $invoice->order_detail->grand_total,
             'transaction_id' => $invoice->order_detail->transaction_id,
             'order_date' => $invoice->order_detail->order_date,
             'order_number' => $invoice->order_detail->order_number,
@@ -128,21 +137,28 @@ class CheckoutController extends Controller
                 'qty' => $cart->qty,
                 'price' => $cart->price,
             ]);
+
+            $obj2 = Product_Detail::where('product_id', $cart->id)->first();
+            $obj2->product_stock -= $cart->qty; 
+            $obj2->total_sold += $cart->qty;
+            $obj2->save();
         }
 
-        // Delete the Coupon if it Exist
+        // Delete the Coupon if Exist
         if(Session::has('coupon'))
             Session::forget('coupon');
 
         // Delete the Cart Item after Purchased
         Cart::destroy();
 
-        return redirect('/')->with('success', 'Your Order Placed Successfully...');
+        session()->flash('success', 'Your Order Placed Successfully...');
+        return redirect()->route('home');
     }
 
     // Order By Cash On Delivery
     public function codOrder(Request $req)
     {
+        // Add Shipping Charge
         if(Session::has('coupon'))
             $total_amount = session()->get('coupon')['total_price'] + $req->shipping_charge;
         else
@@ -191,36 +207,38 @@ class CheckoutController extends Controller
                 'qty' => $cart->qty,
                 'price' => $cart->price,
             ]);
+
+            $obj2 = Product_Detail::where('product_id', $cart->id)->first();
+            $obj2->product_stock -= $cart->qty; 
+            $obj2->total_sold += $cart->qty;
+            $obj2->save();
         }
 
+        // Mail to Order Invoice
+        $invoice = Order::with('order_detail')->findOrFail($order_id);
+        $mail_data = [
+            'invoice_no' => $invoice->order_detail->invoice_no,
+            'username' => $invoice->order_detail->username,
+            'email' => $invoice->order_detail->email,
+            'phone' => $invoice->order_detail->phone,
+            'address' => $invoice->order_detail->address,
+            'order_amount' => $invoice->order_detail->grand_total,
+            'transaction_id' => $invoice->order_detail->transaction_id,
+            'order_date' => $invoice->order_detail->order_date,
+            'order_number' => $invoice->order_detail->order_number,
+            'total_item' => Cart::count()
+        ];
 
-        return "Done";
+        Mail::to($req->email)->send(new OrderMail($mail_data));
 
-        // $invoice = Order::with('order_detail')->findOrFail($order_id);
-        // $mail_data = [
-        //     'invoice_no' => $invoice->order_detail->invoice_no,
-        //     'username' => $invoice->order_detail->username,
-        //     'email' => $invoice->order_detail->email,
-        //     'phone' => $invoice->order_detail->phone,
-        //     'address' => $invoice->order_detail->address,
-        //     'order_amount' => $invoice->order_detail->grand_total,
-        //     'transaction_id' => $invoice->order_detail->transaction_id,
-        //     'order_date' => $invoice->order_detail->order_date,
-        //     'order_number' => $invoice->order_detail->order_number,
-        //     'total_item' => Cart::count()
-        // ];
+        // Delete the Coupon if Exist
+        if(Session::has('coupon'))
+            Session::forget('coupon');
 
-        // Mail::to($req->email)->send(new OrderMail($mail_data));
+        // Delete the Cart Item after Purchased
+        Cart::destroy();
 
-        
-        // // Delete the Coupon if it Exist
-        // if(Session::has('coupon'))
-        //     Session::forget('coupon');
-
-        // // Delete the Cart Item after Purchased
-        // Cart::destroy();
-
-        // session()->flash('success', 'Your Order Placed Successfully...');
-        // return redirect()->route('home');
+        session()->flash('success', 'Your Order Placed Successfully...');
+        return redirect()->route('home');
     }
 }

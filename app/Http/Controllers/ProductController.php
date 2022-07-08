@@ -43,7 +43,7 @@ class ProductController extends Controller
             'category_id' => 'required',
             'product_name' => 'required|min:8',
             'product_regular_price' => 'required|numeric',
-            'product_quantity' => 'required|integer',
+            'product_stock' => 'required|integer',
             'product_status' => 'required',
             'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
@@ -69,18 +69,18 @@ class ProductController extends Controller
         $obj->product_summary = $request->product_summary;
         $obj->product_description = $request->product_description;
         $obj->product_regular_price = $request->product_regular_price;
-        $obj->product_quantity = $request->product_quantity;
+        $obj->product_stock = $request->product_stock?: 0;
         $obj->featured = $request->featured ?: 0;
         $obj->hot_deals = $request->hot_deals ?: 0;
         $obj->best_selling = $request->best_selling ?: 0;
 
-        if(!empty($request->product_discounted_price))
+        if(!empty($request->discounted_pct))
         {
-            $obj->product_discounted_price = $request->product_discounted_price;
+            $obj->discounted_pct = $request->discounted_pct;
             $obj->discount_start_date = $request->discount_start_date;
             $obj->discount_end_date = $request->discount_end_date;
         }else{
-            $obj->product_discounted_price = NULL;
+            $obj->discounted_pct = NULL;
             $obj->discount_start_date = NULL;
             $obj->discount_end_date = NULL;
         }
@@ -130,7 +130,7 @@ class ProductController extends Controller
             'category_id' => 'required',
             'product_name' => 'required|min:8',
             'product_regular_price' => 'required|numeric',
-            'product_quantity' => 'required|integer',
+            'product_stock' => 'required|integer',
             'product_status' => 'required',
             'product_master_image' => 'mimes:png,jpg,jpeg|max:5048',
         ]);
@@ -157,18 +157,18 @@ class ProductController extends Controller
         $obj->product_summary = $request->product_summary;
         $obj->product_description = $request->product_description;
         $obj->product_regular_price = $request->product_regular_price;
-        $obj->product_quantity = $request->product_quantity;
+        $obj->product_stock = $request->product_stock ?: 0;
         $obj->featured = $request->featured ?: 0;
         $obj->hot_deals = $request->hot_deals ?: 0;
         $obj->best_selling = $request->best_selling ?: 0;
 
-        if(!empty($request->product_discounted_price))
+        if(!empty($request->discounted_pct))
         {
-            $obj->product_discounted_price = $request->product_discounted_price;
+            $obj->discounted_pct = $request->discounted_pct;
             $obj->discount_start_date = $request->discount_start_date;
             $obj->discount_end_date = $request->discount_end_date;
         }else{
-            $obj->product_discounted_price = NULL;
+            $obj->discounted_pct = NULL;
             $obj->discount_start_date = NULL;
             $obj->discount_end_date = NULL;
         }

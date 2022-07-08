@@ -1,8 +1,12 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'All Order List')
 
-@section('css')
+@section('custom_css')
+
+<!-- DataTable -->
+<link href="{{asset('assets/backend/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 <style>
     .table td,
     .table th {
@@ -10,20 +14,16 @@
         text-align: center;
     }
 </style>
+
 @endsection
 
 @section('content')
 
-<!--**********************************
-        Content body start
-    ***********************************-->
-<div class="content-body">
-
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="">Manage Order</a></li>
-                <li class="breadcrumb-item active"><a href="">List Coupon</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.orderIndex') }}">Manage Order</a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('admin.orderIndex') }}">List Order</a></li>
             </ol>
         </div>
     </div>
@@ -52,10 +52,10 @@
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ date('d M, Y', strtotime($order->order_date)) }}</td>
-                                        <td>{{ $order->invoice_no }}</td>
-                                        <td>&#2547;{{ $order->grand_total }}</td>
-                                        <td>{{ $order->payment_method }}</td>
+                                        <td>{{ date('d M, Y', strtotime($order->order_detail->order_date)) }}</td>
+                                        <td>{{ $order->order_detail->invoice_no }}</td>
+                                        <td>&#2547;{{ number_format($order->order_detail->grand_total, 2, '.', ',')  }}</td>
+                                        <td>{{ $order->order_detail->payment_method }}</td>
                                         <td>
                                             @if ($order->order_status != "Delivered")
                                                 <span class="label gradient-9 btn-rounded">{{ $order->order_status }}</span>
@@ -78,12 +78,12 @@
                                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                                 </button>
                                                             </div>
-                                                            <div class="modal-body">Are you sure to delete <b>"{{ $order->invoice_no }}"</b> order? </div>
+                                                            <div class="modal-body">Are you sure to delete <b>"{{ $order->order_detail->invoice_no }}"</b> order? </div>
                                                             <div class="modal-footer">
-                                                                <form action="#" method="post">
+                                                                <form action="#" method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Never Mind</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Never Mind!</button>
                                                                     <button type="submit" class="btn btn-primary" disabled>Confirm</button>
                                                                 </form>
                                                             </div>
@@ -116,9 +116,15 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
+@endsection
+
+@section('custom_js')
+
+<!-- DataTable -->
+<script src="{{ asset('assets/backend/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
+
 @endsection
 

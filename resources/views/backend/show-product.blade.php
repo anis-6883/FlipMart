@@ -77,11 +77,11 @@
                                     </tr>
                                     <tr>
                                         <th>Product Size</th>
-                                        <td>{{ $product->product_detail->product_size ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_sizes ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Color</th>
-                                        <td>{{ $product->product_detail->product_color ?: 'NULL' }}</td>
+                                        <td>{{ $product->product_detail->product_colors ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Product Order</th>
@@ -110,8 +110,8 @@
                                         <td>{{ $product->product_detail->product_regular_price }}&#2547;</td>
                                     </tr>
                                     <tr>
-                                        <th>Product Discount Price</th>
-                                        <td>{{ $product->product_detail->product_discounted_price ?: 'NULL' }}</td>
+                                        <th>Product Discount Percentage</th>
+                                        <td>{{ $product->product_detail->discounted_pct ?: '0' }}%</td>
                                     </tr>
                                     <tr>
                                         <th>Discount Start Date</th>
@@ -122,8 +122,8 @@
                                         <td>{{ $product->product_detail->discount_end_date ?: 'NULL' }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Product Quantity</th>
-                                        <td>{{ $product->product_detail->product_quantity }}</td>
+                                        <th>Stock Quantity</th>
+                                        <td>{{ $product->product_detail->product_stock }}</td>
                                     </tr>
                                     <tr>
                                         <th>Featured</th>

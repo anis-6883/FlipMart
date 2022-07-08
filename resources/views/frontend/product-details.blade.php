@@ -187,12 +187,12 @@
                         <div class="col-sm-6">
                           <div class="price-box">
 
-                            @if ($product->product_detail->product_discounted_price == NULL)
+                            @if ($product->product_detail->discounted_pct == NULL)
                                 <span class="price">&#2547;{{ $product->product_detail->product_regular_price }}</span>                          
                               @else
 
                                   @php
-                                    $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+                                    $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->discounted_pct) / 100;
                                     $product_amount = $product->product_detail->product_regular_price - $discount_price;
                                   @endphp
                                   <span class="price">&#2547;{{ round($product_amount) }}</span>
@@ -676,10 +676,10 @@
                             </div>
                             <!-- /.image -->
         
-                            @if ($product->product_detail->product_discounted_price == NULL)
+                            @if ($product->product_detail->discounted_pct == NULL)
                               <div class="tag new"><span>new</span></div>                                
                             @else
-                              <div class="tag hot"><span>{{ $product->product_detail->product_discounted_price }}%</span></div>
+                              <div class="tag hot"><span>{{ $product->product_detail->discounted_pct }}%</span></div>
                             @endif
                             
         
@@ -695,14 +695,14 @@
                             <div class="rating rateit-small"></div>
                             <div class="description"></div>
         
-                            @if ($product->product_detail->product_discounted_price == NULL)
+                            @if ($product->product_detail->discounted_pct == NULL)
                                 <div class="product-price"> 
                                   <span class="price"> &#2547;{{ $product->product_detail->product_regular_price }} </span> 
                                 </div>                              
                             @else
         
                                 @php
-                                  $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->product_discounted_price) / 100;
+                                  $discount_price = ($product->product_detail->product_regular_price * $product->product_detail->discounted_pct) / 100;
                                   $product_amount = $product->product_detail->product_regular_price - $discount_price;
                                 @endphp
         

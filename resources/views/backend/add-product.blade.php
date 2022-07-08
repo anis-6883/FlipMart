@@ -116,9 +116,9 @@
                                         <input type="number" name="product_regular_price" class="form-control input-default" required autocomplete="off" value="{{ old('product_regular_price') }}">
                                     </div>
 
-                                    <label class="col-sm-2 col-form-label">Discounted Price</label>
+                                    <label class="col-sm-2 col-form-label">Discounted Percentage</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="number" name="product_discounted_price" class="form-control input-default" autocomplete="off" value="{{ old('product_discounted_price') }}">
+                                        <input type="number" name="discounted_pct" class="form-control input-default" autocomplete="off" value="{{ old('discounted_pct') }}">
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Discounted Start On</label>
@@ -133,7 +133,7 @@
 
                                     <label class="col-sm-2 col-form-label">Stock Quantity</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="number" name="product_quantity" class="form-control input-default" required autocomplete="off" value="{{ old('product_quantity') }}">
+                                        <input type="number" name="product_stock" class="form-control input-default" required autocomplete="off" value="{{ old('product_stock') }}">
                                     </div>
                                                 
                                     <label class="col-sm-2 col-form-label">Preview</label>
