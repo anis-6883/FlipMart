@@ -310,6 +310,8 @@
               countWishlist();
             @endif
 
+            
+
             // start sweet alert
 
             const Toast = Swal.mixin({
@@ -325,6 +327,9 @@
                 title: res.success,
                 icon: 'success',
               })
+
+              $('#wishlist__icon').css("color", "red");
+
             }
             else{
               Toast.fire({

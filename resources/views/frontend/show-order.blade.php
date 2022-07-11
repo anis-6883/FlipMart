@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'User Order Details')
 
@@ -44,27 +44,27 @@
 
                                 <tr>
                                     <th>Order No.</th>
-                                    <td>{{ $order->order_number }}</td>
+                                    <td>{{ $order->order_detail->order_number }}</td>
                                 </tr>
 
                                 <tr>
                                     <th>Customer Name</th>
-                                    <td>{{ $order->username }}</td>
+                                    <td>{{ $order->order_detail->username }}</td>
                                 </tr>
 
                                 <tr>
                                     <th>Customer Email</th>
-                                    <td>{{ $order->email }}</td>
+                                    <td>{{ $order->order_detail->email }}</td>
                                 </tr>
 
                                 <tr>
                                     <th>Customer Phone</th>
-                                    <td>{{ $order->phone }}</td>
+                                    <td>{{ $order->order_detail->phone }}</td>
                                 </tr>
 
                                 <tr>
                                     <th>Customer Address</th>
-                                    <td>{{ $order->address }}</td>
+                                    <td>{{ $order->order_detail->address }}</td>
                                 </tr>
 
                                 <tr>
@@ -88,33 +88,33 @@
 
                                 <tr>
                                     <th>Invoice No.</th>
-                                    <td>{{ $order->invoice_no }}</td>
+                                    <td>{{ $order->order_detail->invoice_no }}</td>
                                 </tr>
 
                                 <tr>
                                     <th>Transaction No.</th>
-                                    <td>{{ $order->transaction_id }}</td>
+                                    <td>{{ $order->order_detail->transaction_id }}</td>
                                 </tr>
 
                                 <tr>
                                     <th>Payment Method</th>
-                                    <td>{{ $order->payment_method }}</td>
+                                    <td>{{ $order->order_detail->payment_method }}</td>
                                 </tr>
 
                                 @if ($order->discount_coupon != NULL)
                                     <tr>
                                         <th>Coupon Name</th>
-                                        <td>{{ $order->discount_coupon }}</td>
+                                        <td>{{ $order->order_detail->discount_coupon }}</td>
                                     </tr>
                                     <tr>
                                         <th>Coupon Amount</th>
-                                        <td>&#2547; {{ $order->discount_amount }}</td>
+                                        <td>&#2547; {{ $order->order_detail->discount_amount }}</td>
                                     </tr>
                                 @endif
                                 
                                 <tr>
                                     <th>Total Amount</th>
-                                    <td><b>&#2547; {{ $order->grand_total }}</b></td>
+                                    <td><b>&#2547; {{ $order->order_detail->grand_total }}</b></td>
                                 </tr>
 
                                 <tr>
@@ -164,19 +164,19 @@
                                 @foreach ($order_items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->product->product_name }}</td>
+                                        <td>{{ $item->product->product_detail->product_name }}</td>
                                         <td>
-                                            @if ($item->product->product_master_image != null)
-                                                <img id="master_img" src="{{ asset('uploads/products/' . $item->product->product_master_image) }}" alt="No Image" width="80px" height="80px">  
+                                            @if ($item->product->product_detail->product_master_image != null)
+                                                <img id="master_img" src="{{ asset('uploads/products/' . $item->product->product_detail->product_master_image) }}" alt="No Image" width="80px" height="80px">  
                                             @else
                                                 <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                             @endif
                                         </td>
-                                        <td>{{ $item->product->product_color ?: 'NULL' }}</td>
-                                        <td>{{ $item->product->product_size ?: 'NULL' }}</td>
+                                        <td>{{ $item->color ?: 'NULL' }}</td>
+                                        <td>{{ $item->size ?: 'NULL' }}</td>
                                         <td>{{ $item->qty }}</td>
-                                        <td>&#2547; {{ $item->product->product_regular_price }}</td>
-                                        <td>{{ $item->product->discounted_pct ?: '0' }}%</td>
+                                        <td>&#2547; {{ $item->product->product_detail->product_regular_price }}</td>
+                                        <td>{{ $item->product->product_detail->discounted_pct ?: '0' }}%</td>
                                     </tr>
                                 @endforeach
                                     
@@ -204,7 +204,7 @@
         </div>
 
         <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-        @include('include._brand-slider')
+        @include('frontend.include._brand-slider')
         <!-- /.brand-slider --> 
         <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
 

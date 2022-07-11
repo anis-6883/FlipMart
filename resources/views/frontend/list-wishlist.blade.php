@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Product Wishlist')
 
@@ -36,11 +36,11 @@
                                 <tbody>
                                     @foreach ($wishlists as $wishlist)
                                         <tr>
-                                            <td class="col-md-2"><img src="{{ asset('uploads/products/' . $wishlist->product->product_master_image) }}" alt="Product Image"></td>
+                                            <td class="col-md-2"><img src="{{ asset('uploads/products/' . $wishlist->product->product_detail->product_master_image) }}" alt="Product Image"></td>
                                             <td class="col-md-7">
                                                 <div class="product-name">
-                                                    <a href="{{ route('productDetails', [$wishlist->product->id, $wishlist->product->product_slug]) }}">
-                                                        {{ $wishlist->product->product_name }}
+                                                    <a href="{{ route('productDetails', $wishlist->product->id) }}">
+                                                        {{ $wishlist->product->product_detail->product_name }}
                                                     </a>
                                                 </div>
                                                 <div class="rating">
@@ -52,20 +52,20 @@
                                                     <span class="review">( 06 Reviews )</span>
                                                 </div>
 
-                                                @if ($wishlist->product->product_discounted_price == NULL)
+                                                @if ($wishlist->product->product_detail->product_discounted_price == NULL)
                                                     <div class="price"> 
-                                                        &#2547;{{ $wishlist->product->product_regular_price }}
+                                                        &#2547;{{ $wishlist->product->product_detail->product_regular_price }}
                                                     </div>                              
                                                 @else
 
                                                     @php
-                                                    $discount_price = ($wishlist->product->product_regular_price * $wishlist->product->product_discounted_price) / 100;
-                                                    $product_amount = $wishlist->product->product_regular_price - $discount_price;
+                                                    $discount_price = ($wishlist->product->product_detail->product_regular_price * $wishlist->product->product_detail->product_discounted_price) / 100;
+                                                    $product_amount = $wishlist->product->product_detail->product_regular_price - $discount_price;
                                                     @endphp
 
                                                     <div class="price"> 
                                                         &#2547;{{ $product_amount }}
-                                                        <span> &#2547;{{ $wishlist->product->product_regular_price }}</span> 
+                                                        <span> &#2547;{{ $wishlist->product->product_detail->product_regular_price }}</span> 
                                                     </div>
                                                 @endif
                                                 <!-- /.product-price --> 
@@ -109,9 +109,13 @@
 
             </div><!-- /.row -->
 		</div><!-- /.my-wishlist-page-->
+
+         <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+         @include('frontend.include._brand-slider')
+         <!-- /.brand-slider --> 
+         <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
+
     </div><!-- /.container -->
 </div><!-- /.body-content -->
-
-<br>
 
 @endsection

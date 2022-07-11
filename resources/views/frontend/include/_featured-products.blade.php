@@ -20,11 +20,11 @@
             <div class="product-image">
               <div class="image"> 
                 @if ($product->product_master_image != null)
-                    <a href="#">
+                    <a href="{{ route('productDetails', $product->product_id) }}">
                         <img  src="{{ asset("uploads/products/" . $product->product_master_image) }}" alt="product_image">
                     </a> 
                 @else
-                    <a href="#">
+                    <a href="{{ route('productDetails', $product->product_id) }}">
                         <img  src="{{ asset('assets/backend/images/no-image.png') }}" alt="product_image">
                     </a>
                 @endif
@@ -43,7 +43,7 @@
             
             <div class="product-info text-left">
               <h3 class="name">
-                <a href="{{ route('productDetails', [$product->id, $product->product_slug]) }}">
+                <a href="{{ route('productDetails', $product->product_id) }}">
                   {{ Str::of($product->product_name)->limit(40)  }}
                 </a>
               </h3>
@@ -82,7 +82,7 @@
                   </li>
                   
                   <li class="wishlist btn-group"> 
-                    <button onclick="addToWishList(this.id)" id="{{ $product->id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
+                    <button onclick="addToWishList(this.id)" id="{{ $product->product_id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
                       <i class="icon fa fa-heart"></i> 
                     </button> 
                   </li>

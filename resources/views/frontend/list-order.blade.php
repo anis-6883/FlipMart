@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'User Order List')
 
@@ -56,10 +56,10 @@
 
                                     @foreach ($orders as $order)
                                         <tr>
-                                            <td class="col-md-2">{{ $order->order_number }}</td>
+                                            <td class="col-md-2">{{ $order->order_detail->order_number }}</td>
                                             <td class="col-md-2">{{ count($order->order_items) }}</td>
-                                            <td class="col-md-2"><b>&#2547; {{ $order->grand_total }}</b></td>
-                                            <td class="col-md-2"><b>{{ $order->payment_method }}</b></td>
+                                            <td class="col-md-2"><b>&#2547; {{ $order->order_detail->grand_total }}</b></td>
+                                            <td class="col-md-2"><b>{{ $order->order_detail->payment_method }}</b></td>
                                             <td class="col-md-2">
                                                 @if ($order->order_status != "Delivered")
                                                     <span class="badge badge-pill" style="background-color: #0dcaf0; color: #000">{{ $order->order_status }}</span></td>
@@ -102,7 +102,7 @@
 		</div><!-- /.my-wishlist-page-->
 
         <!-- ============================================== BRANDS CAROUSEL ============================================== -->
-        @include('include._brand-slider')
+        @include('frontend.include._brand-slider')
         <!-- /.brand-slider --> 
         <!-- ============================================== BRANDS CAROUSEL : END ============================================== --> 
 

@@ -1,4 +1,4 @@
-@extends('include.app')
+@extends('frontend.app')
 
 @section('title', 'Update Password')
 
@@ -22,15 +22,6 @@
                 <!-- Sign-in -->	
 
                 <div class="col-md-6 col-sm-6 sign-in">
-
-                    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                          @if(Session::has($msg))
-                            <div class="alert alert-{{ $msg }} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                {{ session($msg) }}
-                            </div>
-                          @endif
-                    @endforeach     
 
                     <h4>Change Password</h4>
                     <p>Hi Buddy, Update Your Password!</p>

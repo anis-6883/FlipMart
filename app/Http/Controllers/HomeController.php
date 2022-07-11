@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -29,11 +31,9 @@ class HomeController extends Controller
     public function productDetails($id)
     {
         $product = Product::with('product_detail', 'product_images')->findOrFail($id);
-        $related_product = Product::where([
-            ['category_id', $product->category_id],
-            ['id', '!=', $id]
-            ])->get();
-        return view('frontend.product-details', compact('product', 'related_product'));
+        $related_product = Product::where([ ['category_id', $product->category_id], ['id', '!=', $id] ])->get();
+        $wishlist = Wishlist::where([['user_id', Auth::id()], ['product_id', $product->id]])->first();
+        return view('frontend.product-details', compact('product', 'related_product', 'wishlist'));
     }
 
     // public function tagWiseProducts($tag)

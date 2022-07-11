@@ -76,7 +76,7 @@
                     </li>
                     
                     <li class="wishlist btn-group"> 
-                      <button onclick="addToWishList(this.id)" id="{{ $product->id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
+                      <button onclick="addToWishList(this.id)" id="{{ $product->product_id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
                         <i class="icon fa fa-heart"></i> 
                       </button> 
                     </li>

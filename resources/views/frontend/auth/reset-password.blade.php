@@ -1,6 +1,6 @@
-@extends('include.app')
+@extends('frontend.app')
 
-@section('title', 'Reset Password')
+@section('title', 'Reset Your Password')
 
 @section('content')
 
@@ -21,22 +21,15 @@
 			<div class="row">
                 <!-- Sign-in -->	
 
-                <div class="col-md-6 col-sm-6 sign-in">
-
-                    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                          @if(Session::has($msg))
-                            <div class="alert alert-{{ $msg }} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                {{ session($msg) }}
-                            </div>
-                          @endif
-                    @endforeach     
+                <div class="col-md-6 col-sm-6 sign-in"> 
 
                     <h4 class="">Reset Password</h4>
                     <p class="">Hi Buddy, Reset Your Password!</p>
 
                     <form action="{{ route('user.resetConfirm') }}" method="POST" class="register-form outer-top-xs">
                         @csrf
+                        @method('POST')
+
                         <div class="form-group">
                             <label class="info-title" for="email"><b>Email Address </b><span>*</span></label>
                             <input 

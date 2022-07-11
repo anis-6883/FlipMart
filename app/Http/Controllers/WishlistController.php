@@ -12,7 +12,7 @@ class WishlistController extends Controller
     public function index()
     {
         $wishlists = Wishlist::with('product')->where('user_id', Auth::id())->latest()->get();
-        return view('list-wishlist', compact('wishlists'));
+        return view('frontend.list-wishlist', compact('wishlists'));
     }
 
     public function store(Request $request)
@@ -55,7 +55,7 @@ class WishlistController extends Controller
         ])->first();
 
         $wishlist->delete();
-
-        return redirect()->back()->with('success', 'Wishlist Deleted Successfully!');
+        session()->flash('success', 'Wishlist Deleted Successfully!');
+        return redirect()->back();
     }
 }

@@ -69,19 +69,19 @@
     <tr>
         <td>
           <p class="font" style="margin-left: 20px;">
-           <strong>Name:</strong> {{ $order->username }}<br>
-           <strong>Email:</strong> {{ $order->email }} <br>
-           <strong>Phone:</strong> {{ $order->phone }} <br> 
-           <strong>Address:</strong> {{ $order->address }} <br>
+           <strong>Name:</strong> {{ $order->order_detail->username }}<br>
+           <strong>Email:</strong> {{ $order->order_detail->email }} <br>
+           <strong>Phone:</strong> {{ $order->order_detail->phone }} <br> 
+           <strong>Address:</strong> {{ $order->order_detail->address }} <br>
 
          </p>
         </td>
         <td>
           <p class="font">
-            <h3><span style="color: green;">Invoice:</span> #{{ $order->invoice_no}}</h3>
-                Order Date: {{ $order->order_date }} <br>
-                Delivery Date: {{ $order->delivered_date }} <br>
-                Payment Type : {{ $order->payment_method }} </span>
+            <h3><span style="color: green;">Invoice:</span> #{{ $order->order_detail->invoice_no}}</h3>
+                Order Date: {{ date('d M, Y', strtotime($order->order_detail->order_date))  }}   <br>
+                Delivery Date: {{ $order->order_detail->delivered_date ? date('d M, Y', strtotime($order->order_detail->delivered_date)) : "NULL"  }} <br>
+                Payment Type : {{ $order->order_detail->payment_method }} </span>
          </p>
         </td>
     </tr>
@@ -108,25 +108,25 @@
      @foreach($order_items as $item)
       <tr class="font">
         <td align="center">
-            @if ($item->product->product_master_image != null)
-                <img id="master_img" src="{{ public_path('uploads/products/' . $item->product->product_master_image) }}" alt="No Image" width="60px" height="60px">  
+            @if ($item->product->product_detail->product_master_image != null)
+                <img id="master_img" src="{{ public_path('uploads/products/' . $item->product->product_detail->product_master_image) }}" alt="No Image" width="60px" height="60px">  
             @else
                 <img id="master_img" src="{{ public_path('assets/backend/images/no-image.png') }}" alt="No Image" width="60px" height="60px">
             @endif
         </td>
-        <td align="center"> {{ $item->product->product_name }}</td>
-        <td align="center">{{ $item->product->product_color ?: 'NULL' }}</td>
-        <td align="center">{{ $item->product->product_color ?: 'NULL' }}</td>
+        <td align="center"> {{ $item->product->product_detail->product_name }}</td>
+        <td align="center">{{ $item->size ?: 'NULL' }}</td>
+        <td align="center">{{ $item->color ?: 'NULL' }}</td>
         <td align="center">{{ $item->qty }}</td>
-        <td align="center">{{ $item->product->product_discounted_price ?: '0' }}%</td>
+        <td align="center">{{ $item->product->product_detail->product_discounted_price ?: '0' }}%</td>
 
-        @if ($item->product->product_discounted_price == NULL)
+        @if ($item->product->product_detail->product_discounted_price == NULL)
             <td align="center">Tk.{{ $item->price }}</td>
             <td align="center">Tk.{{ $item->price * $item->qty }} </td>
         @else
             @php
-                $discount_price = ($item->product->product_regular_price * $item->product->product_discounted_price) / 100;
-                $price = $item->product->product_regular_price - $discount_price;
+                $discount_price = ($item->product->product_detail->product_regular_price * $item->product->product_detail->product_discounted_price) / 100;
+                $price = $item->product->product_detail->product_regular_price - $discount_price;
             @endphp
             <td align="center">Tk.{{ $price }}</td>
             <td align="center">Tk.{{ $price * $item->qty }} </td>
@@ -141,8 +141,8 @@
   <table width="100%" style=" padding:0 10px 0 10px;">
     <tr>
         <td align="right" >
-            <h2><span style="color: green;">Subtotal:</span>Tk.{{ $order->amount }}</h2>
-            <h2><span style="color: green;">Total:</span>Tk.{{ $order->amount }}</h2>
+            <h2><span style="color: green;">Subtotal:</span>Tk.{{ $order->order_detail->grand_total }}</h2>
+            <h2><span style="color: green;">Total:</span>Tk.{{ $order->order_detail->grand_total }}</h2>
             {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
         </td>
     </tr>

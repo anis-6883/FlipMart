@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class SessionController extends Controller
@@ -14,12 +13,13 @@ class SessionController extends Controller
             'login_pass' => 'required'
         ]);
 
-        $email = $request->post('login_email');
-        $password = $request->post('login_pass');
+        $email = $request->login_email;
+        $password = $request->login_pass;
 
         if(!auth()->attempt(['email' => $email, 'password'=> $password, 'status' => 'Active']))
         {
-            return back()->withInput()->withErrors(['login_email' => 'Your provided credential could not be varified']);
+            session()->flash('error', 'Your provided credential could not be varified!');
+            return back()->withInput()->withErrors(['login_email' => 'Your provided credential could not be varified!']);
         }
         
         if($request->has('remember_me')){
@@ -37,7 +37,8 @@ class SessionController extends Controller
     public function destroy()
     {
         auth()->logout();
-        return redirect()->route('user.login')->with('success', 'GoodBye! Logout Successfully.');
+        session()->flash('success', 'GoodBye! Logout Successfully.');
+        return redirect()->route('user.login');
     }
 
     public function login(Request $request)

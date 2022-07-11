@@ -1,4 +1,4 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Order Details')
 

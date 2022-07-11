@@ -28,8 +28,6 @@
         <div class="col-xs-12 col-sm-12 col-md-3 sidebar">  
             
             @include('frontend.include.sidebarHotDeals')
-            
-            {{-- @include('include.sidebarSpecialOffer') --}}
   
             {{-- @include('include.sidebarProductTags') --}}
   
@@ -199,16 +197,20 @@
                                   <span class="price-strike">&#2547;{{ $product->product_detail->product_regular_price }}</span>
                               @endif
 
-                            
-
                           </div>
                         </div>
         
                         <div class="col-sm-6">
                           <div class="favorite-button m-t-10">
-                            <button class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" onclick="addToWishList(this.id)" id="{{ $product->product_detail->id }}">
-                              <i class="fa fa-heart"></i>
-                            </button>
+                            @if ($wishlist)
+                              <button class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" onclick="addToWishList(this.id)" id="{{ $product->id }}">
+                                  <i id="wishlist__icon" style="color: red" class="fa fa-heart"></i>
+                              </button>
+                            @else
+                              <button class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" onclick="addToWishList(this.id)" id="{{ $product->id }}">
+                                <i id="wishlist__icon" class="fa fa-heart"></i>
+                              </button>
+                            @endif
                           </div>
                         </div>
 
@@ -317,7 +319,7 @@
         
                         <div class="col-sm-7">
                           <div style="display: flex; justify-content: center;">
-                            <input type="hidden" id="m-product-id" value="{{ $product->product_detail->id }}">
+                            <input type="hidden" id="m-product-id" value="{{ $product->id }}">
                             <button class="btn btn-primary" type="submit" onclick="addToCart()">
                               <i class="fa fa-shopping-cart inner-right-vs"></i>
                               ADD TO CART
@@ -725,7 +727,11 @@
                                   </button>
                                   <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                 </li>
-                                <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                <li class="wishlist btn-group"> 
+                                  <button onclick="addToWishList(this.id)" id="{{ $product->id }}" data-toggle="tooltip" class="btn btn-primary icon" title="Wishlist" type="button"> 
+                                    <i class="icon fa fa-heart"></i> 
+                                  </button> 
+                                </li>
                                 <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
                               </ul>
                             </div>
@@ -789,4 +795,40 @@
 
     </script>
     
+@endsection
+
+@section('custom_js')
+
+  <script>
+    function deleteWishlist(wishlist_id) {
+        console.log("Add Wishlist: ", wishlist_id);
+        // $(function() {
+        //     var icon = $('.wishlist__icon');
+
+        //     $.ajax({
+        //         url: "",
+        //         type: "post",
+        //         data: {
+        //             category_id,
+        //             statusText: statusText === "Active" ? "Inactive" : "Active",
+        //             _token: "{{ csrf_token() }}"
+        //         },
+        //         success: function(result) {
+        //             if (result) {
+        //                 if (statusText === "Active") {
+        //                     statusBtn.text("Inactive");
+        //                     statusBtn.removeClass("badge-success");
+        //                     statusBtn.addClass("badge-danger");
+        //                 } else {
+        //                     statusBtn.text("Active");
+        //                     statusBtn.removeClass("badge-danger");
+        //                     statusBtn.addClass("badge-success");
+        //                 }
+        //             }
+        //         }
+        //     });
+        // });
+    }
+  </script>
+
 @endsection

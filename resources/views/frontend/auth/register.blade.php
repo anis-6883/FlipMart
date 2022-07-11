@@ -1,4 +1,4 @@
-@extends('frontend.include.app')
+@extends('frontend.app')
 
 @section('title', 'Register')
 

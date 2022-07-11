@@ -86,7 +86,7 @@ class UserController extends Controller
                 ];
                 $user['to'] = $request->post('forget_email');
         
-                Mail::send('auth.token-varification', $data, function ($message) use ($user) {
+                Mail::send('frontend.auth.token-varification', $data, function ($message) use ($user) {
                     $message->to($user['to']);
                     $message->subject('Password Reset Email Verification');
                 });
@@ -96,7 +96,7 @@ class UserController extends Controller
             else
                 return redirect()->back()->with('danger', 'Your Provided Credential Could Not Be Varified!');
         }
-        return view('auth.forget-password');
+        return view('frontend.auth.forget-password');
     }
 
     public function resetPassword($token)
@@ -105,7 +105,7 @@ class UserController extends Controller
         $arr['email'] = $isExist[0]->email;
 
         if(isset($isExist[0]))
-            return view('auth.reset-password', compact('arr'));
+            return view('frontend.auth.reset-password', compact('arr'));
         else
             return redirect('/');
     }
@@ -128,7 +128,9 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-        if($request->isMethod('POST'))
+        if(!$request->isMethod('POST'))
+            return view('frontend.auth.update-password');
+        else
         {
             $attributes = $request->validate([
                 'curr_password' => ['required'],
@@ -143,12 +145,15 @@ class UserController extends Controller
                 $user->password = bcrypt($attributes['password']);
                 $user->save();
                 Auth::logout();
-                return redirect()->route('user.login')->with('success', 'Your Password Changed Successfully. Login Again...');
+                session()->flash('success', 'Your Password Changed Successfully. Login Again...');
+                return redirect()->route('user.login');
             }
             else
-                return redirect()->back()->with('danger', 'Your Current Password Didn\'t Match! Try Again...');
+            {
+                session()->flash('danger', 'Your Current Password Didn\'t Match! Try Again...');
+                return redirect()->back();
+            }   
         }
-        return view('auth.update-password');
     }
 
     public function userProfile()
@@ -175,27 +180,30 @@ class UserController extends Controller
         $arr['address'] = $user->address ?: "";
         $arr['dob'] = $user->dob ?: "";
         $arr['gender'] = $user->gender ?: "";
-        return view('auth.update-profile', compact('arr'));
+        return view('frontend.auth.update-profile', compact('arr'));
     }
 
     public function userOrders()
     {
-        $orders = Order::where('user_id', Auth::id())->with('order_items')->latest()->get();
-        return view('list-order', compact('orders'));
+        $orders = Order::where('user_id', Auth::id())->with('order_items', 'order_detail')->latest()->get();
+        return view('frontend.list-order', compact('orders'));
     }
 
     public function userOrderDetails($order_id)
     {
-        $order = Order::where([ ['id', $order_id], ['user_id', Auth::id()] ])->with('order_items')->first();
+        $order = Order::where([ 
+            ['id', $order_id], 
+            ['user_id', Auth::id()] 
+            ])->with('order_items', 'order_detail')->first();
         $order_items = OrderItem::with('product')->where('order_id', $order_id)->get();
-        return view('show-order', compact('order', 'order_items'));
+        return view('frontend.show-order', compact('order', 'order_items'));
     }
 
     public function invoiceDownload($order_id)
     {
-        $order = Order::where([ ['id', $order_id], ['user_id', Auth::id()] ])->with('order_items')->first();
+        $order = Order::where([ ['id', $order_id], ['user_id', Auth::id()] ])->with('order_items', 'order_detail')->first();
         $order_items = OrderItem::with('product')->where('order_id', $order_id)->get();
-        $pdf = PDF::loadView('order-invoice', compact('order', 'order_items'))
+        $pdf = PDF::loadView('frontend.order-invoice', compact('order', 'order_items'))
                 ->setPaper('a4')
                 ->setOptions([
                     'tempDir' => public_path(),
