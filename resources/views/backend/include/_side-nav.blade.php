@@ -12,26 +12,30 @@
                 </a>
             </li>
 
-            <li>
-                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class='fas menu-icon'>&#xf500;</i> <span class="nav-text">Admins</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('category.create') }}">Add Admin</a></li>
-                    <li><a href="{{ route('category.index') }}">List Admins</a></li>
-                </ul>
-            </li>
+            @if (session()->get('flipmart_admin_login')['admin_typename'] == 'Root Admin')
 
-            {{-- <li class="nav-label">Manage Customers</li> --}}
-            <li>
-                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class='fas menu-icon'>&#xf500;</i> <span class="nav-text">Customers</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('category.create') }}">Add Customer</a></li>
-                    <li><a href="{{ route('category.index') }}">List Customers</a></li>
-                </ul>
-            </li>
+                <li>
+                    <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class='fas menu-icon'>&#xf500;</i> <span class="nav-text">Admins</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ route('admin.create') }}">Add Admin</a></li>
+                        <li><a href="{{ route('admin.list') }}">List Admins</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class='fas menu-icon'>&#xf500;</i> <span class="nav-text">Customers</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ route('customer.create') }}">Add Customer</a></li>
+                        <li><a href="{{ route('customer.list') }}">List Customers</a></li>
+                    </ul>
+                </li>
+
+            @endif
+            
 
             {{-- <li class="nav-label">Manage Category</li> --}}
             <li>

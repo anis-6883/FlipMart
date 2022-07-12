@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', 'List Brand')
+@section('title', 'List Admin')
 
 @section('custom_css')
 
@@ -14,6 +14,7 @@
         text-align: center;
     }
 </style>
+
 @endsection
 
 @section('content')
@@ -21,8 +22,8 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('brand.index') }}">Manage Brand</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('brand.index') }}">List Brand</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.list') }}">Manage Admin</a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('admin.list') }}">List Admin</a></li>
             </ol>
         </div>
     </div>
@@ -32,57 +33,50 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">List Brand</h4>
-                        <a class="btn btn-info ml-4 mt-4" href="{{ route('brand.create') }}">Add Brand</a>
-                        <h5 class="ml-4 mt-4">Total Brand: <span class="badge bg-dark">{{ count($brands) }}</span></h5>
+                        <h4 class="card-title">List Admin</h4>
+                        <a class="btn btn-info ml-4 mt-4" href="{{ route('admin.create') }}">Add Admin</a>
+                        <h5 class="ml-4 mt-4">Total Admin: <span class="badge bg-dark">{{ count($admins) }}</span></h5>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
 
                                 <thead>
                                     <tr>
                                         <th>Serial No</th>
-                                        <th>Brand Name</th>
-                                        <th>Brand Logo</th>
+                                        <th>Admin Name</th>
+                                        <th>Email</th>
                                         <th>Status</th>
-                                        <th>Created Date</th>
+                                        <th>Admin Type</th>
+                                        <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($brands as $brand)
+                                    @foreach ($admins as $admin)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $brand->brand_name }}</td>
+                                            <td>{{ $admin->admin_fullname }}</td>
+                                            <td>{{ $admin->admin_username }}</td>
                                             <td>
-                                                @if ($brand->brand_status == "Active")
-                                                    <button id="status{{ $brand->id }}" onclick="changeStatus({{ $brand->id }})" class="badge badge-success px-2">
+                                                @if ($admin->admin_status == "Active")
+                                                    <button id="status{{ $admin->id }}" onclick="changeStatus({{ $admin->id }})" class="badge badge-success px-2">
                                                         Active
                                                     </button>
                                                 @else
-                                                    <button id="status{{ $brand->id }}" onclick="changeStatus({{ $brand->id }})" class="badge badge-danger px-2">
+                                                    <button id="status{{ $admin->id }}" onclick="changeStatus({{ $admin->id }})" class="badge badge-danger px-2">
                                                         Inactive
                                                     </button>
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($brand->brand_image != null)
-                                                    <img id="brand_img" src="{{ asset('uploads/brands/' . $brand->brand_image) }}" alt="Brand Image" width="80px" height="80px">  
-                                                @else
-                                                    <img id="brand_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
-                                                @endif
-                                            </td>
-                                            <td>
-                                                {{ date('d-m-Y', strtotime($brand->created_at)) }}
-                                                {{-- {{ $brand->created_at->diffForHumans() }} --}}
-                                            </td>
+                                            <td>{{ $admin->admin_type->admin_typename }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($admin->created_at)) }}</td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
 
-                                                    <a class="btn btn-info btn-xs mr-2" href="{{ route('brand.edit', $brand->id) }}">Edit</a>
+                                                    <a class="btn btn-info btn-xs mr-2" href="{{ route('admin.update', $admin->id) }}">Edit</a>
 
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="basicModal{{ $brand->id }}">
+                                                    <div class="modal fade" id="basicModal{{ $admin->id }}">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -90,9 +84,9 @@
                                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">Are you sure to delete <b>"{{ $brand->brand_name }}"</b> brand? </div>
+                                                                <div class="modal-body">Are you sure to delete <b>"{{ $admin->admin_fullname }}"</b> admin? </div>
                                                                 <div class="modal-footer">
-                                                                    <form action="{{ route('brand.destroy', $brand->id) }}" method="POST">
+                                                                    <form action="{{ route('admin.destroy', $admin->id) }}" method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Never Mind</button>
@@ -104,7 +98,7 @@
                                                     </div>
 
                                                     <!-- Button trigger modal -->
-                                                    <button class="btn btn-danger btn-xs" type="button" data-toggle="modal" data-target="#basicModal{{ $brand->id }}">Delete</button>
+                                                    <button class="btn btn-danger btn-xs" type="button" data-toggle="modal" data-target="#basicModal{{ $admin->id }}">Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -114,10 +108,11 @@
                                 <tfoot>
                                     <tr>
                                         <th>Serial No</th>
-                                        <th>Brand Name</th>
-                                        <th>Brand Logo</th>
+                                        <th>Admin Name</th>
+                                        <th>Email</th>
                                         <th>Status</th>
-                                        <th>Created Date</th>
+                                        <th>Admin Type</th>
+                                        <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -139,15 +134,15 @@
 <script src="{{ asset('assets/backend/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 
 <script>
-    function changeStatus(brand_id) {
+    function changeStatus(admin_id) {
         $(function() {
-            var statusBtn = $(`#status${brand_id}`);
+            var statusBtn = $(`#status${admin_id}`);
             var statusText = statusBtn.text();
             $.ajax({
-                url: "{{ route('brand.updateStatus') }}",
+                url: "{{ route('admin.updateStatus') }}",
                 type: "POST",
                 data: {
-                    brand_id,
+                    admin_id,
                     statusText: statusText === "Active" ? "Inactive" : "Active",
                     _token: "{{ csrf_token() }}"
                 },

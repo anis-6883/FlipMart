@@ -88,6 +88,21 @@ Route::post('/admin/auth', [AdminController::class, 'auth'])->name('admin.auth')
 Route::group(['middleware' => 'admin_auth'], function()
 {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/list', [AdminController::class, 'list'])->name('admin.list');
+    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::post('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::get('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+    
+    Route::get('/admin/customer/list', [AdminController::class, 'customerList'])->name('customer.list');
+    Route::get('/admin/customer/create', [AdminController::class, 'createCustomer'])->name('customer.create');
+    Route::post('/admin/customer/create', [AdminController::class, 'createCustomer'])->name('customer.create');
+    Route::get('/admin/customer/update/{id}', [AdminController::class, 'updateCustomer'])->name('customer.update');
+    Route::put('/admin/customer/update/{id}', [AdminController::class, 'updateCustomer'])->name('customer.update');
+    Route::delete('/admin/customer/destroy/{id}', [AdminController::class, 'destroyCustomer'])->name('customer.destroy');
+
     Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::delete('/product-images/{id}/destoryAll', [ProductImageController::class, 'destoryAll'])->name('product-images.destroyAll');
     Route::resource('/admin/category', CategoryController::class);
@@ -104,6 +119,8 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::put('/admin/order/{order_id}/update', [OrderController::class, 'update'])->name('admin.orderUpdate');
 
     // Ajax Controller Route
+    Route::post('/adminUpdateStatus', [AjaxController::class, 'adminUpdateStatus'])->name('admin.updateStatus');
+    Route::post('/customerUpdateStatus', [AjaxController::class, 'customerUpdateStatus'])->name('customer.updateStatus');
     Route::post('/categoryUpdateStatus', [AjaxController::class, 'categoryUpdateStatus'])->name('category.updateStatus');
     Route::post('/subcategoryUpdateStatus', [AjaxController::class, 'subcategoryUpdateStatus'])->name('subcategory.updateStatus');
     Route::post('/subSubcategoryUpdateStatus', [AjaxController::class, 'subSubcategoryUpdateStatus'])->name('subSubcategory.updateStatus');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Coupon;
@@ -10,6 +11,7 @@ use App\Models\Product_Image;
 use App\Models\Slider;
 use App\Models\Sub_Subcategory;
 use App\Models\Subcategory;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,11 +19,41 @@ use Illuminate\Support\Facades\DB;
 class AjaxController extends Controller
 {
     
+    public function adminUpdateStatus(Request $req)
+    {
+        try{
+            $admin = Admin::find($req->admin_id);
+            $admin->admin_status = $req->statusText;
+            if($admin->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function customerUpdateStatus(Request $req)
+    {
+        try{
+            $customer = User::find($req->customer_id);
+            $customer->status = $req->statusText;
+            if($customer->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
     public function categoryUpdateStatus(Request $req)
     {
         try{
-            $category = Category::find($req->post('category_id'));
-            $category->category_status = $req->post('statusText');
+            $category = Category::find($req->category_id);
+            $category->category_status = $req->statusText;
             if($category->save())
                 return 1;
             else
@@ -35,8 +67,8 @@ class AjaxController extends Controller
     public function subcategoryUpdateStatus(Request $req)
     {
         try{
-            $subcategory = Subcategory::find($req->post('subcategory_id'));
-            $subcategory->subcategory_status = $req->post('statusText');
+            $subcategory = Subcategory::find($req->subcategory_id);
+            $subcategory->subcategory_status = $req->statusText;
             if($subcategory->save())
                 return 1;
             else
@@ -50,8 +82,8 @@ class AjaxController extends Controller
     public function subSubcategoryUpdateStatus(Request $req)
     {
         try{
-            $subcategory = Sub_Subcategory::find($req->post('subcategory_id'));
-            $subcategory->sub_subcategory_status = $req->post('statusText');
+            $subcategory = Sub_Subcategory::find($req->subcategory_id);
+            $subcategory->sub_subcategory_status = $req->statusText;
             if($subcategory->save())
                 return 1;
             else
@@ -65,8 +97,8 @@ class AjaxController extends Controller
     public function brandUpdateStatus(Request $req)
     {
         try{
-            $brand = Brand::find($req->post('brand_id'));
-            $brand->brand_status = $req->post('statusText');
+            $brand = Brand::find($req->brand_id);
+            $brand->brand_status = $req->statusText;
             if($brand->save())
                 return 1;
             else
@@ -80,8 +112,8 @@ class AjaxController extends Controller
     public function productUpdateStatus(Request $req)
     {
         try{
-            $product = Product::find($req->post('product_id'));
-            $product->product_status = $req->post('statusText');
+            $product = Product::find($req->product_id);
+            $product->product_status = $req->statusText;
             if($product->save())
                 return 1;
             else
@@ -95,8 +127,8 @@ class AjaxController extends Controller
     public function couponUpdateStatus(Request $req)
     {
         try{
-            $coupon = Coupon::find($req->post('coupon_id'));
-            $coupon->coupon_status = $req->post('statusText');
+            $coupon = Coupon::find($req->coupon_id);
+            $coupon->coupon_status = $req->statusText;
             if($coupon->save())
                 return 1;
             else
@@ -110,8 +142,8 @@ class AjaxController extends Controller
     public function productImageUpdateStatus(Request $req)
     {
         try{
-            $image = Product_Image::find($req->post('image_id'));
-            $image->image_status = $req->post('statusText');
+            $image = Product_Image::find($req->image_id);
+            $image->image_status = $req->statusText;
             if($image->save())
                 return 1;
             else
@@ -125,8 +157,8 @@ class AjaxController extends Controller
     public function sliderUpdateStatus(Request $req)
     {
         try{
-            $slider = Slider::find($req->post('slider_id'));
-            $slider->slider_status = $req->post('statusText');
+            $slider = Slider::find($req->slider_id);
+            $slider->slider_status = $req->statusText;
             if($slider->save())
                 return 1;
             else
