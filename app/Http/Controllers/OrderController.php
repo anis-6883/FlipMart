@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Order_Detail;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -33,9 +33,57 @@ class OrderController extends Controller
         $order = Order::find($order_id);
         $order->order_status = $req->order_status;
         if($req->order_status == "Delivered")
-            $order->delivered_date = date('Y-m-d H:i:s');
+        {
+            $obj = Order_Detail::where('order_id', $order_id)->first();
+            $obj->delivered_date = date('Y-m-d H:i:s');
+            $obj->save();
+        }
         $order->save();
-        return redirect()->route('admin.orderIndex')->with('success', 'Order Status Updated Successfully!');
+
+        session()->flash('success', 'Order Status Updated Successfully!');
+        return redirect()->route('admin.orderIndex');
     }
-    
+
+    public function pending()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Pending')->latest()->get();
+        return view('backend.pending-order', compact('orders'));
+    }
+
+    public function processing()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Processing')->latest()->get();
+        return view('backend.processing-order', compact('orders'));
+    }
+
+    public function halt()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Halt')->latest()->get();
+        return view('backend.halt-order', compact('orders'));
+    }
+
+    public function shipping()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Shipping')->latest()->get();
+        return view('backend.shipping-order', compact('orders'));
+    }
+
+    public function delivered()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Delivered')->latest()->get();
+        return view('backend.delivered-order', compact('orders'));
+    }
+
+    public function completed()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Completed')->latest()->get();
+        return view('backend.completed-order', compact('orders'));
+    }
+
+    public function cancelled()
+    {
+        $orders = Order::with('order_detail')->where('order_status', 'Cancelled')->latest()->get();
+        return view('backend.cancelled-order', compact('orders'));
+    }
+
 }

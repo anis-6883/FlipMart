@@ -131,13 +131,13 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.orderIndex') }}">All Orders</a></li>
-                    <li><a href="#">Pending Orders</a></li>
-                    <li><a href="#">Processing Orders</a></li>
-                    <li><a href="#">Halt Orders</a></li>
-                    <li><a href="#">Shipping Orders</a></li>
-                    <li><a href="#">Delivered Orders</a></li>
-                    <li><a href="#">Completed Orders</a></li>
-                    <li><a href="#">Cancelled Orders</a></li>
+                    <li><a href="{{ route('order.pending') }}">Pending Orders</a></li>
+                    <li><a href="{{ route('order.processing') }}">Processing Orders</a></li>
+                    <li><a href="{{ route('order.halt') }}">Halt Orders</a></li>
+                    <li><a href="{{ route('order.shipping') }}">Shipping Orders</a></li>
+                    <li><a href="{{ route('order.delivered') }}">Delivered Orders</a></li>
+                    <li><a href="{{ route('order.completed') }}">Completed Orders</a></li>
+                    <li><a href="{{ route('order.cancelled') }}">Cancelled Orders</a></li>
                 </ul>
             </li>
 

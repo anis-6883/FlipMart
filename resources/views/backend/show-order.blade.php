@@ -2,7 +2,8 @@
 
 @section('title', 'Order Details')
 
-@section('css')
+@section('custom_css')
+
 <style>
     .table td,
     .table th {
@@ -10,14 +11,10 @@
         text-align: center;
     }
 </style>
+
 @endsection
 
 @section('content')
-
-    <!--**********************************
-            Content body start
-        ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -51,32 +48,32 @@
                                     <tr>
                                         <th>1</th>
                                         <td>Order No.</td>
-                                        <td><span>{{ $order->order_number }}</span></td>
+                                        <td><span>{{ $order->order_detail->order_number }}</span></td>
                                     </tr>
                                     <tr>
                                         <th>6</th>
                                         <td>Order Date</td>
-                                        <td>{{ date('d M, Y', strtotime($order->order_date))  }}</td>
+                                        <td>{{ date('d M, Y', strtotime($order->order_detail->order_date))  }}</td>
                                     </tr>
                                     <tr>
                                         <th>2</th>
                                         <td>Customer Name</td>
-                                        <td><b>{{ $order->username }}</b></td>
+                                        <td><b>{{ $order->order_detail->username }}</b></td>
                                     </tr>
                                     <tr>
                                         <th>3</th>
                                         <td>Customer Email</td>
-                                        <td><b>{{ $order->email }}</b></td>
+                                        <td><b>{{ $order->order_detail->email }}</b></td>
                                     </tr>
                                     <tr>
                                         <th>4</th>
                                         <td>Customer Phone</td>
-                                        <td>{{ $order->phone }}</td>
+                                        <td>{{ $order->order_detail->phone }}</td>
                                     </tr>
                                     <tr>
                                         <th>5</th>
                                         <td>Customer Address</td>
-                                        <td>{{ $order->address }}</td>
+                                        <td>{{ $order->order_detail->address }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -104,27 +101,27 @@
                                     <tr>
                                         <th>1</th>
                                         <td>Invoice No.</td>
-                                        <td>{{ $order->invoice_no }}</td>
+                                        <td>{{ $order->order_detail->invoice_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>2</th>
                                         <td>Transaction No.</td>
-                                        <td>{{ $order->transaction_id }}</td>
+                                        <td>{{ $order->order_detail->transaction_id }}</td>
                                     </tr>
                                     <tr>
                                         <th>3</th>
                                         <td>Payment Type</td>
-                                        <td>{{ strtoupper($order->payment_type) }}</td>
+                                        <td>{{ strtoupper($order->order_detail->payment_type) }}</td>
                                     </tr>
                                     <tr>
                                         <th>4</th>
                                         <td>Payment Method</td>
-                                        <td>{{ $order->payment_method }}</td>
+                                        <td>{{ $order->order_detail->payment_method }}</td>
                                     </tr>
                                     <tr>
                                         <th>5</th>
                                         <td>Total Amount</td>
-                                        <td><b>&#2547; {{ $order->grand_total }}</b></td>
+                                        <td><b>&#2547; {{ $order->order_detail->grand_total }}</b></td>
                                     </tr>
                                     <tr>
                                         <th>6</th>
@@ -178,19 +175,19 @@
                                     @foreach ($order_items as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td width="25%">{{ $item->product->product_name }}</td>
+                                            <td width="25%">{{ $item->product->product_detail->product_name }}</td>
                                             <td>
-                                                @if ($item->product->product_master_image != null)
-                                                    <img id="master_img" src="{{ asset('uploads/products/' . $item->product->product_master_image) }}" alt="No Image" width="80px" height="80px">  
+                                                @if ($item->product->product_detail->product_master_image != null)
+                                                    <img id="master_img" src="{{ asset('uploads/products/' . $item->product->product_detail->product_master_image) }}" alt="No Image" width="80px" height="80px">  
                                                 @else
                                                     <img id="master_img" src="{{ asset('assets/backend/images/no-image.png') }}" alt="No Image" width="80px" height="80px">
                                                 @endif
                                             </td>
-                                            <td>{{ $item->product->product_color ?: 'NULL' }}</td>
-                                            <td>{{ $item->product->product_size ?: 'NULL' }}</td>
+                                            <td>{{ $item->color ?: 'NULL' }}</td>
+                                            <td>{{ $item->size ?: 'NULL' }}</td>
                                             <td>{{ $item->qty }}</td>
-                                            <td>&#2547; {{ $item->product->product_regular_price }}</td>
-                                            <td>{{ $item->product->product_discounted_price ?: '0' }}%</td>
+                                            <td>&#2547; {{ $item->product->product_detail->product_regular_price }}</td>
+                                            <td>{{ $item->product->product_detail->product_discounted_price ?: '0' }}%</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -200,10 +197,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection

@@ -54,6 +54,7 @@ Route::get('/tagWiseProducts/{tag}', [HomeController::class, 'tagWiseProducts'])
 Route::get('/subCategoryWiseProducts/{subCat_id}/{subCat_name}', [HomeController::class, 'subCategoryWiseProducts'])->name('subCategoryWiseProducts');
 Route::get('/sub-subCategoryWiseProducts/{sub_subCat_id}/{sub_subCat_name}', [HomeController::class, 'sub_subCategoryWiseProducts'])->name('sub_subCategoryWiseProducts');
 Route::post('/fetchProductData', [AjaxController::class, 'fetchProductData'])->name('fetchProductData');
+Route::post('/search/products', [HomeController::class, 'searchProduct'])->name('search.product');
 
 // Cart, Coupon, Checkout Route
 Route::post('/cart/addToCart/{product_id}', [CartController::class, 'addToCart'])->name('cart.addToCart');
@@ -114,6 +115,15 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::resource('/admin/coupon', CouponController::class);
     Route::resource('/admin/slider', SliderController::class);
     Route::get('/admin/order/{order_id}/show', [OrderController::class, 'show'])->name('admin.orderShow');
+
+    Route::get('/admin/order/pending', [OrderController::class, 'pending'])->name('order.pending');
+    Route::get('/admin/order/processing', [OrderController::class, 'processing'])->name('order.processing');
+    Route::get('/admin/order/halt', [OrderController::class, 'halt'])->name('order.halt');
+    Route::get('/admin/order/shipping', [OrderController::class, 'shipping'])->name('order.shipping');
+    Route::get('/admin/order/delivered', [OrderController::class, 'delivered'])->name('order.delivered');
+    Route::get('/admin/order/completed', [OrderController::class, 'completed'])->name('order.completed');
+    Route::get('/admin/order/cancelled', [OrderController::class, 'cancelled'])->name('order.cancelled');
+
     Route::get('/admin/order/index', [OrderController::class, 'index'])->name('admin.orderIndex');
     Route::get('/admin/order/{order_id}/edit', [OrderController::class, 'edit'])->name('admin.orderEdit');
     Route::put('/admin/order/{order_id}/update', [OrderController::class, 'update'])->name('admin.orderUpdate');

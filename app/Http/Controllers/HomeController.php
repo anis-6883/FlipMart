@@ -62,4 +62,19 @@ class HomeController extends Controller
             ])->paginate(3);
         return view('frontend.subSubCategoryWise-products', compact('sub_subCategoryWiseProducts'));
     }
+
+    public function searchProduct(Request $req)
+    {
+        $req->validate([
+            'search' => 'required'
+        ]);
+
+        $search_item = $req->search;
+        $products = DB::table('products as p')
+                    ->join('product_details as pd', 'p.id', '=', 'pd.product_id')
+                    ->select('pd.*')
+                    ->where('pd.product_name', 'LIKE', "%$search_item%")
+                    ->latest()->paginate(3);
+        return view('frontend.search-products', compact('products', 'search_item'));
+    }
 }

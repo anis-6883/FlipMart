@@ -1,13 +1,8 @@
-@extends('admin.include.app')
+@extends('backend.master')
 
 @section('title', 'Edit A Order')
 
 @section('content')
-
-<!--**********************************
-        Content body start
-    ***********************************-->
-<div class="content-body">
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -28,18 +23,19 @@
                             <form action="{{ route('admin.orderUpdate', $order->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
+
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Order Date</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="text" class="form-control" value="{{ date('d M, Y', strtotime($order->order_date)) }}" disabled>
+                                        <input type="text" class="form-control" value="{{ date('d M, Y', strtotime($order->order_detail->order_date)) }}" disabled>
                                     </div>
                                     <label class="col-sm-2 col-form-label">Invoice No.</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="text" class="form-control" value="{{ $order->invoice_no }}" disabled>
+                                        <input type="text" class="form-control" value="{{ $order->order_detail->invoice_no }}" disabled>
                                     </div>
                                     <label class="col-sm-2 col-form-label">Order Amount</label>
                                     <div class="col-sm-10 mb-4">
-                                        <input type="text" class="form-control" value="&#2547;{{ $order->grand_total }}" disabled>
+                                        <input type="text" class="form-control" value="&#2547;{{ $order->order_detail->grand_total }}" disabled>
                                     </div>
 
                                     <label class="col-sm-2 col-form-label">Order Status</label>
@@ -68,9 +64,6 @@
             </div>
         </div>
     </div>
-</div>
-<!--**********************************
-            Content body end
-        ***********************************-->
+
 @endsection
 
