@@ -30,7 +30,7 @@
                             </li>
                         </ul> --}}
 
-                        <input name="search" class="search-field" placeholder="Search here..." required/>
+                        <input name="search" class="search-field" placeholder="Search here..." required autocomplete="off"/>
                         <button class="search-button" type="submit"></button>
                     </div>
                 </form>
