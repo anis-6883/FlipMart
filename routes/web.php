@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\Sub_SubcategoryController;
@@ -71,10 +72,11 @@ Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('chec
 Route::post('/checkout/stripe/order', [CheckoutController::class, 'stripeOrder'])->name('checkout.stripeOrder')->middleware('auth');
 Route::post('/checkout/cod/order', [CheckoutController::class, 'codOrder'])->name('checkout.codOrder')->middleware('auth');
 
-// User Orders
+// User Orders & Review
 Route::get('/user/orders', [UserController::class, 'userOrders'])->name('user.orders')->middleware('auth');
 Route::get('/user/orders/{order_id}', [UserController::class, 'userOrderDetails'])->name('user.orderDetails')->middleware('auth');
 Route::get('/user/invoice/download/{order_id}', [UserController::class, 'invoiceDownload'])->name('user.invoiceDownload')->middleware('auth');
+Route::post('/user/product/review', [ReviewController::class, 'store'])->name('review.store')->middleware('auth');
 
 // Wishlist Route
 Route::get('/wishlist/index', [WishlistController::class, 'index'])->name('wishlist.index')->middleware('auth');
@@ -128,6 +130,11 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::get('/admin/order/{order_id}/edit', [OrderController::class, 'edit'])->name('admin.orderEdit');
     Route::put('/admin/order/{order_id}/update', [OrderController::class, 'update'])->name('admin.orderUpdate');
 
+    Route::get('/admin/review/index', [ReviewController::class, 'index'])->name('review.index');
+    Route::get('/admin/review/edit/{id}', [ReviewController::class, 'update'])->name('review.edit');
+    Route::put('/admin/review/update/{id}', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/admin/review/destroy/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
+
     // Ajax Controller Route
     Route::post('/adminUpdateStatus', [AjaxController::class, 'adminUpdateStatus'])->name('admin.updateStatus');
     Route::post('/customerUpdateStatus', [AjaxController::class, 'customerUpdateStatus'])->name('customer.updateStatus');
@@ -139,6 +146,7 @@ Route::group(['middleware' => 'admin_auth'], function()
     Route::post('/couponUpdateStatus', [AjaxController::class, 'couponUpdateStatus'])->name('coupon.updateStatus');
     Route::post('/productImageUpdateStatus', [AjaxController::class, 'productImageUpdateStatus'])->name('productImage.updateStatus');
     Route::post('/sliderUpdateStatus', [AjaxController::class, 'sliderUpdateStatus'])->name('slider.updateStatus');
+    Route::post('/reviewUpdateStatus', [AjaxController::class, 'reviewUpdateStatus'])->name('review.updateStatus');
     Route::post('/loadSubcategory', [AjaxController::class, 'loadSubcategory'])->name('product.loadSubcategory');
     Route::post('/loadSubSubcategory', [AjaxController::class, 'loadSubSubcategory'])->name('product.loadSubSubcategory');
     Route::post('/loadSeletedSubcategory', [AjaxController::class, 'loadSeletedSubcategory'])->name('product.loadSeletedSubcategory');

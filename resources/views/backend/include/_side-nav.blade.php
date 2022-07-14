@@ -141,6 +141,15 @@
                 </ul>
             </li>
 
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class='fas fa-star-half-alt'></i> <span class="nav-text">Reviews</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('review.index') }}">List Reviews</a></li>
+                </ul>
+            </li>
+
             {{-- <li class="nav-label">End Nav</li> --}}
 
             </li>

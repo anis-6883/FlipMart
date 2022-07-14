@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Product_Image;
+use App\Models\Review;
 use App\Models\Slider;
 use App\Models\Sub_Subcategory;
 use App\Models\Subcategory;
@@ -160,6 +161,21 @@ class AjaxController extends Controller
             $slider = Slider::find($req->slider_id);
             $slider->slider_status = $req->statusText;
             if($slider->save())
+                return 1;
+            else
+                return 0;
+        }
+        catch(Exception $e){
+            return 0;
+        }
+    }
+
+    public function reviewUpdateStatus(Request $req)
+    {
+        try{
+            $review = Review::find($req->review_id);
+            $review->review_status = $req->statusText;
+            if($review->save())
                 return 1;
             else
                 return 0;
